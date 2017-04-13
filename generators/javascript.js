@@ -147,7 +147,7 @@ Blockly.JavaScript.init = function(workspace) {
 
   if (!Blockly.JavaScript.variableDB_) {
     Blockly.JavaScript.variableDB_ =
-        new Blockly.Names(Blockly.JavaScript.RESERVED_WORDS_);
+        new Blockly.Names(Blockly.JavaScript.RESERVED_WORDS);
   } else {
     Blockly.JavaScript.variableDB_.reset();
   }
@@ -215,9 +215,9 @@ Blockly.JavaScript.quote_ = function(string) {
  * @param {!Blockly.Block} block The current block.
  * @param {string} code The JavaScript code created for this block.
  * @return {string} JavaScript code with comments and subsequent blocks added.
- * @private
+ * @protected
  */
-Blockly.JavaScript.scrub_ = function(block, code) {
+Blockly.JavaScript.scrub = function(block, code) {
   var commentCode = '';
   // Only collect comments for blocks that aren't inline.
   if (!block.outputConnection || !block.outputConnection.targetConnection) {
@@ -240,7 +240,7 @@ Blockly.JavaScript.scrub_ = function(block, code) {
       if (block.inputList[i].type == Blockly.INPUT_VALUE) {
         var childBlock = block.inputList[i].connection.targetBlock();
         if (childBlock) {
-          var comment = Blockly.JavaScript.allNestedComments(childBlock);
+          comment = Blockly.JavaScript.allNestedComments(childBlock);
           if (comment) {
             commentCode += Blockly.JavaScript.prefixLines(comment, '// ');
           }

@@ -668,7 +668,7 @@ Blockly.Connection.prototype.getOutputShape = function() {
 
 /**
  * Change a connection's shadow block.
- * @param {Element} shadow DOM representation of a block or null.
+ * @param {Node} shadow DOM representation of a block or null.
  */
 Blockly.Connection.prototype.setShadowDom = function(shadow) {
   this.shadowDom_ = shadow;

@@ -139,9 +139,8 @@ Blockly.Flyout = function(workspaceOptions) {
  * When a flyout drag is in progress, this is a reference to the flyout being
  * dragged. This is used by Flyout.terminateDrag_ to reset dragMode_.
  * @type {Blockly.Flyout}
- * @private
  */
-Blockly.Flyout.startFlyout_ = null;
+Blockly.Flyout.startFlyout = null;
 
 /**
  * Event that started a drag. Used to determine the drag distance/direction and
@@ -300,9 +299,8 @@ Blockly.Flyout.prototype.dragAngleRange_ = 70;
  * 0 - DRAG_NONE - no drag is ongoing or state is undetermined
  * 1 - DRAG_STICKY - still within the sticky drag radius
  * 2 - DRAG_FREE - in scroll mode (never create a new block)
- * @private
  */
-Blockly.Flyout.prototype.dragMode_ = Blockly.DRAG_NONE;
+Blockly.Flyout.prototype.dragMode = Blockly.DRAG_NONE;
 
 
 /**
@@ -607,14 +605,14 @@ Blockly.Flyout.prototype.clearOldBlocks_ = function() {
  */
 Blockly.Flyout.prototype.addBlockListeners_ = function(root, block, rect) {
   if (this.autoClose) {
-    this.listeners_.push(Blockly.bindEventWithChecks_(root, 'mousedown', null,
+    this.listeners_.push(Blockly.bindEventWithChecks(root, 'mousedown', null,
         this.createBlockFunc_(block)));
-    this.listeners_.push(Blockly.bindEventWithChecks_(rect, 'mousedown', null,
+    this.listeners_.push(Blockly.bindEventWithChecks(rect, 'mousedown', null,
         this.createBlockFunc_(block)));
   } else {
-    this.listeners_.push(Blockly.bindEventWithChecks_(root, 'mousedown', null,
+    this.listeners_.push(Blockly.bindEventWithChecks(root, 'mousedown', null,
         this.blockMouseDown_(block)));
-    this.listeners_.push(Blockly.bindEventWithChecks_(rect, 'mousedown', null,
+    this.listeners_.push(Blockly.bindEventWithChecks(rect, 'mousedown', null,
         this.blockMouseDown_(block)));
   }
   this.listeners_.push(Blockly.bindEvent_(root, 'mouseover', block,
@@ -634,7 +632,7 @@ Blockly.Flyout.prototype.addBlockListeners_ = function(root, block, rect) {
  * @param {Blockly.BlockSvg} block The block that was clicked.
  */
 Blockly.Flyout.blockRightClick_ = function(e, block) {
-  Blockly.terminateDrag_();
+  Blockly.terminateDrag();
   Blockly.WidgetDiv.hide(true);
   Blockly.DropDownDiv.hideWithoutAnimation();
   Blockly.hideChaff(true);
@@ -656,7 +654,7 @@ Blockly.Flyout.prototype.blockMouseDown_ = function(block) {
       Blockly.Flyout.blockRightClick_(e, block);
     } else {
       flyout.dragMode_ = Blockly.DRAG_NONE;
-      Blockly.terminateDrag_();
+      Blockly.terminateDrag();
       Blockly.WidgetDiv.hide(true);
       Blockly.DropDownDiv.hideWithoutAnimation();
       Blockly.hideChaff();
@@ -666,7 +664,7 @@ Blockly.Flyout.prototype.blockMouseDown_ = function(block) {
       flyout.startDragMouseX_ = e.clientX;
       Blockly.Flyout.startDownEvent_ = e;
       Blockly.Flyout.startBlock_ = block;
-      Blockly.Flyout.startFlyout_ = flyout;
+      Blockly.Flyout.startFlyout = flyout;
       Blockly.Flyout.onMouseUpWrapper_ = Blockly.bindEvent_(document,
           'mouseup', flyout, flyout.onMouseUp_);
       Blockly.Flyout.onMouseMoveBlockWrapper_ = Blockly.bindEvent_(document,
@@ -696,7 +694,7 @@ Blockly.Flyout.prototype.onMouseDown_ = function(e) {
   this.dragMode_ = Blockly.DRAG_FREE;
   this.startDragMouseY_ = e.clientY;
   this.startDragMouseX_ = e.clientX;
-  Blockly.Flyout.startFlyout_ = this;
+  Blockly.Flyout.startFlyout = this;
   Blockly.Flyout.onMouseMoveWrapper_ = Blockly.bindEvent_(document, 'mousemove',
       this, this.onMouseMove_);
   Blockly.Flyout.onMouseUpWrapper_ = Blockly.bindEvent_(document, 'mouseup',
@@ -732,7 +730,7 @@ Blockly.Flyout.prototype.onMouseUp_ = function(/*e*/) {
                                 undefined, undefined));
     }
   }
-  Blockly.terminateDrag_();
+  Blockly.terminateDrag();
 };
 
 /**
@@ -866,7 +864,7 @@ Blockly.Flyout.prototype.createBlockFunc_ = function(originBlock) {
     }
     // Start a dragging operation on the new block.
     block.onMouseDown_(e);
-    Blockly.dragMode_ = Blockly.DRAG_FREE;
+    Blockly.dragMode = Blockly.DRAG_FREE;
     block.setDragging_(true);
     block.moveToDragSurface_();
   };
@@ -877,13 +875,13 @@ Blockly.Flyout.prototype.createBlockFunc_ = function(originBlock) {
  * @private
  */
 Blockly.Flyout.terminateDrag_ = function() {
-  if (Blockly.Flyout.startFlyout_) {
+  if (Blockly.Flyout.startFlyout) {
     // User was dragging the flyout background, and has stopped.
-    if (Blockly.Flyout.startFlyout_.dragMode_ == Blockly.DRAG_FREE) {
+    if (Blockly.Flyout.startFlyout.dragMode == Blockly.DRAG_FREE) {
       Blockly.Touch.clearTouchIdentifier();
     }
-    Blockly.Flyout.startFlyout_.dragMode_ = Blockly.DRAG_NONE;
-    Blockly.Flyout.startFlyout_ = null;
+    Blockly.Flyout.startFlyout.dragMode = Blockly.DRAG_NONE;
+    Blockly.Flyout.startFlyout = null;
   }
   if (Blockly.Flyout.onMouseUpWrapper_) {
     Blockly.unbindEvent_(Blockly.Flyout.onMouseUpWrapper_);

@@ -35,6 +35,8 @@ goog.require('Blockly.constants');
 goog.require('Blockly.Workspace');
 goog.require('goog.string');
 
+Blockly.Variables.NAME_TYPE = undefined;
+
 
 /**
  * Find all user-created variables that are in use in the workspace.

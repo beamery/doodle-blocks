@@ -155,7 +155,7 @@ Blockly.Python.init = function(workspace) {
 
   if (!Blockly.Python.variableDB_) {
     Blockly.Python.variableDB_ =
-        new Blockly.Names(Blockly.Python.RESERVED_WORDS_);
+        new Blockly.Names(Blockly.Python.RESERVED_WORDS);
   } else {
     Blockly.Python.variableDB_.reset();
   }
@@ -235,9 +235,9 @@ Blockly.Python.quote_ = function(string) {
  * @param {!Blockly.Block} block The current block.
  * @param {string} code The Python code created for this block.
  * @return {string} Python code with comments and subsequent blocks added.
- * @private
+ * @protected
  */
-Blockly.Python.scrub_ = function(block, code) {
+Blockly.Python.scrub = function(block, code) {
   var commentCode = '';
   // Only collect comments for blocks that aren't inline.
   if (!block.outputConnection || !block.outputConnection.targetConnection) {
@@ -258,7 +258,7 @@ Blockly.Python.scrub_ = function(block, code) {
       if (block.inputList[i].type == Blockly.INPUT_VALUE) {
         var childBlock = block.inputList[i].connection.targetBlock();
         if (childBlock) {
-          var comment = Blockly.Python.allNestedComments(childBlock);
+          comment = Blockly.Python.allNestedComments(childBlock);
           if (comment) {
             commentCode += Blockly.Python.prefixLines(comment, '# ');
           }

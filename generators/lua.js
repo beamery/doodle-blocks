@@ -105,7 +105,7 @@ Blockly.Lua.init = function(workspace) {
 
   if (!Blockly.Lua.variableDB_) {
     Blockly.Lua.variableDB_ =
-        new Blockly.Names(Blockly.Lua.RESERVED_WORDS_);
+        new Blockly.Names(Blockly.Lua.RESERVED_WORDS);
   } else {
     Blockly.Lua.variableDB_.reset();
   }
@@ -162,9 +162,9 @@ Blockly.Lua.quote_ = function(string) {
  * @param {!Blockly.Block} block The current block.
  * @param {string} code The Lua code created for this block.
  * @return {string} Lua code with comments and subsequent blocks added.
- * @private
+ * @protected
  */
-Blockly.Lua.scrub_ = function(block, code) {
+Blockly.Lua.scrub = function(block, code) {
   var commentCode = '';
   // Only collect comments for blocks that aren't inline.
   if (!block.outputConnection || !block.outputConnection.targetConnection) {

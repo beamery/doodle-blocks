@@ -242,15 +242,15 @@ Blockly.FieldTextInput.prototype.showEditor_ = function(
 
   // Bind to keydown -- trap Enter without IME and Esc to hide.
   htmlInput.onKeyDownWrapper_ =
-      Blockly.bindEventWithChecks_(htmlInput, 'keydown', this,
+      Blockly.bindEventWithChecks(htmlInput, 'keydown', this,
       this.onHtmlInputKeyDown_);
   // Bind to keyup -- trap Enter; resize after every keystroke.
   htmlInput.onKeyUpWrapper_ =
-      Blockly.bindEventWithChecks_(htmlInput, 'keyup', this,
+      Blockly.bindEventWithChecks(htmlInput, 'keyup', this,
       this.onHtmlInputChange_);
   // Bind to keyPress -- repeatedly resize when holding down a key.
   htmlInput.onKeyPressWrapper_ =
-      Blockly.bindEventWithChecks_(htmlInput, 'keypress', this,
+      Blockly.bindEventWithChecks(htmlInput, 'keypress', this,
       this.onHtmlInputChange_);
   // For modern browsers (IE 9+, Chrome, Firefox, etc.) that support the
   // DOM input event, also trigger onHtmlInputChange_ then. The input event

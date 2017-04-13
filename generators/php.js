@@ -144,7 +144,7 @@ Blockly.PHP.init = function(workspace) {
 
   if (!Blockly.PHP.variableDB_) {
     Blockly.PHP.variableDB_ =
-        new Blockly.Names(Blockly.PHP.RESERVED_WORDS_, '$');
+        new Blockly.Names(Blockly.PHP.RESERVED_WORDS, '$');
   } else {
     Blockly.PHP.variableDB_.reset();
   }
@@ -207,9 +207,9 @@ Blockly.PHP.quote_ = function(string) {
  * @param {!Blockly.Block} block The current block.
  * @param {string} code The PHP code created for this block.
  * @return {string} PHP code with comments and subsequent blocks added.
- * @private
+ * @protected
  */
-Blockly.PHP.scrub_ = function(block, code) {
+Blockly.PHP.scrub = function(block, code) {
   var commentCode = '';
   // Only collect comments for blocks that aren't inline.
   if (!block.outputConnection || !block.outputConnection.targetConnection) {
@@ -225,7 +225,7 @@ Blockly.PHP.scrub_ = function(block, code) {
       if (block.inputList[i].type == Blockly.INPUT_VALUE) {
         var childBlock = block.inputList[i].connection.targetBlock();
         if (childBlock) {
-          var comment = Blockly.PHP.allNestedComments(childBlock);
+          comment = Blockly.PHP.allNestedComments(childBlock);
           if (comment) {
             commentCode += Blockly.PHP.prefixLines(comment, '// ');
           }

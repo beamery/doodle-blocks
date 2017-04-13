@@ -272,7 +272,9 @@ Blockly.Xml.textToDom = function(text) {
     // Whatever we got back from the parser is not XML.
     goog.asserts.fail('Blockly.Xml.textToDom did not obtain a valid XML tree.');
   }
-  return dom.firstChild;
+  // We know that the first child is non-null, since otherwise, we wouldn't
+  // reach this point in the function.
+  return /** @type {!Element} */ (dom.firstChild);
 };
 
 /**
@@ -281,6 +283,7 @@ Blockly.Xml.textToDom = function(text) {
  * @param {!Blockly.Workspace} workspace The workspace.
  */
 Blockly.Xml.domToWorkspace = function(xml, workspace) {
+  /*
   if (xml instanceof Blockly.Workspace) {
     var swap = xml;
     xml = workspace;
@@ -288,6 +291,7 @@ Blockly.Xml.domToWorkspace = function(xml, workspace) {
     console.warn('Deprecated call to Blockly.Xml.domToWorkspace, ' +
                  'swap the arguments.');
   }
+  */
   var width;  // Not used in LTR.
   if (workspace.RTL) {
     width = workspace.getWidth();
@@ -339,11 +343,12 @@ Blockly.Xml.domToWorkspace = function(xml, workspace) {
 /**
  * Decode an XML block tag and create a block (and possibly sub blocks) on the
  * workspace.
- * @param {!Element} xmlBlock XML block element.
+ * @param {!Node} xmlBlock XML block element.
  * @param {!Blockly.Workspace} workspace The workspace.
  * @return {!Blockly.Block} The root block created.
  */
 Blockly.Xml.domToBlock = function(xmlBlock, workspace) {
+  /*
   if (xmlBlock instanceof Blockly.Workspace) {
     var swap = xmlBlock;
     xmlBlock = workspace;
@@ -351,6 +356,7 @@ Blockly.Xml.domToBlock = function(xmlBlock, workspace) {
     console.warn('Deprecated call to Blockly.Xml.domToBlock, ' +
                  'swap the arguments.');
   }
+  */
   // Create top-level block.
   Blockly.Events.disable();
   try {
@@ -408,7 +414,7 @@ Blockly.Xml.domToBlock = function(xmlBlock, workspace) {
 /**
  * Decode an XML block tag and create a block (and possibly sub blocks) on the
  * workspace.
- * @param {!Element} xmlBlock XML block element.
+ * @param {!Node} xmlBlock XML block element.
  * @param {!Blockly.Workspace} workspace The workspace.
  * @return {!Blockly.Block} The root block created.
  * @private

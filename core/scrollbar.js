@@ -226,9 +226,9 @@ Blockly.Scrollbar = function(workspace, horizontal, opt_pair, opt_class) {
     this.positionAttribute_ = 'y';
   }
   var scrollbar = this;
-  this.onMouseDownBarWrapper_ = Blockly.bindEventWithChecks_(
+  this.onMouseDownBarWrapper_ = Blockly.bindEventWithChecks(
       this.svgBackground_, 'mousedown', scrollbar, scrollbar.onMouseDownBar_);
-  this.onMouseDownHandleWrapper_ = Blockly.bindEventWithChecks_(this.svgHandle_,
+  this.onMouseDownHandleWrapper_ = Blockly.bindEventWithChecks(this.svgHandle_,
       'mousedown', scrollbar, scrollbar.onMouseDownHandle_);
 };
 /**
@@ -741,9 +741,9 @@ Blockly.Scrollbar.prototype.onMouseDownHandle_ = function(e) {
 
   // Record the current mouse position.
   this.startDragMouse = this.horizontal_ ? e.clientX : e.clientY;
-  Blockly.Scrollbar.onMouseUpWrapper_ = Blockly.bindEventWithChecks_(document,
+  Blockly.Scrollbar.onMouseUpWrapper_ = Blockly.bindEventWithChecks(document,
       'mouseup', this, this.onMouseUpHandle_);
-  Blockly.Scrollbar.onMouseMoveWrapper_ = Blockly.bindEventWithChecks_(document,
+  Blockly.Scrollbar.onMouseMoveWrapper_ = Blockly.bindEventWithChecks(document,
       'mousemove', this, this.onMouseMoveHandle_);
   // When the scrollbars are clicked, hide the WidgetDiv/DropDownDiv without
   // animation in anticipation of a workspace move.

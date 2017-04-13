@@ -65,15 +65,15 @@ Blockly.Workspace = function(opt_options) {
 
   /**
    * @type {!Array.<!Blockly.Events.Abstract>}
-   * @private
+   * @protected
    */
-  this.undoStack_ = [];
+  this.undoStack = [];
 
   /**
    * @type {!Array.<!Blockly.Events.Abstract>}
-   * @private
+   * @protected
    */
-  this.redoStack_ = [];
+  this.redoStack = [];
 
   /**
    * @type {!Object}
@@ -402,8 +402,8 @@ Blockly.Workspace.prototype.newBlock = function(prototypeName, opt_id) {
  * @param {boolean} redo False if undo, true if redo.
  */
 Blockly.Workspace.prototype.undo = function(redo) {
-  var inputStack = redo ? this.redoStack_ : this.undoStack_;
-  var outputStack = redo ? this.undoStack_ : this.redoStack_;
+  var inputStack = redo ? this.redoStack : this.undoStack;
+  var outputStack = redo ? this.undoStack : this.redoStack;
   var inputEvent = inputStack.pop();
   if (!inputEvent) {
     return;
@@ -430,8 +430,8 @@ Blockly.Workspace.prototype.undo = function(redo) {
  * Clear the undo/redo stacks.
  */
 Blockly.Workspace.prototype.clearUndo = function() {
-  this.undoStack_.length = 0;
-  this.redoStack_.length = 0;
+  this.undoStack.length = 0;
+  this.redoStack.length = 0;
   // Stop any events already in the firing queue from being undoable.
   Blockly.Events.clearPendingUndo();
 };
@@ -461,10 +461,10 @@ Blockly.Workspace.prototype.removeChangeListener = function(func) {
  */
 Blockly.Workspace.prototype.fireChangeListener = function(event) {
   if (event.recordUndo) {
-    this.undoStack_.push(event);
-    this.redoStack_.length = 0;
-    if (this.undoStack_.length > this.MAX_UNDO) {
-      this.undoStack_.unshift();
+    this.undoStack.push(event);
+    this.redoStack.length = 0;
+    if (this.undoStack.length > this.MAX_UNDO) {
+      this.undoStack.unshift();
     }
   }
   // Copy listeners in case a listener attaches/detaches itself.

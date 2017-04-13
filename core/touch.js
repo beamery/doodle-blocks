@@ -44,9 +44,8 @@ Blockly.Touch.touchIdentifier_ = null;
 /**
  * Wrapper function called when a touch mouseUp occurs during a drag operation.
  * @type {Array.<!Array>}
- * @private
  */
-Blockly.Touch.onTouchUpWrapper_ = null;
+Blockly.Touch.onTouchUpWrapper = null;
 
 /**
  * The TOUCH_MAP lookup dictionary specifies additional touch events to fire,
@@ -109,10 +108,9 @@ Blockly.longStop_ = function() {
 
 /**
  * Handle a mouse-up anywhere on the page.
- * @param {!Event} e Mouse up event.
- * @private
+ * @param {Event=} opt_e Mouse up event.
  */
-Blockly.onMouseUp_ = function(/* e */) {
+Blockly.onMouseUp = function(opt_e) {
   var workspace = Blockly.getMainWorkspace();
   if (workspace.dragMode_ == Blockly.DRAG_NONE) {
     return;
@@ -124,9 +122,9 @@ Blockly.onMouseUp_ = function(/* e */) {
   Blockly.Css.setCursor(Blockly.Css.Cursor.OPEN);
   workspace.dragMode_ = Blockly.DRAG_NONE;
   // Unbind the touch event if it exists.
-  if (Blockly.Touch.onTouchUpWrapper_) {
-    Blockly.unbindEvent_(Blockly.Touch.onTouchUpWrapper_);
-    Blockly.Touch.onTouchUpWrapper_ = null;
+  if (Blockly.Touch.onTouchUpWrapper) {
+    Blockly.unbindEvent_(Blockly.Touch.onTouchUpWrapper);
+    Blockly.Touch.onTouchUpWrapper = null;
   }
   if (Blockly.onMouseMoveWrapper_) {
     Blockly.unbindEvent_(Blockly.onMouseMoveWrapper_);
@@ -137,9 +135,8 @@ Blockly.onMouseUp_ = function(/* e */) {
 /**
  * Handle a mouse-move on SVG drawing surface.
  * @param {!Event} e Mouse move event.
- * @private
  */
-Blockly.onMouseMove_ = function(e) {
+Blockly.onMouseMove = function(e) {
   var workspace = Blockly.getMainWorkspace();
   if (workspace.dragMode_ != Blockly.DRAG_NONE) {
     var dx = e.clientX - workspace.startDragMouseX;

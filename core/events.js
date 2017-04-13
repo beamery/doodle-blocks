@@ -759,7 +759,7 @@ Blockly.Events.Move.prototype.run = function(forward) {
  * Class for a UI event.
  * @param {Blockly.Block} block The affected block.
  * @param {string} element One of 'selected', 'comment', 'mutator', etc.
- * @param {string} oldValue Previous value of element.
+ * @param {?string} oldValue Previous value of element.
  * @param {string} newValue New value of element.
  * @extends {Blockly.Events.Abstract}
  * @constructor
@@ -822,7 +822,7 @@ Blockly.Events.disableOrphans = function(event) {
           child.setDisabled(false);
         }
       } else if ((block.outputConnection || block.previousConnection) &&
-                 Blockly.dragMode_ == Blockly.DRAG_NONE) {
+                 Blockly.dragMode == Blockly.DRAG_NONE) {
         do {
           block.setDisabled(true);
           block = block.getNextBlock();

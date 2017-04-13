@@ -68,7 +68,7 @@ Blockly.inject = function(container, opt_options) {
       workspaceDragSurface);
   Blockly.init_(workspace);
   workspace.markFocused();
-  Blockly.bindEventWithChecks_(svg, 'focus', workspace, workspace.markFocused);
+  Blockly.bindEventWithChecks(svg, 'focus', workspace, workspace.markFocused);
   Blockly.svgResize(workspace);
   return workspace;
 };
@@ -237,7 +237,7 @@ Blockly.createMainWorkspace_ = function(svg, options, blockDragSurface, workspac
 
   if (!options.readOnly && !options.hasScrollbars) {
     var workspaceChanged = function() {
-      if (Blockly.dragMode_ == Blockly.DRAG_NONE) {
+      if (Blockly.dragMode == Blockly.DRAG_NONE) {
         var metrics = mainWorkspace.getMetrics();
         var edgeLeft = metrics.viewLeft + metrics.absoluteLeft;
         var edgeTop = metrics.viewTop + metrics.absoluteTop;
@@ -301,14 +301,14 @@ Blockly.init_ = function(mainWorkspace) {
   var svg = mainWorkspace.getParentSvg();
 
   // Suppress the browser's context menu.
-  Blockly.bindEventWithChecks_(svg, 'contextmenu', null,
+  Blockly.bindEventWithChecks(svg, 'contextmenu', null,
       function(e) {
         if (!Blockly.utils.isTargetInput(e)) {
           e.preventDefault();
         }
       });
 
-  var workspaceResizeHandler = Blockly.bindEventWithChecks_(window, 'resize',
+  var workspaceResizeHandler = Blockly.bindEventWithChecks(window, 'resize',
       null,
       function() {
         Blockly.hideChaff(true);
@@ -366,7 +366,7 @@ Blockly.init_ = function(mainWorkspace) {
  */
 Blockly.inject.bindDocumentEvents_ = function() {
   if (!Blockly.documentEventsBound_) {
-    Blockly.bindEventWithChecks_(document, 'keydown', null, Blockly.onKeyDown_);
+    Blockly.bindEventWithChecks(document, 'keydown', null, Blockly.onKeyDown_);
     // longStop needs to run to stop the context menu from showing up.  It
     // should run regardless of what other touch event handlers have run.
     Blockly.bindEvent_(document, 'touchend', null, Blockly.longStop_);
@@ -374,10 +374,10 @@ Blockly.inject.bindDocumentEvents_ = function() {
     // Don't use bindEvent_ for document's mouseup since that would create a
     // corresponding touch handler that would squelch the ability to interact
     // with non-Blockly elements.
-    document.addEventListener('mouseup', Blockly.onMouseUp_, false);
+    document.addEventListener('mouseup', Blockly.onMouseUp, false);
     // Some iPad versions don't fire resize after portrait to landscape change.
     if (goog.userAgent.IPAD) {
-      Blockly.bindEventWithChecks_(window, 'orientationchange', document,
+      Blockly.bindEventWithChecks(window, 'orientationchange', document,
           function() {
             // TODO(#397): Fix for multiple blockly workspaces.
             Blockly.svgResize(Blockly.getMainWorkspace());
@@ -412,10 +412,10 @@ Blockly.inject.loadSounds_ = function(pathToMedia, workspace) {
   // click, not a drag.
   // Android ignores any sound not loaded as a result of a user action.
   soundBinds.push(
-      Blockly.bindEventWithChecks_(document, 'mousemove', null, unbindSounds,
+      Blockly.bindEventWithChecks(document, 'mousemove', null, unbindSounds,
           /* opt_noCaptureIdentifier */ true));
   soundBinds.push(
-      Blockly.bindEventWithChecks_(document, 'touchstart', null, unbindSounds,
+      Blockly.bindEventWithChecks(document, 'touchstart', null, unbindSounds,
           /* opt_noCaptureIdentifier */ true));
 };
 

@@ -151,9 +151,8 @@ Blockly.clipboardSource_ = null;
  * DRAG_NONE - No drag operation.
  * DRAG_STICKY - Still inside the sticky DRAG_RADIUS.
  * DRAG_FREE - Freely draggable.
- * @private
  */
-Blockly.dragMode_ = Blockly.DRAG_NONE;
+Blockly.dragMode = Blockly.DRAG_NONE;
 
 /**
  * Cached value for whether 3D is supported.
@@ -253,7 +252,7 @@ Blockly.onKeyDown_ = function(e) {
         // 'x' for cut.
         Blockly.copy_(Blockly.selected);
         Blockly.hideChaff();
-        var heal = Blockly.dragMode_ != Blockly.DRAG_FREE;
+        var heal = Blockly.dragMode != Blockly.DRAG_FREE;
         Blockly.selected.dispose(heal, true);
         if (Blockly.highlightedConnection_) {
           Blockly.highlightedConnection_.unhighlight();
@@ -278,9 +277,8 @@ Blockly.onKeyDown_ = function(e) {
 
 /**
  * Stop binding to the global mouseup and mousemove events.
- * @private
  */
-Blockly.terminateDrag_ = function() {
+Blockly.terminateDrag = function() {
   Blockly.BlockSvg.terminateDrag();
   Blockly.Flyout.terminateDrag_();
 };
@@ -439,9 +437,8 @@ Blockly.defineBlocksWithJsonArray = function(jsonArray) {
  *     should not block execution of other event handlers on this touch or other
  *     simultaneous touches.
  * @return {!Array.<!Array>} Opaque data that can be passed to unbindEvent_.
- * @private
  */
-Blockly.bindEventWithChecks_ = function(node, name, thisObject, func,
+Blockly.bindEventWithChecks = function(node, name, thisObject, func,
     opt_noCaptureIdentifier) {
   var handled = false;
   var wrapFunc = function(e) {

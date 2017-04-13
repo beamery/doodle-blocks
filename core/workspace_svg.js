@@ -183,10 +183,10 @@ Blockly.WorkspaceSvg.prototype.startScrollY = 0;
 
 /**
  * Distance from mouse to object being dragged.
- * @type {goog.math.Coordinate}
+ * @type {!goog.math.Coordinate}
  * @private
  */
-Blockly.WorkspaceSvg.prototype.dragDeltaXY_ = null;
+Blockly.WorkspaceSvg.prototype.dragDeltaXY_ = new goog.math.Coordinate(0, 0);
 
 /**
  * Current scale.
@@ -401,14 +401,14 @@ Blockly.WorkspaceSvg.prototype.createDom = function(opt_backgroundClass) {
   }
 
   if (!this.isFlyout) {
-    Blockly.bindEventWithChecks_(this.svgGroup_, 'mousedown', this,
+    Blockly.bindEventWithChecks(this.svgGroup_, 'mousedown', this,
         this.onMouseDown_);
     var thisWorkspace = this;
     Blockly.bindEvent_(this.svgGroup_, 'touchstart', null,
                        function(e) {Blockly.longStart_(e, thisWorkspace);});
     if (this.options.zoomOptions && this.options.zoomOptions.wheel) {
       // Mouse-wheel.
-      Blockly.bindEventWithChecks_(this.svgGroup_, 'wheel', this,
+      Blockly.bindEventWithChecks(this.svgGroup_, 'wheel', this,
           this.onMouseWheel_);
     }
   }
@@ -900,7 +900,7 @@ Blockly.WorkspaceSvg.prototype.paste = function(xmlBlock) {
   if (!this.rendered) {
     return;
   }
-  Blockly.terminateDrag_();  // Dragging while pasting?  No.
+  Blockly.terminateDrag();  // Dragging while pasting?  No.
   Blockly.Events.disable();
   try {
     var block = Blockly.Xml.domToBlock(xmlBlock, this);
@@ -926,7 +926,7 @@ Blockly.WorkspaceSvg.prototype.paste = function(xmlBlock) {
         }
         if (!collide) {
           // Check for blocks in snap range to any of its connections.
-          var connections = block.getConnections_(false);
+          var connections = block.getConnections(false);
           for (var i = 0, connection; connection = connections[i]; i++) {
             var neighbour = connection.closest(Blockly.SNAP_RADIUS,
                 new goog.math.Coordinate(blockX, blockY));
@@ -965,7 +965,7 @@ Blockly.WorkspaceSvg.prototype.paste = function(xmlBlock) {
 Blockly.WorkspaceSvg.prototype.renameVariable = function(oldName, newName) {
   Blockly.WorkspaceSvg.superClass_.renameVariable.call(this, oldName, newName);
   // Refresh the toolbox unless there's a drag in progress.
-  if (this.toolbox_ && this.toolbox_.flyout_ && !Blockly.Flyout.startFlyout_) {
+  if (this.toolbox_ && this.toolbox_.flyout_ && !Blockly.Flyout.startFlyout) {
     this.toolbox_.refreshSelection();
   }
 };
@@ -979,7 +979,7 @@ Blockly.WorkspaceSvg.prototype.renameVariable = function(oldName, newName) {
 Blockly.WorkspaceSvg.prototype.createVariable = function(name) {
   Blockly.WorkspaceSvg.superClass_.createVariable.call(this, name);
   // Don't refresh the toolbox if there's a drag in progress.
-  if (this.toolbox_ && this.toolbox_.flyout_ && !Blockly.Flyout.startFlyout_) {
+  if (this.toolbox_ && this.toolbox_.flyout_ && !Blockly.Flyout.startFlyout) {
     this.toolbox_.refreshSelection();
   }
 };
@@ -1031,7 +1031,7 @@ Blockly.WorkspaceSvg.prototype.onMouseDown_ = function(e) {
     Blockly.Touch.clearTouchIdentifier();
     return;
   }
-  Blockly.terminateDrag_();  // In case mouse-up event was lost.
+  Blockly.terminateDrag();  // In case mouse-up event was lost.
   Blockly.hideChaff();
   Blockly.DropDownDiv.hide();
   var isTargetWorkspace = e.target && e.target.nodeName &&
@@ -1047,7 +1047,7 @@ Blockly.WorkspaceSvg.prototype.onMouseDown_ = function(e) {
     // This is to handle the case where the event is pretending to be a right
     // click event but it was really a long press. In that case, we want to make
     // sure any in progress drags are stopped.
-    Blockly.onMouseUp_(e);
+    Blockly.onMouseUp(e);
     // Since this was a click, not a drag, end the gesture immediately.
     Blockly.Touch.clearTouchIdentifier();
   } else if (this.scrollbar) {
@@ -1065,15 +1065,15 @@ Blockly.WorkspaceSvg.prototype.onMouseDown_ = function(e) {
     // See comment in inject.js Blockly.init_ as to why mouseup events are
     // bound to the document instead of the SVG's surface.
     if ('mouseup' in Blockly.Touch.TOUCH_MAP) {
-      Blockly.Touch.onTouchUpWrapper_ = Blockly.Touch.onTouchUpWrapper_ || [];
-      Blockly.Touch.onTouchUpWrapper_ = Blockly.Touch.onTouchUpWrapper_.concat(
-          Blockly.bindEventWithChecks_(document, 'mouseup', null,
-          Blockly.onMouseUp_));
+      Blockly.Touch.onTouchUpWrapper = Blockly.Touch.onTouchUpWrapper || [];
+      Blockly.Touch.onTouchUpWrapper = Blockly.Touch.onTouchUpWrapper.concat(
+          Blockly.bindEventWithChecks(document, 'mouseup', null,
+          Blockly.onMouseUp));
     }
     Blockly.onMouseMoveWrapper_ = Blockly.onMouseMoveWrapper_ || [];
     Blockly.onMouseMoveWrapper_ = Blockly.onMouseMoveWrapper_.concat(
-        Blockly.bindEventWithChecks_(document, 'mousemove', null,
-        Blockly.onMouseMove_));
+        Blockly.bindEventWithChecks(document, 'mousemove', null,
+        Blockly.onMouseMove));
   } else {
     // It was a click, but the workspace isn't draggable.
     Blockly.Touch.clearTouchIdentifier();
@@ -1095,7 +1095,8 @@ Blockly.WorkspaceSvg.prototype.startDrag = function(e, xy) {
   // Fix scale of mouse event.
   point.x /= this.scale;
   point.y /= this.scale;
-  this.dragDeltaXY_ = goog.math.Coordinate.difference(xy, point);
+  this.dragDeltaXY_ = goog.math.Coordinate.difference(xy,
+      new goog.math.Coordinate(point.x, point.y));
 };
 
 /**
@@ -1109,7 +1110,8 @@ Blockly.WorkspaceSvg.prototype.moveDrag = function(e) {
   // Fix scale of mouse event.
   point.x /= this.scale;
   point.y /= this.scale;
-  return goog.math.Coordinate.sum(this.dragDeltaXY_, point);
+  return goog.math.Coordinate.sum(this.dragDeltaXY_,
+      new goog.math.Coordinate(point.x, point.y));
 };
 
 /**
@@ -1117,9 +1119,9 @@ Blockly.WorkspaceSvg.prototype.moveDrag = function(e) {
  * @return {boolean} True if currently dragging or scrolling.
  */
 Blockly.WorkspaceSvg.prototype.isDragging = function() {
-  return Blockly.dragMode_ == Blockly.DRAG_FREE ||
-      (Blockly.Flyout.startFlyout_ &&
-          Blockly.Flyout.startFlyout_.dragMode_ == Blockly.DRAG_FREE) ||
+  return Blockly.dragMode == Blockly.DRAG_FREE ||
+      (Blockly.Flyout.startFlyout &&
+          Blockly.Flyout.startFlyout.dragMode == Blockly.DRAG_FREE) ||
       this.dragMode_ == Blockly.DRAG_FREE;
 };
 
@@ -1139,7 +1141,7 @@ Blockly.WorkspaceSvg.prototype.isDraggable = function() {
 Blockly.WorkspaceSvg.prototype.onMouseWheel_ = function(e) {
   // TODO: Remove terminateDrag and compensate for coordinate skew during zoom.
   if (e.ctrlKey) {
-    Blockly.terminateDrag_();
+    Blockly.terminateDrag();
     // The vertical scroll distance that corresponds to a click of a zoom button.
     var PIXELS_PER_ZOOM_STEP = 50;
     var delta = -e.deltaY / PIXELS_PER_ZOOM_STEP;
@@ -1235,12 +1237,12 @@ Blockly.WorkspaceSvg.prototype.showContextMenu_ = function(e) {
   // Options to undo/redo previous action.
   var undoOption = {};
   undoOption.text = Blockly.Msg.UNDO;
-  undoOption.enabled = this.undoStack_.length > 0;
+  undoOption.enabled = this.undoStack.length > 0;
   undoOption.callback = this.undo.bind(this, false);
   menuOptions.push(undoOption);
   var redoOption = {};
   redoOption.text = Blockly.Msg.REDO;
-  redoOption.enabled = this.redoStack_.length > 0;
+  redoOption.enabled = this.redoStack.length > 0;
   redoOption.callback = this.undo.bind(this, true);
   menuOptions.push(redoOption);
 
@@ -1474,7 +1476,7 @@ Blockly.WorkspaceSvg.prototype.updateToolbox = function(tree) {
       throw 'Existing toolbox has no categories.  Can\'t change mode.';
     }
     this.options.languageTree = tree;
-    this.toolbox_.populate_(tree);
+    this.toolbox_.populate(tree);
     this.toolbox_.position();
   } else {
     if (!this.flyout_) {
@@ -1883,7 +1885,7 @@ Blockly.WorkspaceSvg.prototype.getButtonCallback = function(key) {
  * @param {string} key The name associated with the callback function.
  */
 Blockly.WorkspaceSvg.prototype.removeButtonCallback = function(key) {
-  this.flyoutButtonCallbacks_[key] = null;
+  delete this.flyoutButtonCallbacks_[key];
 };
 
 /**
@@ -1919,7 +1921,7 @@ Blockly.WorkspaceSvg.prototype.getToolboxCategoryCallback = function(key) {
  * @param {string} key The name associated with the callback function.
  */
 Blockly.WorkspaceSvg.prototype.removeToolboxCategoryCallback = function(key) {
-  this.toolboxCategoryCallbacks_[key] = null;
+  delete this.toolboxCategoryCallbacks_[key];
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.

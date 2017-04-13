@@ -69,7 +69,7 @@ Blockly.Block = function(workspace, prototypeName, opt_id) {
   this.previousConnection = null;
   /** @type {!Array.<!Blockly.Input>} */
   this.inputList = [];
-  /** @type {boolean|undefined} */
+  /** @type {boolean} */
   this.inputsInline = true;
   /** @type {boolean} */
   this.disabled = false;
@@ -266,7 +266,7 @@ Blockly.Block.prototype.dispose = function(healStack) {
     }
     this.inputList.length = 0;
     // Dispose of any remaining connections (next/previous/output).
-    var connections = this.getConnections_(true);
+    var connections = this.getConnections(true);
     for (var i = 0; i < connections.length; i++) {
       var connection = connections[i];
       if (connection.isConnected()) {
@@ -314,10 +314,10 @@ Blockly.Block.prototype.unplug = function(opt_healStack) {
 
 /**
  * Returns all connections originating from this block.
+ * @param {boolean} all
  * @return {!Array.<!Blockly.Connection>} Array of connections.
- * @private
  */
-Blockly.Block.prototype.getConnections_ = function() {
+Blockly.Block.prototype.getConnections = function(all) {
   var myConnections = [];
   if (this.outputConnection) {
     myConnections.push(this.outputConnection);
@@ -365,7 +365,7 @@ Blockly.Block.prototype.bumpNeighbours_ = function() {
   if (!this.workspace) {
     return;  // Deleted block.
   }
-  if (Blockly.dragMode_ != Blockly.DRAG_NONE) {
+  if (Blockly.dragMode != Blockly.DRAG_NONE) {
     return;  // Don't bump blocks during a drag.
   }
   var rootBlock = this.getRootBlock();
@@ -373,7 +373,7 @@ Blockly.Block.prototype.bumpNeighbours_ = function() {
     return;  // Don't move blocks around in a flyout.
   }
   // Loop through every connection on this block.
-  var myConnections = this.getConnections_(false);
+  var myConnections = this.getConnections(false);
   for (var i = 0, connection; connection = myConnections[i]; i++) {
     // Spider down from this block bumping all sub-blocks.
     if (connection.isConnected() && connection.isSuperior()) {
@@ -675,7 +675,7 @@ Blockly.Block.prototype.setConnectionsHidden = function(hidden) {
       }
     }
   } else {
-    var myConnections = this.getConnections_(true);
+    var myConnections = this.getConnections(true);
     for (var i = 0, connection; connection = myConnections[i]; i++) {
       connection.setHidden(hidden);
       if (connection.isSuperior()) {
@@ -697,8 +697,8 @@ Blockly.Block.prototype.setConnectionsHidden = function(hidden) {
  * @return {Blockly.Connection} the matching connection on this block, or null.
  */
 Blockly.Block.prototype.getMatchingConnection = function(otherBlock, conn) {
-  var connections = this.getConnections_(true);
-  var otherConnections = otherBlock.getConnections_(true);
+  var connections = this.getConnections(true);
+  var otherConnections = otherBlock.getConnections(true);
   if (connections.length != otherConnections.length) {
     throw "Connection lists did not match in length.";
   }

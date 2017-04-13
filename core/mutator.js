@@ -290,7 +290,7 @@ Blockly.Mutator.prototype.setVisible = function(visible) {
  * @private
  */
 Blockly.Mutator.prototype.workspaceChanged_ = function() {
-  if (Blockly.dragMode_ == Blockly.DRAG_NONE) {
+  if (Blockly.dragMode == Blockly.DRAG_NONE) {
     var blocks = this.workspace_.getTopBlocks(false);
     var MARGIN = 20;
     for (var b = 0, block; block = blocks[b]; b++) {

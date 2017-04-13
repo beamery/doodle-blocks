@@ -114,7 +114,7 @@ Blockly.Toolbox.prototype.init = function() {
   svg.parentNode.insertBefore(this.HtmlDiv, svg);
 
   // Clicking on toolbox closes popups.
-  Blockly.bindEventWithChecks_(this.HtmlDiv, 'mousedown', this,
+  Blockly.bindEventWithChecks(this.HtmlDiv, 'mousedown', this,
       function(e) {
         Blockly.DropDownDiv.hide();
         if (Blockly.utils.isRightButton(e) || e.target == this.HtmlDiv) {
@@ -129,7 +129,7 @@ Blockly.Toolbox.prototype.init = function() {
 
   this.createFlyout_();
   this.categoryMenu_ = new Blockly.Toolbox.CategoryMenu(this, this.HtmlDiv);
-  this.populate_(workspace.options.languageTree);
+  this.populate(workspace.options.languageTree);
   this.position();
 };
 
@@ -176,9 +176,8 @@ Blockly.Toolbox.prototype.createFlyout_ = function() {
 /**
  * Fill the toolbox with categories and blocks.
  * @param {!Node} newTree DOM tree of blocks.
- * @private
  */
-Blockly.Toolbox.prototype.populate_ = function(newTree) {
+Blockly.Toolbox.prototype.populate = function(newTree) {
   this.categoryMenu_.populate(newTree);
   this.setSelectedItem(this.categoryMenu_.categories_[0]);
 };

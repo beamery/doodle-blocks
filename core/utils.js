@@ -302,7 +302,7 @@ Blockly.utils.isRightButton = function(e) {
  * @param {!Event} e Mouse event.
  * @param {!Element} svg SVG element.
  * @param {SVGMatrix} matrix Inverted screen CTM to use.
- * @return {!Object} Object with .x and .y properties.
+ * @return {!SVGPoint} Object with .x and .y properties.
  */
 Blockly.utils.mouseToSvg = function(e, svg, matrix) {
   var svgPoint = svg.createSVGPoint();

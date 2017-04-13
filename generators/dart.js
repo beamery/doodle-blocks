@@ -97,7 +97,7 @@ Blockly.Dart.init = function(workspace) {
 
   if (!Blockly.Dart.variableDB_) {
     Blockly.Dart.variableDB_ =
-        new Blockly.Names(Blockly.Dart.RESERVED_WORDS_);
+        new Blockly.Names(Blockly.Dart.RESERVED_WORDS);
   } else {
     Blockly.Dart.variableDB_.reset();
   }
@@ -179,7 +179,7 @@ Blockly.Dart.quote_ = function(string) {
  * @return {string} Dart code with comments and subsequent blocks added.
  * @private
  */
-Blockly.Dart.scrub_ = function(block, code) {
+Blockly.Dart.scrub = function(block, code) {
   var commentCode = '';
   // Only collect comments for blocks that aren't inline.
   if (!block.outputConnection || !block.outputConnection.targetConnection) {
@@ -200,7 +200,7 @@ Blockly.Dart.scrub_ = function(block, code) {
       if (block.inputList[i].type == Blockly.INPUT_VALUE) {
         var childBlock = block.inputList[i].connection.targetBlock();
         if (childBlock) {
-          var comment = Blockly.Dart.allNestedComments(childBlock);
+          comment = Blockly.Dart.allNestedComments(childBlock);
           if (comment) {
             commentCode += Blockly.Dart.prefixLines(comment, '// ');
           }

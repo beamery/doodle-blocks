@@ -185,14 +185,14 @@ Blockly.Generator.prototype.blockToCode = function(block) {
     // Value blocks return tuples of code and operator order.
     goog.asserts.assert(block.outputConnection,
         'Expecting string from statement block "%s".', block.type);
-    return [this.scrub_(block, code[0]), code[1]];
+    return [this.scrub(block, code[0]), code[1]];
   } else if (goog.isString(code)) {
     var id = block.id.replace(/\$/g, '$$$$');  // Issue 251.
     if (this.STATEMENT_PREFIX) {
       code = this.STATEMENT_PREFIX.replace(/%1/g, '\'' + id + '\'') +
           code;
     }
-    return this.scrub_(block, code);
+    return this.scrub(block, code);
   } else if (code === null) {
     // Block has handled code generation itself.
     return '';
@@ -312,9 +312,8 @@ Blockly.Generator.prototype.addLoopTrap = function(branch, id) {
 /**
  * Comma-separated list of reserved words.
  * @type {string}
- * @private
  */
-Blockly.Generator.prototype.RESERVED_WORDS_ = '';
+Blockly.Generator.prototype.RESERVED_WORDS = '';
 
 /**
  * Add one or more words to the list of reserved words for this language.
@@ -322,7 +321,7 @@ Blockly.Generator.prototype.RESERVED_WORDS_ = '';
  *     No spaces.  Duplicates are ok.
  */
 Blockly.Generator.prototype.addReservedWords = function(words) {
-  this.RESERVED_WORDS_ += words + ',';
+  this.RESERVED_WORDS += words + ',';
 };
 
 /**
@@ -391,9 +390,9 @@ Blockly.Generator.prototype.init = undefined;
  * @param {!Blockly.Block} block The current block.
  * @param {string} code The JavaScript code created for this block.
  * @return {string} JavaScript code with comments and subsequent blocks added.
- * @private
+ * @protected
  */
-Blockly.Generator.prototype.scrub_ = undefined;
+Blockly.Generator.prototype.scrub = undefined;
 
 /**
  * Hook for code to run at end of code generation.

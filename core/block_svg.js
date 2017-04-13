@@ -154,7 +154,7 @@ Blockly.BlockSvg.prototype.initSvg = function() {
   this.updateColour();
   this.updateMovable();
   if (!this.workspace.options.readOnly && !this.eventsInit_) {
-    Blockly.bindEventWithChecks_(this.getSvgRoot(), 'mousedown', this,
+    Blockly.bindEventWithChecks(this.getSvgRoot(), 'mousedown', this,
                        this.onMouseDown_);
     var thisBlock = this;
     Blockly.bindEvent_(this.getSvgRoot(), 'touchstart', null,
@@ -320,7 +320,7 @@ Blockly.BlockSvg.terminateDrag = function() {
     Blockly.BlockSvg.onMouseMoveWrapper_ = null;
   }
   var selected = Blockly.selected;
-  if (Blockly.dragMode_ == Blockly.DRAG_FREE) {
+  if (Blockly.dragMode == Blockly.DRAG_FREE) {
     // Terminate a drag operation.
     if (selected) {
       if (Blockly.replacementMarker_) {
@@ -362,7 +362,7 @@ Blockly.BlockSvg.terminateDrag = function() {
       }, Blockly.BUMP_DELAY);
     }
   }
-  Blockly.dragMode_ = Blockly.DRAG_NONE;
+  Blockly.dragMode = Blockly.DRAG_NONE;
   Blockly.Css.setCursor(Blockly.Css.Cursor.OPEN);
 };
 
@@ -598,7 +598,7 @@ Blockly.BlockSvg.prototype.snapToGrid = function() {
   if (!this.workspace) {
     return;  // Deleted block.
   }
-  if (Blockly.dragMode_ != Blockly.DRAG_NONE) {
+  if (Blockly.dragMode != Blockly.DRAG_NONE) {
     return;  // Don't bump blocks during a drag.
   }
   if (this.getParent()) {
@@ -784,7 +784,7 @@ Blockly.BlockSvg.prototype.onMouseDown_ = function(e) {
 
   this.workspace.updateScreenCalculationsIfScrolled();
   this.workspace.markFocused();
-  Blockly.terminateDrag_();
+  Blockly.terminateDrag();
   this.select();
   Blockly.hideChaff();
   Blockly.DropDownDiv.hideWithoutAnimation();
@@ -806,10 +806,10 @@ Blockly.BlockSvg.prototype.onMouseDown_ = function(e) {
     this.dragStartXY_ = this.getRelativeToSurfaceXY();
     this.workspace.startDrag(e, this.dragStartXY_);
 
-    Blockly.dragMode_ = Blockly.DRAG_STICKY;
-    Blockly.BlockSvg.onMouseUpWrapper_ = Blockly.bindEventWithChecks_(document,
+    Blockly.dragMode = Blockly.DRAG_STICKY;
+    Blockly.BlockSvg.onMouseUpWrapper_ = Blockly.bindEventWithChecks(document,
         'mouseup', this, this.onMouseUp_);
-    Blockly.BlockSvg.onMouseMoveWrapper_ = Blockly.bindEventWithChecks_(
+    Blockly.BlockSvg.onMouseMoveWrapper_ = Blockly.bindEventWithChecks(
         document, 'mousemove', this, this.onMouseMove_);
     // Build a list of bubbles that need to be moved and where they started.
     this.draggedBubbles_ = [];
@@ -840,7 +840,7 @@ Blockly.BlockSvg.prototype.onMouseUp_ = function(e) {
   // If a field is being edited, don't fire any click events.
   var fieldEditing = Blockly.WidgetDiv.isVisible() || Blockly.DropDownDiv.isVisible();
   Blockly.Touch.clearTouchIdentifier();
-  if (Blockly.dragMode_ != Blockly.DRAG_FREE && !fieldEditing) {
+  if (Blockly.dragMode != Blockly.DRAG_FREE && !fieldEditing) {
     Blockly.Events.fire(
         new Blockly.Events.Ui(this, 'click', undefined, undefined));
     // Scratch-specific: also fire a "stack click" event for this stack.
@@ -849,7 +849,7 @@ Blockly.BlockSvg.prototype.onMouseUp_ = function(e) {
     Blockly.Events.fire(
       new Blockly.Events.Ui(rootBlock, 'stackclick', undefined, undefined));
   }
-  Blockly.terminateDrag_();
+  Blockly.terminateDrag();
 
   var deleteArea = this.workspace.isDeleteArea(e);
 
@@ -992,7 +992,7 @@ Blockly.BlockSvg.prototype.moveConnections_ = function(dx, dy) {
     // This is probably an invisible block attached to a collapsed block.
     return;
   }
-  var myConnections = this.getConnections_(false);
+  var myConnections = this.getConnections(false);
   for (var i = 0; i < myConnections.length; i++) {
     myConnections[i].moveBy(dx, dy);
   }
@@ -1018,7 +1018,7 @@ Blockly.BlockSvg.prototype.setDragging_ = function(adding) {
     group.translate_ = '';
     group.skew_ = '';
     Blockly.draggingConnections_ =
-        Blockly.draggingConnections_.concat(this.getConnections_(true));
+        Blockly.draggingConnections_.concat(this.getConnections(true));
     Blockly.utils.addClass(/** @type {!Element} */ (this.svgGroup_),
                       'blocklyDragging');
   } else {
@@ -1080,13 +1080,13 @@ Blockly.BlockSvg.prototype.onMouseMove_ = function(e) {
   var oldXY = this.getRelativeToSurfaceXY();
   var newXY = this.workspace.moveDrag(e);
 
-  if (Blockly.dragMode_ == Blockly.DRAG_STICKY) {
+  if (Blockly.dragMode == Blockly.DRAG_STICKY) {
     // Still dragging within the sticky DRAG_RADIUS.
     var dr = goog.math.Coordinate.distance(oldXY, newXY) * this.workspace.scale;
     if (dr > Blockly.DRAG_RADIUS) {
       Blockly.Css.setCursor(Blockly.Css.Cursor.CLOSED);
       // Switch to unrestricted dragging.
-      Blockly.dragMode_ = Blockly.DRAG_FREE;
+      Blockly.dragMode = Blockly.DRAG_FREE;
       Blockly.longStop_();
 
       // Disable workspace resizing as an optimization.
@@ -1103,7 +1103,7 @@ Blockly.BlockSvg.prototype.onMouseMove_ = function(e) {
       this.moveToDragSurface_();
     }
   }
-  if (Blockly.dragMode_ == Blockly.DRAG_FREE) {
+  if (Blockly.dragMode == Blockly.DRAG_FREE) {
     this.handleDragFree_(oldXY, newXY, e);
   }
   // This event has been handled.  No need to bubble up to the document.
@@ -1138,7 +1138,7 @@ Blockly.BlockSvg.prototype.handleDragFree_ = function(oldXY, newXY, e) {
 
   // Check to see if any of this block's connections are within range of
   // another block's connection.
-  var myConnections = this.getConnections_(false);
+  var myConnections = this.getConnections(false);
   // Also check the last connection on this stack
   var lastOnStack = this.lastConnectionInStack();
   if (lastOnStack && lastOnStack != this.nextConnection) {
@@ -1503,7 +1503,7 @@ Blockly.BlockSvg.prototype.dispose = function(healStack, animate) {
   // If this block is being dragged, unlink the mouse events.
   if (Blockly.selected == this) {
     this.unselect();
-    Blockly.terminateDrag_();
+    Blockly.terminateDrag();
   }
   // If this block has a context menu open, close it.
   if (Blockly.ContextMenu.currentBlock == this) {
@@ -1661,7 +1661,7 @@ Blockly.BlockSvg.prototype.setWarningText = function(text, opt_id) {
     clearTimeout(this.setWarningText.pid_[id]);
     delete this.setWarningText.pid_[id];
   }
-  if (Blockly.dragMode_ == Blockly.DRAG_FREE) {
+  if (Blockly.dragMode == Blockly.DRAG_FREE) {
     // Don't change the warning text during a drag.
     // Wait until the drag finishes.
     var thisBlock = this;
@@ -1888,9 +1888,8 @@ Blockly.BlockSvg.prototype.appendInput_ = function(type, name) {
  *     Otherwise, for a non-rendered block return an empty list, and for a
  *     collapsed block don't return inputs connections.
  * @return {!Array.<!Blockly.Connection>} Array of connections.
- * @private
  */
-Blockly.BlockSvg.prototype.getConnections_ = function(all) {
+Blockly.BlockSvg.prototype.getConnections = function(all) {
   var myConnections = [];
   if (all || this.rendered) {
     if (this.outputConnection) {

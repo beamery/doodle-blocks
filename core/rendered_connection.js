@@ -62,7 +62,7 @@ Blockly.RenderedConnection.prototype.distanceFrom = function(otherConnection) {
  * @private
  */
 Blockly.RenderedConnection.prototype.bumpAwayFrom_ = function(staticConnection) {
-  if (Blockly.dragMode_ != Blockly.DRAG_NONE) {
+  if (Blockly.dragMode != Blockly.DRAG_NONE) {
     // Don't move blocks around while the user is doing the same.
     return;
   }
@@ -226,7 +226,7 @@ Blockly.RenderedConnection.prototype.unhideAll = function() {
       block.previousConnection && connections.push(block.previousConnection);
     } else {
       // Show all connections of this block.
-      connections = block.getConnections_(true);
+      connections = block.getConnections(true);
     }
     for (var i = 0; i < connections.length; i++) {
       renderList.push.apply(renderList, connections[i].unhideAll());
@@ -272,7 +272,7 @@ Blockly.RenderedConnection.prototype.hideAll = function() {
     for (var i = 0; i < blocks.length; i++) {
       var block = blocks[i];
       // Hide all connections of all children.
-      var connections = block.getConnections_(true);
+      var connections = block.getConnections(true);
       for (var j = 0; j < connections.length; j++) {
         connections[j].setHidden(true);
       }
