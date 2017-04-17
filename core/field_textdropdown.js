@@ -78,7 +78,7 @@ Blockly.FieldTextDropdown.prototype.init = function() {
     this.arrow_.style.cursor = 'pointer';
     this.fieldGroup_.appendChild(this.arrow_);
     this.mouseUpWrapper_ =
-        Blockly.bindEvent_(this.arrow_, 'mouseup', this,
+        Blockly.bindEvent(this.arrow_, 'mouseup', this,
             this.showDropdown_);
   }
   // Prevent the drop-down handler from changing the field colour on open.
@@ -90,7 +90,7 @@ Blockly.FieldTextDropdown.prototype.init = function() {
  */
 Blockly.FieldTextDropdown.prototype.dispose = function() {
   if (this.mouseUpWrapper_) {
-    Blockly.unbindEvent_(this.mouseUpWrapper_);
+    Blockly.unbindEvent(this.mouseUpWrapper_);
     this.mouseUpWrapper_ = null;
     Blockly.Touch.clearTouchIdentifier();
   }

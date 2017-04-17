@@ -326,7 +326,7 @@ Blockly.HorizontalFlyout.prototype.layout_ = function(contents, gaps) {
       var buttonSvg = button.createDom();
       button.moveTo(cursorX, cursorY);
       button.show();
-      Blockly.bindEvent_(buttonSvg, 'mouseup', button, button.onMouseUp);
+      Blockly.bindEvent(buttonSvg, 'mouseup', button, button.onMouseUp);
 
       this.buttons_.push(button);
       cursorX += (button.width + gaps[i]);

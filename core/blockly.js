@@ -173,7 +173,7 @@ Blockly.hueToRgb = function(hue) {
 
 /**
  * Returns the dimensions of the specified SVG image.
- * @param {!Element} svg SVG image.
+ * @param {!Node} svg SVG image.
  * @return {!Object} Contains width and height properties.
  */
 Blockly.svgSize = function(svg) {
@@ -493,9 +493,8 @@ Blockly.bindEventWithChecks = function(node, name, thisObject, func,
  * @param {Object} thisObject The value of 'this' in the function.
  * @param {!Function} func Function to call when event is triggered.
  * @return {!Array.<!Array>} Opaque data that can be passed to unbindEvent_.
- * @private
  */
-Blockly.bindEvent_ = function(node, name, thisObject, func) {
+Blockly.bindEvent = function(node, name, thisObject, func) {
   var wrapFunc = function(e) {
     if (thisObject) {
       func.call(thisObject, e);
@@ -536,9 +535,8 @@ Blockly.bindEvent_ = function(node, name, thisObject, func) {
  * @param {!Array.<!Array>} bindData Opaque data from bindEvent_.
  *     This list is emptied during the course of calling this function.
  * @return {!Function} The function call.
- * @private
  */
-Blockly.unbindEvent_ = function(bindData) {
+Blockly.unbindEvent = function(bindData) {
   while (bindData.length) {
     var bindDatum = bindData.pop();
     var node = bindDatum[0];

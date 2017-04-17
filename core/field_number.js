@@ -233,7 +233,7 @@ Blockly.FieldNumber.prototype.addButtons_ = function(contentDiv) {
     button.setAttribute('class', 'blocklyNumPadButton');
     button.title = buttonText;
     button.innerHTML = buttonText;
-    Blockly.bindEvent_(button, 'mousedown', button,
+    Blockly.bindEvent(button, 'mousedown', button,
         Blockly.FieldNumber.numPadButtonTouch);
     if (buttonText == '.' && !this.decimalAllowed_) {
       // Don't show the decimal point for inputs that must be round numbers
@@ -257,7 +257,7 @@ Blockly.FieldNumber.prototype.addButtons_ = function(contentDiv) {
   eraseImage.src = Blockly.FieldNumber.NUMPAD_DELETE_ICON;
   eraseButton.appendChild(eraseImage);
 
-  Blockly.bindEvent_(eraseButton, 'mousedown', null,
+  Blockly.bindEvent(eraseButton, 'mousedown', null,
       Blockly.FieldNumber.numPadEraseButtonTouch);
   contentDiv.appendChild(eraseButton);
 };

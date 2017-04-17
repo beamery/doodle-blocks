@@ -465,7 +465,7 @@ Blockly.Toolbox.Category.prototype.createDom = function() {
   this.bubble_.style.borderColor = this.secondaryColour_;
   this.item_.appendChild(this.bubble_);
   this.parentHtml_.appendChild(this.item_);
-  Blockly.bindEvent_(this.item_, 'mousedown', toolbox,
+  Blockly.bindEvent(this.item_, 'mousedown', toolbox,
     toolbox.setSelectedItemFactory(this));
 };
 

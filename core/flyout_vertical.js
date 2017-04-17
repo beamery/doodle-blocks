@@ -367,7 +367,7 @@ Blockly.VerticalFlyout.prototype.addBlockListeners_ = function(root, block,
   Blockly.VerticalFlyout.superClass_.addBlockListeners_.call(this, root, block,
       rect);
   if (block.flyoutCheckbox) {
-    this.listeners_.push(Blockly.bindEvent_(block.flyoutCheckbox.svgRoot,
+    this.listeners_.push(Blockly.bindEvent(block.flyoutCheckbox.svgRoot,
         'mousedown', null, this.checkboxClicked_(block.flyoutCheckbox)));
   }
 };
@@ -427,7 +427,7 @@ Blockly.VerticalFlyout.prototype.layout_ = function(contents, gaps) {
       var buttonSvg = button.createDom();
       button.moveTo(cursorX, cursorY);
       button.show();
-      Blockly.bindEvent_(buttonSvg, 'mouseup', button, button.onMouseUp);
+      Blockly.bindEvent(buttonSvg, 'mouseup', button, button.onMouseUp);
 
       this.buttons_.push(button);
       cursorY += button.height + gaps[i];

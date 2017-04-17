@@ -157,8 +157,8 @@ Blockly.BlockSvg.prototype.initSvg = function() {
     Blockly.bindEventWithChecks(this.getSvgRoot(), 'mousedown', this,
                        this.onMouseDown_);
     var thisBlock = this;
-    Blockly.bindEvent_(this.getSvgRoot(), 'touchstart', null,
-                       function(e) {Blockly.longStart_(e, thisBlock);});
+    Blockly.bindEvent(this.getSvgRoot(), 'touchstart', null,
+                       function(e) {Blockly.longStart(e, thisBlock);});
   }
   this.eventsInit_ = true;
 
@@ -312,11 +312,11 @@ Blockly.BlockSvg.onMouseMoveWrapper_ = null;
  */
 Blockly.BlockSvg.terminateDrag = function() {
   if (Blockly.BlockSvg.onMouseUpWrapper_) {
-    Blockly.unbindEvent_(Blockly.BlockSvg.onMouseUpWrapper_);
+    Blockly.unbindEvent(Blockly.BlockSvg.onMouseUpWrapper_);
     Blockly.BlockSvg.onMouseUpWrapper_ = null;
   }
   if (Blockly.BlockSvg.onMouseMoveWrapper_) {
-    Blockly.unbindEvent_(Blockly.BlockSvg.onMouseMoveWrapper_);
+    Blockly.unbindEvent(Blockly.BlockSvg.onMouseMoveWrapper_);
     Blockly.BlockSvg.onMouseMoveWrapper_ = null;
   }
   var selected = Blockly.selected;

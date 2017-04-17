@@ -228,7 +228,7 @@ Blockly.createMainWorkspace_ = function(svg, options, blockDragSurface, workspac
   if (!options.hasCategories && options.languageTree) {
     // Add flyout as an <svg> that is a sibling of the workspace svg.
     var flyout = mainWorkspace.addFlyout_('svg');
-    Blockly.utils.insertAfter_(flyout, svg);
+    Blockly.utils.insertAfter(flyout, svg);
   }
 
   // A null translation will also apply the correct initial scale.
@@ -369,8 +369,8 @@ Blockly.inject.bindDocumentEvents_ = function() {
     Blockly.bindEventWithChecks(document, 'keydown', null, Blockly.onKeyDown_);
     // longStop needs to run to stop the context menu from showing up.  It
     // should run regardless of what other touch event handlers have run.
-    Blockly.bindEvent_(document, 'touchend', null, Blockly.longStop_);
-    Blockly.bindEvent_(document, 'touchcancel', null, Blockly.longStop_);
+    Blockly.bindEvent(document, 'touchend', null, Blockly.longStop_);
+    Blockly.bindEvent(document, 'touchcancel', null, Blockly.longStop_);
     // Don't use bindEvent_ for document's mouseup since that would create a
     // corresponding touch handler that would squelch the ability to interact
     // with non-Blockly elements.
@@ -403,7 +403,7 @@ Blockly.inject.loadSounds_ = function(pathToMedia, workspace) {
   var soundBinds = [];
   var unbindSounds = function() {
     while (soundBinds.length) {
-      Blockly.unbindEvent_(soundBinds.pop());
+      Blockly.unbindEvent(soundBinds.pop());
     }
     workspace.preloadAudio_();
   };

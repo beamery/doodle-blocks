@@ -221,8 +221,9 @@ Blockly.Block.prototype.colourTertiary_ = '#FF0000';
  * @param {boolean} healStack If true, then try to heal any gap by connecting
  *     the next statement with the previous statement.  Otherwise, dispose of
  *     all children of this block.
+ * @param {boolean=} opt_animate If true, show a disposal animation and sound.
  */
-Blockly.Block.prototype.dispose = function(healStack) {
+Blockly.Block.prototype.dispose = function(healStack, opt_animate) {
   if (!this.workspace) {
     // Already deleted.
     return;

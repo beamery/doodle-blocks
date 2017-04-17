@@ -223,7 +223,7 @@ Blockly.FieldTextInput.prototype.showEditor_ = function(
       dropDownArrow.style.right = dropdownArrowMagic;
     }
     if (opt_arrowCallback) {
-      htmlInput.dropDownArrowMouseWrapper_ = Blockly.bindEvent_(dropDownArrow,
+      htmlInput.dropDownArrowMouseWrapper_ = Blockly.bindEvent(dropDownArrow,
         'mousedown', this, opt_arrowCallback);
     }
     div.appendChild(dropDownArrow);
@@ -257,7 +257,7 @@ Blockly.FieldTextInput.prototype.showEditor_ = function(
   // is triggered on keypress but after the value of the text input
   // has updated, allowing us to resize the block at that time.
   htmlInput.onInputWrapper_ =
-      Blockly.bindEvent_(htmlInput, 'input', this, this.onHtmlInputChange_);
+      Blockly.bindEvent(htmlInput, 'input', this, this.onHtmlInputChange_);
   htmlInput.onWorkspaceChangeWrapper_ = this.resizeEditor_.bind(this);
   this.workspace_.addChangeListener(htmlInput.onWorkspaceChangeWrapper_);
 
@@ -491,12 +491,12 @@ Blockly.FieldTextInput.prototype.widgetDispose_ = function() {
     thisField.setText(text);
     // Rerender the field now that the text has changed.
     thisField.sourceBlock_.rendered && thisField.render_();
-    Blockly.unbindEvent_(htmlInput.onKeyDownWrapper_);
-    Blockly.unbindEvent_(htmlInput.onKeyUpWrapper_);
-    Blockly.unbindEvent_(htmlInput.onKeyPressWrapper_);
-    Blockly.unbindEvent_(htmlInput.onInputWrapper_);
+    Blockly.unbindEvent(htmlInput.onKeyDownWrapper_);
+    Blockly.unbindEvent(htmlInput.onKeyUpWrapper_);
+    Blockly.unbindEvent(htmlInput.onKeyPressWrapper_);
+    Blockly.unbindEvent(htmlInput.onInputWrapper_);
     if (htmlInput.dropDownArrowMouseWrapper_) {
-      Blockly.unbindEvent_(htmlInput.dropDownArrowMouseWrapper_);
+      Blockly.unbindEvent(htmlInput.dropDownArrowMouseWrapper_);
     }
     thisField.workspace_.removeChangeListener(
         htmlInput.onWorkspaceChangeWrapper_);

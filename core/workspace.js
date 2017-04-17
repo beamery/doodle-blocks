@@ -33,7 +33,7 @@ goog.require('goog.math');
 /**
  * Class for a workspace.  This is a data structure that contains blocks.
  * There is no UI, and can be created headlessly.
- * @param {Blockly.Options} opt_options Dictionary of options.
+ * @param {Blockly.Options=} opt_options Dictionary of options.
  * @constructor
  */
 Blockly.Workspace = function(opt_options) {
@@ -41,7 +41,7 @@ Blockly.Workspace = function(opt_options) {
   this.id = Blockly.utils.genUid();
   Blockly.Workspace.WorkspaceDB_[this.id] = this;
   /** @type {!Blockly.Options} */
-  this.options = opt_options || {};
+  this.options = opt_options || new Blockly.options({});
   /** @type {boolean} */
   this.RTL = !!this.options.RTL;
   /** @type {boolean} */
@@ -60,7 +60,7 @@ Blockly.Workspace = function(opt_options) {
    */
   this.listeners_ = [];
 
-  /** @type {!Array.<!Function>} */
+  /** @private {!Array.<!Function>} */
   this.tapListeners_ = [];
 
   /**
@@ -80,7 +80,8 @@ Blockly.Workspace = function(opt_options) {
    * @private
    */
   this.blockDB_ = Object.create(null);
-  /*
+
+  /**
    * @type {!Array.<string>}
    * A list of all of the named variables in the workspace, including variables
    * that are not currently in use.
@@ -192,7 +193,7 @@ Blockly.Workspace.prototype.clear = function() {
     Blockly.Events.setGroup(true);
   }
   while (this.topBlocks_.length) {
-    this.topBlocks_[0].dispose();
+    this.topBlocks_[0].dispose(false);
   }
   if (!existingGroup) {
     Blockly.Events.setGroup(false);
@@ -346,7 +347,8 @@ Blockly.Workspace.prototype.deleteVariable = function(name) {
   if (uses.length > 1) {
     // Confirm before deleting multiple blocks.
     Blockly.confirm(
-        Blockly.Msg.DELETE_VARIABLE_CONFIRMATION.replace('%1', uses.length).
+        Blockly.Msg.DELETE_VARIABLE_CONFIRMATION.replace(
+            '%1', String(uses.length)).
         replace('%2', name),
         function(ok) {
           if (ok) {
@@ -476,7 +478,7 @@ Blockly.Workspace.prototype.fireChangeListener = function(event) {
 
 /**
  * Find the block on this workspace with the specified ID.
- * @param {string} id ID of block to find.
+ * @param {?string} id ID of block to find.
  * @return {Blockly.Block} The sought after block or null if not found.
  */
 Blockly.Workspace.prototype.getBlockById = function(id) {

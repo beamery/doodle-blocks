@@ -186,7 +186,7 @@ Blockly.Field.prototype.init = function() {
  */
 Blockly.Field.prototype.dispose = function() {
   if (this.mouseUpWrapper_) {
-    Blockly.unbindEvent_(this.mouseUpWrapper_);
+    Blockly.unbindEvent(this.mouseUpWrapper_);
     this.mouseUpWrapper_ = null;
   }
   this.sourceBlock_ = null;

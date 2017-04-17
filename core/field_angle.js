@@ -113,10 +113,10 @@ Blockly.FieldAngle.prototype.dispose_ = function() {
     Blockly.FieldAngle.superClass_.dispose_.call(thisField)();
     thisField.gauge_ = null;
     if (thisField.clickWrapper_) {
-      Blockly.unbindEvent_(thisField.clickWrapper_);
+      Blockly.unbindEvent(thisField.clickWrapper_);
     }
     if (thisField.moveWrapper_) {
-      Blockly.unbindEvent_(thisField.moveWrapper_);
+      Blockly.unbindEvent(thisField.moveWrapper_);
     }
   };
 };
@@ -178,13 +178,13 @@ Blockly.FieldAngle.prototype.showEditor_ = function() {
   // change this behavior.  For now, using bindEvent_ instead of
   // bindEventWithChecks_ allows it to work without a mousedown/touchstart.
   this.clickWrapper_ =
-      Blockly.bindEvent_(svg, 'click', this, function() {
+      Blockly.bindEvent(svg, 'click', this, function() {
         Blockly.WidgetDiv.hide();
         Blockly.DropDownDiv.hide();
-        Blockly.unbindEvent_(this.moveWrapper_);
+        Blockly.unbindEvent(this.moveWrapper_);
       });
   this.moveWrapper_ =
-      Blockly.bindEvent_(svg, 'mousemove', this, this.onMouseMove);
+      Blockly.bindEvent(svg, 'mousemove', this, this.onMouseMove);
   this.updateGraph_();
 };
 

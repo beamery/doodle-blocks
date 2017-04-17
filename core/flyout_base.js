@@ -77,7 +77,7 @@ Blockly.Flyout = function(workspaceOptions) {
   this.toolboxPosition_ = workspaceOptions.toolboxPosition;
 
   /**
-   * Opaque data that can be passed to Blockly.unbindEvent_.
+   * Opaque data that can be passed to Blockly.unbindEvent.
    * @type {!Array.<!Array>}
    * @private
    */
@@ -343,10 +343,10 @@ Blockly.Flyout.prototype.init = function(targetWorkspace) {
   this.position();
 
   Array.prototype.push.apply(this.eventWrappers_,
-      Blockly.bindEvent_(this.svgGroup_, 'wheel', this, this.wheel_));
+      Blockly.bindEvent(this.svgGroup_, 'wheel', this, this.wheel_));
   // Dragging the flyout up and down (or left and right).
   Array.prototype.push.apply(this.eventWrappers_,
-      Blockly.bindEvent_(this.svgGroup_, 'mousedown', this, this.onMouseDown_));
+      Blockly.bindEvent(this.svgGroup_, 'mousedown', this, this.onMouseDown_));
 };
 
 /**
@@ -355,7 +355,7 @@ Blockly.Flyout.prototype.init = function(targetWorkspace) {
  */
 Blockly.Flyout.prototype.dispose = function() {
   this.hide();
-  Blockly.unbindEvent_(this.eventWrappers_);
+  Blockly.unbindEvent(this.eventWrappers_);
   if (this.scrollbar_) {
     this.scrollbar_.dispose();
     this.scrollbar_ = null;
@@ -469,7 +469,7 @@ Blockly.Flyout.prototype.hide = function() {
   this.setVisible(false);
   // Delete all the event listeners.
   for (var x = 0, listen; listen = this.listeners_[x]; x++) {
-    Blockly.unbindEvent_(listen);
+    Blockly.unbindEvent(listen);
   }
   this.listeners_.length = 0;
   if (this.reflowWrapper_) {
@@ -558,7 +558,7 @@ Blockly.Flyout.prototype.show = function(xmlList) {
     }
   };
 
-  this.listeners_.push(Blockly.bindEvent_(this.svgBackground_, 'mouseover',
+  this.listeners_.push(Blockly.bindEvent(this.svgBackground_, 'mouseover',
       this, deselectAll));
 
   this.workspace_.setResizesEnabled(true);
@@ -615,13 +615,13 @@ Blockly.Flyout.prototype.addBlockListeners_ = function(root, block, rect) {
     this.listeners_.push(Blockly.bindEventWithChecks(rect, 'mousedown', null,
         this.blockMouseDown_(block)));
   }
-  this.listeners_.push(Blockly.bindEvent_(root, 'mouseover', block,
+  this.listeners_.push(Blockly.bindEvent(root, 'mouseover', block,
       block.addSelect));
-  this.listeners_.push(Blockly.bindEvent_(root, 'mouseout', block,
+  this.listeners_.push(Blockly.bindEvent(root, 'mouseout', block,
       block.removeSelect));
-  this.listeners_.push(Blockly.bindEvent_(rect, 'mouseover', block,
+  this.listeners_.push(Blockly.bindEvent(rect, 'mouseover', block,
       block.addSelect));
-  this.listeners_.push(Blockly.bindEvent_(rect, 'mouseout', block,
+  this.listeners_.push(Blockly.bindEvent(rect, 'mouseout', block,
       block.removeSelect));
 };
 
@@ -665,9 +665,9 @@ Blockly.Flyout.prototype.blockMouseDown_ = function(block) {
       Blockly.Flyout.startDownEvent_ = e;
       Blockly.Flyout.startBlock_ = block;
       Blockly.Flyout.startFlyout = flyout;
-      Blockly.Flyout.onMouseUpWrapper_ = Blockly.bindEvent_(document,
+      Blockly.Flyout.onMouseUpWrapper_ = Blockly.bindEvent(document,
           'mouseup', flyout, flyout.onMouseUp_);
-      Blockly.Flyout.onMouseMoveBlockWrapper_ = Blockly.bindEvent_(document,
+      Blockly.Flyout.onMouseMoveBlockWrapper_ = Blockly.bindEvent(document,
           'mousemove', flyout, flyout.onMouseMoveBlock_);
     }
     // This event has been handled.  No need to bubble up to the document.
@@ -695,9 +695,9 @@ Blockly.Flyout.prototype.onMouseDown_ = function(e) {
   this.startDragMouseY_ = e.clientY;
   this.startDragMouseX_ = e.clientX;
   Blockly.Flyout.startFlyout = this;
-  Blockly.Flyout.onMouseMoveWrapper_ = Blockly.bindEvent_(document, 'mousemove',
+  Blockly.Flyout.onMouseMoveWrapper_ = Blockly.bindEvent(document, 'mousemove',
       this, this.onMouseMove_);
-  Blockly.Flyout.onMouseUpWrapper_ = Blockly.bindEvent_(document, 'mouseup',
+  Blockly.Flyout.onMouseUpWrapper_ = Blockly.bindEvent(document, 'mouseup',
       this, Blockly.Flyout.terminateDrag_);
   // This event has been handled.  No need to bubble up to the document.
   e.preventDefault();
@@ -884,15 +884,15 @@ Blockly.Flyout.terminateDrag_ = function() {
     Blockly.Flyout.startFlyout = null;
   }
   if (Blockly.Flyout.onMouseUpWrapper_) {
-    Blockly.unbindEvent_(Blockly.Flyout.onMouseUpWrapper_);
+    Blockly.unbindEvent(Blockly.Flyout.onMouseUpWrapper_);
     Blockly.Flyout.onMouseUpWrapper_ = null;
   }
   if (Blockly.Flyout.onMouseMoveBlockWrapper_) {
-    Blockly.unbindEvent_(Blockly.Flyout.onMouseMoveBlockWrapper_);
+    Blockly.unbindEvent(Blockly.Flyout.onMouseMoveBlockWrapper_);
     Blockly.Flyout.onMouseMoveBlockWrapper_ = null;
   }
   if (Blockly.Flyout.onMouseMoveWrapper_) {
-    Blockly.unbindEvent_(Blockly.Flyout.onMouseMoveWrapper_);
+    Blockly.unbindEvent(Blockly.Flyout.onMouseMoveWrapper_);
     Blockly.Flyout.onMouseMoveWrapper_ = null;
   }
   Blockly.Flyout.startDownEvent_ = null;

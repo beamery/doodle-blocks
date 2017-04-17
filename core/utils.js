@@ -95,10 +95,9 @@ Blockly.utils.removeClass = function(element, className) {
 /**
  * Checks if an element has the specified CSS class.
  * Similar to Closure's goog.dom.classes.has, except it handles SVG elements.
- * @param {!Element} element DOM element to check.
+ * @param {!Node} element DOM element to check.
  * @param {string} className Name of class to check.
  * @return {boolean} True if class exists, false otherwise.
- * @private
  */
 Blockly.utils.hasClass = function(element, className) {
   var classes = element.getAttribute('class');
@@ -131,7 +130,7 @@ Blockly.utils.isTargetInput = function(e) {
 /**
  * Return the coordinates of the top-left corner of this element relative to
  * its parent.  Only for SVG elements and children (e.g. rect, g, path).
- * @param {!Element} element SVG element to find the coordinates of.
+ * @param {!Node} element SVG element to find the coordinates of.
  * @return {!goog.math.Coordinate} Object with .x and .y properties.
  */
 Blockly.utils.getRelativeXY = function(element) {
@@ -300,7 +299,7 @@ Blockly.utils.isRightButton = function(e) {
  * Return the converted coordinates of the given mouse event.
  * The origin (0,0) is the top-left corner of the Blockly SVG.
  * @param {!Event} e Mouse event.
- * @param {!Element} svg SVG element.
+ * @param {!Node} svg SVG element.
  * @param {SVGMatrix} matrix Inverted screen CTM to use.
  * @return {!SVGPoint} Object with .x and .y properties.
  */
@@ -798,10 +797,13 @@ Blockly.measureText = function(fontSize, fontFamily, fontWeight, text) {
 /**
  * Encode a string's HTML entities.
  * E.g., <a> -> &lt;a&gt;
- * @param {string} rawStr Unencoded raw string to encode.
+ * @param {?string} rawStr Unencoded raw string to encode.
  * @return {string} String with HTML entities encoded.
  */
 Blockly.encodeEntities = function(rawStr) {
+  if (!rawStr) {
+    return '';
+  }
   // CC-BY-SA https://stackoverflow.com/questions/18749591/encode-html-entities-in-javascript
   return rawStr.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
     return '&#' + i.charCodeAt(0) + ';';
@@ -861,11 +863,10 @@ Blockly.utils.is3dSupported = function() {
 /**
  * Insert a node after a reference node.
  * Contrast with node.insertBefore function.
- * @param {!Element} newNode New element to insert.
- * @param {!Element} refNode Existing element to precede new node.
- * @private
+ * @param {!Node} newNode New element to insert.
+ * @param {!Node} refNode Existing element to precede new node.
  */
-Blockly.utils.insertAfter_ = function(newNode, refNode) {
+Blockly.utils.insertAfter = function(newNode, refNode) {
   var siblingNode = refNode.nextSibling;
   var parentNode = refNode.parentNode;
   if (!parentNode) {

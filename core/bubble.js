@@ -136,11 +136,11 @@ Blockly.Bubble.prototype.resizeCallback_ = null;
  */
 Blockly.Bubble.unbindDragEvents_ = function() {
   if (Blockly.Bubble.onMouseUpWrapper_) {
-    Blockly.unbindEvent_(Blockly.Bubble.onMouseUpWrapper_);
+    Blockly.unbindEvent(Blockly.Bubble.onMouseUpWrapper_);
     Blockly.Bubble.onMouseUpWrapper_ = null;
   }
   if (Blockly.Bubble.onMouseMoveWrapper_) {
-    Blockly.unbindEvent_(Blockly.Bubble.onMouseMoveWrapper_);
+    Blockly.unbindEvent(Blockly.Bubble.onMouseMoveWrapper_);
     Blockly.Bubble.onMouseMoveWrapper_ = null;
   }
 };

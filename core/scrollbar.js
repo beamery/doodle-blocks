@@ -46,7 +46,7 @@ Blockly.ScrollbarPair = function(workspace) {
       {'height': Blockly.Scrollbar.scrollbarThickness,
       'width': Blockly.Scrollbar.scrollbarThickness,
       'class': 'blocklyScrollbarBackground'}, null);
-  Blockly.utils.insertAfter_(this.corner_, workspace.getBubbleCanvas());
+  Blockly.utils.insertAfter(this.corner_, workspace.getBubbleCanvas());
 };
 
 /**
@@ -326,9 +326,9 @@ Blockly.Scrollbar.metricsAreEquivalent_ = function(first, second) {
  */
 Blockly.Scrollbar.prototype.dispose = function() {
   this.cleanUp_();
-  Blockly.unbindEvent_(this.onMouseDownBarWrapper_);
+  Blockly.unbindEvent(this.onMouseDownBarWrapper_);
   this.onMouseDownBarWrapper_ = null;
-  Blockly.unbindEvent_(this.onMouseDownHandleWrapper_);
+  Blockly.unbindEvent(this.onMouseDownHandleWrapper_);
   this.onMouseDownHandleWrapper_ = null;
 
   goog.dom.removeNode(this.outerSvg_);
@@ -606,7 +606,7 @@ Blockly.Scrollbar.prototype.createDom_ = function(opt_class) {
   this.svgHandle_ = Blockly.utils.createSvgElement('rect',
       {'class': 'blocklyScrollbarHandle', 'rx': radius, 'ry': radius},
       this.svgGroup_);
-  Blockly.utils.insertAfter_(this.outerSvg_,
+  Blockly.utils.insertAfter(this.outerSvg_,
                                  this.workspace_.getParentSvg());
 };
 
@@ -787,11 +787,11 @@ Blockly.Scrollbar.prototype.onMouseUpHandle_ = function() {
 Blockly.Scrollbar.prototype.cleanUp_ = function() {
   Blockly.hideChaff(true);
   if (Blockly.Scrollbar.onMouseUpWrapper_) {
-    Blockly.unbindEvent_(Blockly.Scrollbar.onMouseUpWrapper_);
+    Blockly.unbindEvent(Blockly.Scrollbar.onMouseUpWrapper_);
     Blockly.Scrollbar.onMouseUpWrapper_ = null;
   }
   if (Blockly.Scrollbar.onMouseMoveWrapper_) {
-    Blockly.unbindEvent_(Blockly.Scrollbar.onMouseMoveWrapper_);
+    Blockly.unbindEvent(Blockly.Scrollbar.onMouseMoveWrapper_);
     Blockly.Scrollbar.onMouseMoveWrapper_ = null;
   }
 };

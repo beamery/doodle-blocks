@@ -76,9 +76,8 @@ Blockly.longPid_ = 0;
  * @param {!Event} e Touch start event.
  * @param {!Blockly.Block|!Blockly.WorkspaceSvg} uiObject The block or workspace
  *     under the touchstart event.
- * @private
  */
-Blockly.longStart_ = function(e, uiObject) {
+Blockly.longStart = function(e, uiObject) {
   Blockly.longStop_();
   // Punt on multitouch events.
   if (e.changedTouches.length != 1) {
@@ -123,11 +122,11 @@ Blockly.onMouseUp = function(opt_e) {
   workspace.dragMode_ = Blockly.DRAG_NONE;
   // Unbind the touch event if it exists.
   if (Blockly.Touch.onTouchUpWrapper) {
-    Blockly.unbindEvent_(Blockly.Touch.onTouchUpWrapper);
+    Blockly.unbindEvent(Blockly.Touch.onTouchUpWrapper);
     Blockly.Touch.onTouchUpWrapper = null;
   }
   if (Blockly.onMouseMoveWrapper_) {
-    Blockly.unbindEvent_(Blockly.onMouseMoveWrapper_);
+    Blockly.unbindEvent(Blockly.onMouseMoveWrapper_);
     Blockly.onMouseMoveWrapper_ = null;
   }
 };
