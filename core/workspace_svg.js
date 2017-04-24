@@ -70,7 +70,7 @@ Blockly.WorkspaceSvg = function(options, opt_blockDragSurface, opt_wsDragSurface
 
   Blockly.ConnectionDB.init(this);
   if (opt_blockDragSurface) {
-    this.blockDragSurface_ = opt_blockDragSurface;
+    this.blockDragSurface = opt_blockDragSurface;
   }
 
   if (opt_wsDragSurface) {
@@ -81,7 +81,7 @@ Blockly.WorkspaceSvg = function(options, opt_blockDragSurface, opt_wsDragSurface
       !!(this.workspaceDragSurface_ && Blockly.utils.is3dSupported());
 
   if (opt_blockDragSurface) {
-    this.blockDragSurface_ = opt_blockDragSurface;
+    this.blockDragSurface = opt_blockDragSurface;
   }
 
   if (opt_wsDragSurface) {
@@ -209,9 +209,8 @@ Blockly.WorkspaceSvg.prototype.scrollbar = null;
 /**
  * This workspace's surface for dragging blocks, if it exists.
  * @type {Blockly.BlockDragSurfaceSvg}
- * @private
  */
-Blockly.WorkspaceSvg.prototype.blockDragSurface_ = null;
+Blockly.WorkspaceSvg.prototype.blockDragSurface = null;
 
 /**
  * This workspace's drag surface, if it exists.
@@ -496,9 +495,8 @@ Blockly.WorkspaceSvg.prototype.addZoomControls_ = function(bottom) {
  * Add a flyout element in an element with the given tag name.
  * @param {string} tagName What type of tag the flyout belongs in.
  * @return {!Element} The element containing the flyout dom.
- * @private
  */
-Blockly.WorkspaceSvg.prototype.addFlyout_ = function(tagName) {
+Blockly.WorkspaceSvg.prototype.addFlyout = function(tagName) {
   var workspaceOptions = {
     disabledPatternId: this.options.disabledPatternId,
     parentWorkspace: this,
@@ -657,8 +655,8 @@ Blockly.WorkspaceSvg.prototype.translate = function(x, y) {
     this.svgBubbleCanvas_.setAttribute('transform', translation);
   }
   // Now update the block drag surface if we're using one.
-  if (this.blockDragSurface_) {
-    this.blockDragSurface_.translateAndScaleGroup(x, y, this.scale);
+  if (this.blockDragSurface) {
+    this.blockDragSurface.translateAndScaleGroup(x, y, this.scale);
   }
 };
 

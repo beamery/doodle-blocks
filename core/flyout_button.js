@@ -43,13 +43,13 @@ Blockly.FlyoutButton = function(workspace, targetWorkspace, xml, isLabel) {
   // Labels behave the same as buttons, but are styled differently.
 
   /**
-   * @type {!Blockly.WorkspaceSvg}
+   * @type {Blockly.WorkspaceSvg}
    * @private
    */
   this.workspace_ = workspace;
 
   /**
-   * @type {!Blockly.Workspace}
+   * @type {Blockly.Workspace}
    * @private
    */
   this.targetWorkspace_ = targetWorkspace;
@@ -75,7 +75,7 @@ Blockly.FlyoutButton = function(workspace, targetWorkspace, xml, isLabel) {
 
   /**
    * Function to call when this button is clicked.
-   * @type {function(!Blockly.FlyoutButton)}
+   * @type {?function(!Blockly.FlyoutButton)}
    * @private
    */
   this.callback_ = null;
@@ -196,11 +196,11 @@ Blockly.FlyoutButton.prototype.moveTo = function(x, y) {
 
 /**
  * Get the button's target workspace.
- * @return {!Blockly.WorkspaceSvg} The target workspace of the flyout where this
+ * @return {Blockly.WorkspaceSvg} The target workspace of the flyout where this
  *     button resides.
  */
 Blockly.FlyoutButton.prototype.getTargetWorkspace = function() {
-  return this.targetWorkspace_;
+  return /** @type {Blockly.WorkspaceSvg} */ (this.targetWorkspace_);
 };
 
 /**
@@ -226,7 +226,7 @@ Blockly.FlyoutButton.prototype.onMouseUp = function(e) {
   e.stopPropagation();
   // Stop binding to mouseup and mousemove events--flyout mouseup would normally
   // do this, but we're skipping that.
-  Blockly.Flyout.terminateDrag_();
+  Blockly.Flyout.terminateDrag();
 
   // Call the callback registered to this button.
   if (this.callback_) {

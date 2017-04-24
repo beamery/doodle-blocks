@@ -46,7 +46,7 @@ Blockly.Input = function(type, name, block, connection) {
   /** @type {string} */
   this.name = name;
   /**
-   * @type {!Blockly.Block}
+   * @type {Blockly.Block}
    * @private
    */
   this.sourceBlock_ = block;
@@ -98,7 +98,7 @@ Blockly.Input.prototype.insertFieldAt = function(index, field, opt_name) {
 
   // Empty string, Null or undefined generates no field, unless field is named.
   if (!field && !opt_name) {
-    return this;
+    throw new Error('No field or name');
   }
   // Generate a FieldLabel when given a plain text field.
   if (goog.isString(field)) {

@@ -36,7 +36,7 @@ goog.require('goog.string');
 
 /**
  * Which touch events are we currently paying attention to?
- * @type {string?}
+ * @type {?string}
  * @private
  */
 Blockly.Touch.touchIdentifier_ = null;
@@ -78,7 +78,7 @@ Blockly.longPid_ = 0;
  *     under the touchstart event.
  */
 Blockly.longStart = function(e, uiObject) {
-  Blockly.longStop_();
+  Blockly.longStop();
   // Punt on multitouch events.
   if (e.changedTouches.length != 1) {
     return;
@@ -95,9 +95,8 @@ Blockly.longStart = function(e, uiObject) {
 /**
  * Nope, that's not a long-press.  Either touchend or touchcancel was fired,
  * or a drag hath begun.  Kill the queued long-press task.
- * @private
  */
-Blockly.longStop_ = function() {
+Blockly.longStop = function() {
   if (Blockly.longPid_) {
     clearTimeout(Blockly.longPid_);
     Blockly.longPid_ = 0;
@@ -145,7 +144,7 @@ Blockly.onMouseMove = function(e) {
     workspace.scroll(x, y);
     // Cancel the long-press if the drag has moved too far.
     if (Math.sqrt(dx * dx + dy * dy) > Blockly.DRAG_RADIUS) {
-      Blockly.longStop_();
+      Blockly.longStop();
       workspace.dragMode_ = Blockly.DRAG_FREE;
     }
     e.stopPropagation();

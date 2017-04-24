@@ -70,7 +70,7 @@ Blockly.WidgetDiv.disposeAnimationFinished_ = null;
 
 /**
  * Timer ID for the dispose animation.
- * @type {number?}
+ * @type {?number}
  * @private
  */
 Blockly.WidgetDiv.disposeAnimationTimer_ = null;

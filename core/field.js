@@ -129,7 +129,7 @@ Blockly.Field.prototype.EDITABLE = true;
 
 /**
  * Attach this field to a block.
- * @param {!Blockly.Block} block The block containing this field.
+ * @param {Blockly.Block} block The block containing this field.
  */
 Blockly.Field.prototype.setSourceBlock = function(block) {
   goog.asserts.assert(!this.sourceBlock_, 'Field already bound to a block.');
@@ -138,8 +138,9 @@ Blockly.Field.prototype.setSourceBlock = function(block) {
 
 /**
  * Install this field on a block.
+ * @param {Blockly.Block=} opt_block
  */
-Blockly.Field.prototype.init = function() {
+Blockly.Field.prototype.init = function(opt_block) {
   if (this.fieldGroup_) {
     // Field has already been initialized once.
     return;

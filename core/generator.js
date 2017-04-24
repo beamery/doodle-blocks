@@ -377,7 +377,8 @@ Blockly.Generator.prototype.provideFunction_ = function(desiredName, code) {
  * Hook for code to run before code generation starts.
  * Subclasses may override this, e.g. to initialise the database of variable
  * names.
- * @param {!Blockly.Workspace} workspace Workspace to generate code from.
+ * param {!Blockly.Workspace} workspace Workspace to generate code from.
+ * @type {!Function|undefined}
  */
 Blockly.Generator.prototype.init = undefined;
 
@@ -387,10 +388,10 @@ Blockly.Generator.prototype.init = undefined;
  * Subclasses may override this, e.g. to generate code for statements following
  * the block, or to handle comments for the specified block and any connected
  * value blocks.
- * @param {!Blockly.Block} block The current block.
- * @param {string} code The JavaScript code created for this block.
- * @return {string} JavaScript code with comments and subsequent blocks added.
- * @protected
+ * param {!Blockly.Block} block The current block.
+ * param {string} code The JavaScript code created for this block.
+ * return {string} JavaScript code with comments and subsequent blocks added.
+ * @protected {!Function|undefined}
  */
 Blockly.Generator.prototype.scrub = undefined;
 
@@ -398,8 +399,9 @@ Blockly.Generator.prototype.scrub = undefined;
  * Hook for code to run at end of code generation.
  * Subclasses may override this, e.g. to prepend the generated code with the
  * variable definitions.
- * @param {string} code Generated code.
- * @return {string} Completed code.
+ * param {string} code Generated code.
+ * return {string} Completed code.
+ * @type {!Function|undefined}
  */
 Blockly.Generator.prototype.finish = undefined;
 
@@ -408,7 +410,8 @@ Blockly.Generator.prototype.finish = undefined;
  * anything.
  * Subclasses may override this, e.g. if their language does not allow
  * naked values.
- * @param {string} line Line of generated code.
- * @return {string} Legal line of code.
+ * param {string} line Line of generated code.
+ * return {string} Legal line of code.
+ * @type {!Function|undefined}
  */
 Blockly.Generator.prototype.scrubNakedValue = undefined;

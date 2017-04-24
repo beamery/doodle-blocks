@@ -166,7 +166,7 @@ Blockly.Options.prototype.setMetrics = null;
 
 /**
  * Return an object with the metrics required to size the workspace.
- * @return {Object} Contains size and position metrics, or null.
+ * @type {?function(): (Object|null)}
  */
 Blockly.Options.prototype.getMetrics = null;
 

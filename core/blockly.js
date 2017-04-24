@@ -225,9 +225,8 @@ Blockly.svgResize = function(workspace) {
 /**
  * Handle a key-down on SVG drawing surface.
  * @param {!Event} e Key down event.
- * @private
  */
-Blockly.onKeyDown_ = function(e) {
+Blockly.onKeyDown = function(e) {
   if (Blockly.mainWorkspace.options.readOnly || Blockly.utils.isTargetInput(e)) {
     // No key actions on readonly workspaces.
     // When focused on an HTML text input widget, don't trap any keys.
@@ -429,11 +428,11 @@ Blockly.defineBlocksWithJsonArray = function(jsonArray) {
  * Bind an event to a function call.  When calling the function, verifies that
  * it belongs to the touch stream that is currently being processed, and splits
  * multitouch events into multiple events as needed.
- * @param {!Node} node Node upon which to listen.
+ * @param {EventTarget} node Node upon which to listen.
  * @param {string} name Event name to listen to (e.g. 'mousedown').
  * @param {Object} thisObject The value of 'this' in the function.
  * @param {!Function} func Function to call when event is triggered.
- * @param {boolean} opt_noCaptureIdentifier True if triggering on this event
+ * @param {boolean=} opt_noCaptureIdentifier True if triggering on this event
  *     should not block execution of other event handlers on this touch or other
  *     simultaneous touches.
  * @return {!Array.<!Array>} Opaque data that can be passed to unbindEvent_.
@@ -488,7 +487,7 @@ Blockly.bindEventWithChecks = function(node, name, thisObject, func,
  * simultaneous event processing.
  * @deprecated in favor of bindEventWithChecks_, but preserved for external
  * users.
- * @param {!Node} node Node upon which to listen.
+ * @param {Node} node Node upon which to listen.
  * @param {string} name Event name to listen to (e.g. 'mousedown').
  * @param {Object} thisObject The value of 'this' in the function.
  * @param {!Function} func Function to call when event is triggered.

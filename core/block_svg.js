@@ -71,7 +71,7 @@ Blockly.BlockSvg = function(workspace, prototypeName, opt_id) {
    * @type {boolean}
    * @private
    */
-  this.useDragSurface_ = Blockly.utils.is3dSupported() && workspace.blockDragSurface_;
+  this.useDragSurface_ = Blockly.utils.is3dSupported() && workspace.blockDragSurface;
 
   Blockly.Tooltip.bindMouseEvents(this.svgPath_);
   Blockly.BlockSvg.superClass_.constructor.call(this,
@@ -416,7 +416,7 @@ Blockly.BlockSvg.prototype.getRelativeToSurfaceXY = function() {
   var y = 0;
 
   var dragSurfaceGroup = this.useDragSurface_ ?
-      this.workspace.blockDragSurface_.getGroup() : null;
+      this.workspace.blockDragSurface.getGroup() : null;
 
   var element = this.getSvgRoot();
   if (element) {
@@ -428,8 +428,8 @@ Blockly.BlockSvg.prototype.getRelativeToSurfaceXY = function() {
       // If this element is the current element on the drag surface, include
       // the translation of the drag surface itself.
       if (this.useDragSurface_ &&
-          this.workspace.blockDragSurface_.getCurrentBlock() == element) {
-        var surfaceTranslation = this.workspace.blockDragSurface_.getSurfaceTranslation();
+          this.workspace.blockDragSurface.getCurrentBlock() == element) {
+        var surfaceTranslation = this.workspace.blockDragSurface.getSurfaceTranslation();
         x += surfaceTranslation.x;
         y += surfaceTranslation.y;
       }
@@ -503,9 +503,9 @@ Blockly.BlockSvg.prototype.moveToDragSurface_ = function() {
   // to keep the position in sync as it move on/off the surface.
   var xy = this.getRelativeToSurfaceXY();
   this.clearTransformAttributes_();
-  this.workspace.blockDragSurface_.translateSurface(xy.x, xy.y);
+  this.workspace.blockDragSurface.translateSurface(xy.x, xy.y);
   // Execute the move on the top-level SVG component
-  this.workspace.blockDragSurface_.setBlocksAndShow(this.getSvgRoot());
+  this.workspace.blockDragSurface.setBlocksAndShow(this.getSvgRoot());
 };
 
 /**
@@ -522,7 +522,7 @@ Blockly.BlockSvg.prototype.moveOffDragSurface_ = function() {
   var xy = this.getRelativeToSurfaceXY();
   this.clearTransformAttributes_();
   this.translate(xy.x, xy.y);
-  this.workspace.blockDragSurface_.clearAndHide(this.workspace.getCanvas());
+  this.workspace.blockDragSurface.clearAndHide(this.workspace.getCanvas());
 };
 
 /**
@@ -560,9 +560,9 @@ Blockly.BlockSvg.prototype.moveToDragSurface_ = function() {
   // to keep the position in sync as it move on/off the surface.
   var xy = this.getRelativeToSurfaceXY();
   this.clearTransformAttributes_();
-  this.workspace.blockDragSurface_.translateSurface(xy.x, xy.y);
+  this.workspace.blockDragSurface.translateSurface(xy.x, xy.y);
   // Execute the move on the top-level SVG component
-  this.workspace.blockDragSurface_.setBlocksAndShow(this.getSvgRoot());
+  this.workspace.blockDragSurface.setBlocksAndShow(this.getSvgRoot());
 };
 
 /**
@@ -579,7 +579,7 @@ Blockly.BlockSvg.prototype.moveOffDragSurface_ = function() {
   var xy = this.getRelativeToSurfaceXY();
   this.clearTransformAttributes_();
   this.translate(xy.x, xy.y);
-  this.workspace.blockDragSurface_.clearAndHide(this.workspace.getCanvas());
+  this.workspace.blockDragSurface.clearAndHide(this.workspace.getCanvas());
 };
 
 /**
@@ -790,7 +790,7 @@ Blockly.BlockSvg.prototype.onMouseDown_ = function(e) {
   Blockly.DropDownDiv.hideWithoutAnimation();
   if (Blockly.utils.isRightButton(e)) {
     // Right-click.
-    this.showContextMenu_(e);
+    this.showContextMenu(e);
     // Click, not drag, so stop waiting for other touches from this identifier.
     Blockly.Touch.clearTouchIdentifier();
   } else if (!this.isMovable()) {
@@ -902,9 +902,8 @@ Blockly.BlockSvg.prototype.showHelp_ = function() {
 /**
  * Show the context menu for this block.
  * @param {!Event} e Mouse event.
- * @private
  */
-Blockly.BlockSvg.prototype.showContextMenu_ = function(e) {
+Blockly.BlockSvg.prototype.showContextMenu = function(e) {
   if (this.workspace.options.readOnly || !this.contextMenu) {
     return;
   }
@@ -1043,7 +1042,7 @@ Blockly.BlockSvg.prototype.moveOffDragSurface_ = function() {
   var xy = this.getRelativeToSurfaceXY();
   this.clearTransformAttributes_();
   this.translate(xy.x, xy.y, false);
-  this.workspace.blockDragSurface_.clearAndHide(this.workspace.getCanvas());
+  this.workspace.blockDragSurface.clearAndHide(this.workspace.getCanvas());
 };
 
 /**
@@ -1087,7 +1086,7 @@ Blockly.BlockSvg.prototype.onMouseMove_ = function(e) {
       Blockly.Css.setCursor(Blockly.Css.Cursor.CLOSED);
       // Switch to unrestricted dragging.
       Blockly.dragMode = Blockly.DRAG_FREE;
-      Blockly.longStop_();
+      Blockly.longStop();
 
       // Disable workspace resizing as an optimization.
       this.workspace.setResizesEnabled(false);
@@ -1124,7 +1123,7 @@ Blockly.BlockSvg.prototype.handleDragFree_ = function(oldXY, newXY, e) {
   var dxy = goog.math.Coordinate.difference(oldXY, this.dragStartXY_);
   var group = this.getSvgRoot();
   if (this.useDragSurface_) {
-    this.workspace.blockDragSurface_.translateSurface(newXY.x, newXY.y);
+    this.workspace.blockDragSurface.translateSurface(newXY.x, newXY.y);
   } else {
     group.translate_ = 'translate(' + newXY.x + ',' + newXY.y + ')';
     group.setAttribute('transform', group.translate_ + group.skew_);

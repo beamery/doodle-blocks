@@ -759,16 +759,16 @@ Blockly.Events.Move.prototype.run = function(forward) {
  * Class for a UI event.
  * @param {Blockly.Block} block The affected block.
  * @param {string} element One of 'selected', 'comment', 'mutator', etc.
- * @param {?string|boolean} oldValue Previous value of element.
- * @param {string|boolean} newValue New value of element.
+ * @param {(?string|boolean)=} opt_oldValue Previous value of element.
+ * @param {(string|boolean)=} opt_newValue New value of element.
  * @extends {Blockly.Events.Abstract}
  * @constructor
  */
-Blockly.Events.Ui = function(block, element, oldValue, newValue) {
+Blockly.Events.Ui = function(block, element, opt_oldValue, opt_newValue) {
   Blockly.Events.Ui.superClass_.constructor.call(this, block);
   this.element = element;
-  this.oldValue = oldValue;
-  this.newValue = newValue;
+  this.oldValue = opt_oldValue;
+  this.newValue = opt_newValue;
   this.recordUndo = false;
 };
 goog.inherits(Blockly.Events.Ui, Blockly.Events.Abstract);

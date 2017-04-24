@@ -1777,3 +1777,34 @@ Blockly.Block.prototype.toDevString = function() {
   }
   return msg;
 };
+
+/** */
+Blockly.Block.prototype.getProcedureDef = function() {
+  return [];
+};
+/**
+ * @param {boolean=} opt_booleanArg
+ * @return {!Element}
+ */
+Blockly.Block.prototype.mutationToDom = function(opt_booleanArg) {
+  return new Element();
+};
+/**
+ * @param {Node} node
+ */
+Blockly.Block.prototype.domToMutation = function(node) {};
+/** */
+Blockly.Block.prototype.getProcedureCall = function() {};
+/** */
+Blockly.Block.prototype.renameProcedure = function() {};
+/**
+ * @param {Blockly.Block} rootBlock
+ */
+Blockly.Block.prototype.compose = function(rootBlock) {};
+/**
+ * @param {Blockly.Workspace} workspace
+ * @return {Blockly.Block}
+ */
+Blockly.Block.prototype.decompose = function(workspace) {
+  return new Blockly.Block(workspace);
+};

@@ -39,7 +39,7 @@ goog.require('goog.userAgent');
 
 /**
  * Inject a Blockly editor into the specified container element (usually a div).
- * @param {!Element|string} container Containing element, or its ID,
+ * @param {Element|string} container Containing element, or its ID,
  *     or a CSS selector.
  * @param {Object=} opt_options Optional dictionary of options.
  * @return {!Blockly.Workspace} Newly created main workspace.
@@ -69,7 +69,7 @@ Blockly.inject = function(container, opt_options) {
   Blockly.init_(workspace);
   workspace.markFocused();
   Blockly.bindEventWithChecks(svg, 'focus', workspace, workspace.markFocused);
-  Blockly.svgResize(workspace);
+  Blockly.svgResize(/** @type {!Blockly.WorkspaceSvg} */ (workspace));
   return workspace;
 };
 
@@ -153,7 +153,7 @@ Blockly.createDom_ = function(container, options) {
       {'in': 'SourceGraphic',
       'stdDeviation': Blockly.REPLACEMENT_GLOW_RADIUS}, replacementGlowFilter);
   // Set all gaussian blur pixels to 1 opacity before applying flood
-  var componentTransfer = Blockly.utils.createSvgElement('feComponentTransfer',
+  componentTransfer = Blockly.utils.createSvgElement('feComponentTransfer',
       {'result': 'outBlur'}, replacementGlowFilter);
   Blockly.utils.createSvgElement('feFuncA',
       {'type': 'table', 'tableValues': '0' + goog.string.repeat(' 1', 16)}, componentTransfer);
@@ -227,7 +227,7 @@ Blockly.createMainWorkspace_ = function(svg, options, blockDragSurface, workspac
 
   if (!options.hasCategories && options.languageTree) {
     // Add flyout as an <svg> that is a sibling of the workspace svg.
-    var flyout = mainWorkspace.addFlyout_('svg');
+    var flyout = mainWorkspace.addFlyout('svg');
     Blockly.utils.insertAfter(flyout, svg);
   }
 
@@ -312,7 +312,7 @@ Blockly.init_ = function(mainWorkspace) {
       null,
       function() {
         Blockly.hideChaff(true);
-        Blockly.svgResize(mainWorkspace);
+        Blockly.svgResize(/** @type {!Blockly.WorkspaceSvg} */ (mainWorkspace));
       });
   mainWorkspace.setResizeHandlerWrapper(workspaceResizeHandler);
 
@@ -366,11 +366,11 @@ Blockly.init_ = function(mainWorkspace) {
  */
 Blockly.inject.bindDocumentEvents_ = function() {
   if (!Blockly.documentEventsBound_) {
-    Blockly.bindEventWithChecks(document, 'keydown', null, Blockly.onKeyDown_);
+    Blockly.bindEventWithChecks(document, 'keydown', null, Blockly.onKeyDown);
     // longStop needs to run to stop the context menu from showing up.  It
     // should run regardless of what other touch event handlers have run.
-    Blockly.bindEvent(document, 'touchend', null, Blockly.longStop_);
-    Blockly.bindEvent(document, 'touchcancel', null, Blockly.longStop_);
+    Blockly.bindEvent(document, 'touchend', null, Blockly.longStop);
+    Blockly.bindEvent(document, 'touchcancel', null, Blockly.longStop);
     // Don't use bindEvent_ for document's mouseup since that would create a
     // corresponding touch handler that would squelch the ability to interact
     // with non-Blockly elements.
@@ -380,7 +380,8 @@ Blockly.inject.bindDocumentEvents_ = function() {
       Blockly.bindEventWithChecks(window, 'orientationchange', document,
           function() {
             // TODO(#397): Fix for multiple blockly workspaces.
-            Blockly.svgResize(Blockly.getMainWorkspace());
+            Blockly.svgResize(/** @type {!Blockly.WorkspaceSvg} */ (
+                Blockly.getMainWorkspace()));
           });
     }
   }

@@ -86,7 +86,7 @@ Blockly.Icon.prototype.createIcon = function() {
 
   this.block_.getSvgRoot().appendChild(this.iconGroup_);
   Blockly.bindEventWithChecks(this.iconGroup_, 'mouseup', this,
-      this.iconClick_);
+      this.iconClick);
   this.updateEditable();
 };
 
@@ -119,9 +119,9 @@ Blockly.Icon.prototype.isVisible = function() {
 /**
  * Clicking on the icon toggles if the bubble is visible.
  * @param {!Event} e Mouse click event.
- * @private
+ * @protected
  */
-Blockly.Icon.prototype.iconClick_ = function(e) {
+Blockly.Icon.prototype.iconClick = function(e) {
   if (this.block_.workspace.isDragging()) {
     // Drag operation is concluding.  Don't open the editor.
     return;

@@ -145,6 +145,11 @@ Blockly.BlockSvg.CORNER_RADIUS = 1 * Blockly.BlockSvg.GRID_UNIT;
 Blockly.BlockSvg.HAT_CORNER_RADIUS = 8 * Blockly.BlockSvg.GRID_UNIT;
 
 /**
+ * NOTE(brianmurray): Just a dummy value.
+ */
+Blockly.BlockSvg.START_HAT_HEIGHT = 0;
+
+/**
  * Full height of connector notch including rounded corner.
  * @const
  */
