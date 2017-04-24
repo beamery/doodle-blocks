@@ -34,7 +34,7 @@ goog.require('Blockly.Field');
  * Class for a variable getter field.
  * @param {string} text The initial content of the field.
  * @param {string} name Optional CSS class for the field's text.
- * @extends {Blockly.FieldLabel}
+ * @extends {Blockly.Field}
  * @constructor
  *
  */
@@ -61,16 +61,16 @@ Blockly.FieldVariableGetter.prototype.init = function() {
   if (!this.getValue()) {
     // Variables without names get uniquely named for this workspace.
     var workspace =
-        this.sourceBlock_.isInFlyout ?
-            this.sourceBlock_.workspace.targetWorkspace :
-            this.sourceBlock_.workspace;
+        this.sourceBlock.isInFlyout ?
+            this.sourceBlock.workspace.targetWorkspace :
+            this.sourceBlock.workspace;
     this.setValue(Blockly.Variables.generateUniqueName(workspace));
   }
   // If the selected variable doesn't exist yet, create it.
   // For instance, some blocks in the toolbox have variable dropdowns filled
   // in by default.
-  if (!this.sourceBlock_.isInFlyout) {
-    this.sourceBlock_.workspace.createVariable(this.getValue());
+  if (!this.sourceBlock.isInFlyout) {
+    this.sourceBlock.workspace.createVariable(this.getValue());
   }
 };
 

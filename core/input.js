@@ -108,7 +108,7 @@ Blockly.Input.prototype.insertFieldAt = function(index, field, opt_name) {
   if (this.sourceBlock_.rendered) {
     field.init();
   }
-  field.name = opt_name;
+  field.name = opt_name ? opt_name : null;
 
   if (field.prefixField) {
     // Add any prefix.

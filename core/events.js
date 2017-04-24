@@ -492,7 +492,7 @@ Blockly.Events.Delete.prototype.run = function(forward) {
  * @param {Blockly.Block} block The changed block.  Null for a blank event.
  * @param {string} element One of 'field', 'comment', 'disabled', etc.
  * @param {?string} name Name of input or field affected, or null.
- * @param {string} oldValue Previous value of element.
+ * @param {Object|string} oldValue Previous value of element.
  * @param {string} newValue New value of element.
  * @extends {Blockly.Events.Abstract}
  * @constructor

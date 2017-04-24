@@ -77,9 +77,9 @@ Blockly.Field.cacheReference_ = 0;
 /**
  * Name of field.  Unique within each block.
  * Static labels are usually unnamed.
- * @type {string|undefined}
+ * @type {string|null}
  */
-Blockly.Field.prototype.name = undefined;
+Blockly.Field.prototype.name = null;
 
 /**
  * Visible text to display.
@@ -91,9 +91,9 @@ Blockly.Field.prototype.text_ = '';
 /**
  * Block this field is attached to.  Starts as null, then in set in init.
  * @type {Blockly.Block}
- * @private
+ * @protected
  */
-Blockly.Field.prototype.sourceBlock_ = null;
+Blockly.Field.prototype.sourceBlock = null;
 
 /**
  * Is the field visible, or hidden due to the block being collapsed?
@@ -132,8 +132,8 @@ Blockly.Field.prototype.EDITABLE = true;
  * @param {Blockly.Block} block The block containing this field.
  */
 Blockly.Field.prototype.setSourceBlock = function(block) {
-  goog.asserts.assert(!this.sourceBlock_, 'Field already bound to a block.');
-  this.sourceBlock_ = block;
+  goog.asserts.assert(!this.sourceBlock, 'Field already bound to a block.');
+  this.sourceBlock = block;
 };
 
 /**
@@ -152,8 +152,8 @@ Blockly.Field.prototype.init = function(opt_block) {
   }
   // Add an attribute to cassify the type of field.
   if (this.getArgTypes() !== null) {
-    if (this.sourceBlock_.isShadow()) {
-      this.sourceBlock_.svgGroup_.setAttribute('data-argument-type',
+    if (this.sourceBlock.isShadow()) {
+      this.sourceBlock.svgGroup_.setAttribute('data-argument-type',
           this.getArgTypes());
     } else {
       // Fields without a shadow wrapper, like square dropdowns.
@@ -162,7 +162,7 @@ Blockly.Field.prototype.init = function(opt_block) {
   }
   // Adjust X to be flipped for RTL. Position is relative to horizontal start of source block.
   var size = this.getSize();
-  var fieldX = (this.sourceBlock_.RTL) ? -size.width / 2 : size.width / 2;
+  var fieldX = (this.sourceBlock.RTL) ? -size.width / 2 : size.width / 2;
   /** @type {!Element} */
   this.textElement_ = Blockly.utils.createSvgElement('text',
       {'class': 'blocklyText',
@@ -173,12 +173,12 @@ Blockly.Field.prototype.init = function(opt_block) {
       this.fieldGroup_);
 
   this.updateEditable();
-  this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
+  this.sourceBlock.getSvgRoot().appendChild(this.fieldGroup_);
   this.mouseUpWrapper_ =
       Blockly.bindEventWithChecks(this.getClickTarget_(), 'mouseup', this,
       this.onMouseUp_);
   // Force a render.
-  this.render_();
+  this.render();
   this.size_.width = 0;
 };
 
@@ -190,7 +190,7 @@ Blockly.Field.prototype.dispose = function() {
     Blockly.unbindEvent(this.mouseUpWrapper_);
     this.mouseUpWrapper_ = null;
   }
-  this.sourceBlock_ = null;
+  this.sourceBlock = null;
   goog.dom.removeNode(this.fieldGroup_);
   this.fieldGroup_ = null;
   this.textElement_ = null;
@@ -205,7 +205,7 @@ Blockly.Field.prototype.updateEditable = function() {
   if (!this.EDITABLE || !group) {
     return;
   }
-  if (this.sourceBlock_.isEditable()) {
+  if (this.sourceBlock.isEditable()) {
     Blockly.utils.addClass(group, 'blocklyEditableText');
     Blockly.utils.removeClass(group, 'blocklyNonEditableText');
     this.fieldGroup_.style.cursor = this.CURSOR;
@@ -224,7 +224,7 @@ Blockly.Field.prototype.updateEditable = function() {
  * @return {boolean} whether this field is editable and on an editable block
  */
 Blockly.Field.prototype.isCurrentlyEditable = function() {
-  return this.EDITABLE && !!this.sourceBlock_ && this.sourceBlock_.isEditable();
+  return this.EDITABLE && !!this.sourceBlock && this.sourceBlock.isEditable();
 };
 
 /**
@@ -247,7 +247,7 @@ Blockly.Field.prototype.setVisible = function(visible) {
   var root = this.getSvgRoot();
   if (root) {
     root.style.display = visible ? 'block' : 'none';
-    this.render_();
+    this.render();
   }
 };
 
@@ -338,9 +338,9 @@ Blockly.Field.prototype.getSvgRoot = function() {
 /**
  * Draws the border with the correct width.
  * Saves the computed width in a property.
- * @private
+ * @protected
  */
-Blockly.Field.prototype.render_ = function() {
+Blockly.Field.prototype.render = function() {
   if (this.visible_ && this.textElement_) {
     // Replace the text.
     goog.dom.removeChildren(/** @type {!Element} */ (this.textElement_));
@@ -350,7 +350,7 @@ Blockly.Field.prototype.render_ = function() {
 
     // Update text centering, based on newly calculated width.
     var centerTextX = (this.size_.width - this.arrowWidth_) / 2;
-    if (this.sourceBlock_.RTL) {
+    if (this.sourceBlock.RTL) {
       centerTextX += this.arrowWidth_;
     }
 
@@ -358,9 +358,9 @@ Blockly.Field.prototype.render_ = function() {
     // if half the text length is not at least center of
     // visible field (FIELD_WIDTH), center it there instead,
     // unless there is a drop-down arrow.
-    if (this.sourceBlock_.isShadow() && !this.positionArrow) {
+    if (this.sourceBlock.isShadow() && !this.positionArrow) {
       var minOffset = Blockly.BlockSvg.FIELD_WIDTH / 2;
-      if (this.sourceBlock_.RTL) {
+      if (this.sourceBlock.RTL) {
         // X position starts at the left edge of the block, in both RTL and LTR.
         // First offset by the width of the block to move to the right edge,
         // and then subtract to move to the same position as LTR.
@@ -493,8 +493,8 @@ Blockly.Field.prototype.getSize = function() {
 Blockly.Field.prototype.getScaledBBox_ = function() {
   var size = this.getSize();
   // Create new object, so as to not return an uneditable SVGRect in IE.
-  return new goog.math.Size(size.width * this.sourceBlock_.workspace.scale,
-                            size.height * this.sourceBlock_.workspace.scale);
+  return new goog.math.Size(size.width * this.sourceBlock.workspace.scale,
+                            size.height * this.sourceBlock.workspace.scale);
 };
 
 /**
@@ -515,7 +515,7 @@ Blockly.Field.prototype.getDisplayText_ = function() {
   }
   // Replace whitespace with non-breaking spaces so the text doesn't collapse.
   text = text.replace(/\s/g, Blockly.Field.NBSP);
-  if (this.sourceBlock_.RTL) {
+  if (this.sourceBlock.RTL) {
     // The SVG is LTR, force text to be RTL.
     text += '\u200F';
   }
@@ -540,7 +540,7 @@ Blockly.Field.prototype.getDisplayText_ = function() {
   }
   // Replace whitespace with non-breaking spaces so the text doesn't collapse.
   text = text.replace(/\s/g, Blockly.Field.NBSP);
-  if (this.sourceBlock_.RTL) {
+  if (this.sourceBlock.RTL) {
     // The SVG is LTR, force text to be RTL.
     text += '\u200F';
   }
@@ -572,9 +572,9 @@ Blockly.Field.prototype.setText = function(newText) {
   this.text_ = newText;
   // Set width to 0 to force a rerender of this field.
   this.size_.width = 0;
-  if (this.sourceBlock_ && this.sourceBlock_.rendered) {
-    this.sourceBlock_.render();
-    this.sourceBlock_.bumpNeighbours();
+  if (this.sourceBlock && this.sourceBlock.rendered) {
+    this.sourceBlock.render();
+    this.sourceBlock.bumpNeighbours();
   }
 };
 
@@ -600,7 +600,7 @@ Blockly.Field.prototype.updateTextNode_ = function() {
   goog.dom.removeChildren(/** @type {!Element} */ (this.textElement_));
   // Replace whitespace with non-breaking spaces so the text doesn't collapse.
   text = text.replace(/\s/g, Blockly.Field.NBSP);
-  if (this.sourceBlock_.RTL && text) {
+  if (this.sourceBlock.RTL && text) {
     // The SVG is LTR, force text to be RTL.
     text += '\u200F';
   }
@@ -638,9 +638,9 @@ Blockly.Field.prototype.setValue = function(newValue) {
   if (oldValue == newValue) {
     return;
   }
-  if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
+  if (this.sourceBlock && Blockly.Events.isEnabled()) {
     Blockly.Events.fire(new Blockly.Events.Change(
-        this.sourceBlock_, 'field', this.name, oldValue, newValue));
+        this.sourceBlock, 'field', this.name, oldValue, newValue));
   }
   this.setText(newValue);
 };
@@ -660,10 +660,10 @@ Blockly.Field.prototype.onMouseUp_ = function(e) {
   } else if (Blockly.utils.isRightButton(e)) {
     // Right-click.
     return;
-  } else if (this.sourceBlock_.workspace.isDragging()) {
+  } else if (this.sourceBlock.workspace.isDragging()) {
     // Drag operation is concluding.  Don't open the editor.
     return;
-  } else if (this.sourceBlock_.isEditable()) {
+  } else if (this.sourceBlock.isEditable()) {
     // Non-abstract sub-classes must define a showEditor_ method.
     this.showEditor_();
     // The field is handling the touch, but we also want the blockSvg onMouseUp
@@ -696,12 +696,12 @@ Blockly.Field.prototype.setTooltip = function(/*newTip*/) {
 Blockly.Field.prototype.getClickTarget_ = function() {
   var nFields = 0;
 
-  for (var i = 0, input; input = this.sourceBlock_.inputList[i]; i++) {
+  for (var i = 0, input; input = this.sourceBlock.inputList[i]; i++) {
     nFields += input.fieldRow.length;
   }
 
   if (nFields <= 1) {
-    return this.sourceBlock_.getSvgRoot();
+    return this.sourceBlock.getSvgRoot();
   } else {
     return this.getSvgRoot();
   }

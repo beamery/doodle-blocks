@@ -195,7 +195,7 @@ Blockly.FieldTextInput.prototype.showEditor_ = function(
   if (readOnly) {
     htmlInput.setAttribute('readonly', 'true');
   }
-  /** @type {!HTMLInputElement} */
+  /** @private {HTMLInputElement} */
   Blockly.FieldTextInput.htmlInput_ = htmlInput;
   div.appendChild(htmlInput);
 
@@ -490,7 +490,7 @@ Blockly.FieldTextInput.prototype.widgetDispose_ = function() {
     }
     thisField.setText(text);
     // Rerender the field now that the text has changed.
-    thisField.sourceBlock_.rendered && thisField.render_();
+    thisField.sourceBlock_.rendered && thisField.render();
     Blockly.unbindEvent(htmlInput.onKeyDownWrapper_);
     Blockly.unbindEvent(htmlInput.onKeyUpWrapper_);
     Blockly.unbindEvent(htmlInput.onKeyPressWrapper_);

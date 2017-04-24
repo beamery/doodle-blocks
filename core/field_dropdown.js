@@ -81,9 +81,9 @@ Blockly.FieldDropdown.prototype.selectedItem = null;
 /**
  * Language-neutral currently selected string or image object.
  * @type {string|!Object}
- * @private
+ * @protected
  */
-Blockly.FieldDropdown.prototype.value_ = '';
+Blockly.FieldDropdown.prototype.value = '';
 
 /**
  * SVG image element if currently selected option is an image, or null.
@@ -188,7 +188,7 @@ Blockly.FieldDropdown.prototype.showEditor_ = function() {
     menuItem.setValue(value);
     menuItem.setCheckable(true);
     menu.addChild(menuItem, true);
-    var checked = (value == this.value_);
+    var checked = (value == this.value);
     menuItem.setChecked(checked);
     if (checked) {
       this.selectedItem = menuItem;
@@ -376,7 +376,7 @@ Blockly.FieldDropdown.prototype.getOptions = function() {
  * @return {string} Current text.
  */
 Blockly.FieldDropdown.prototype.getValue = function() {
-  return this.value_;
+  return this.value;
 };
 
 /**
@@ -384,19 +384,19 @@ Blockly.FieldDropdown.prototype.getValue = function() {
  * @param {string} newValue New value to set.
  */
 Blockly.FieldDropdown.prototype.setValue = function(newValue) {
-  if (newValue === null || newValue === this.value_) {
+  if (newValue === null || newValue === this.value) {
     return;  // No change if null.
   }
   if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
     Blockly.Events.fire(new Blockly.Events.Change(
-        this.sourceBlock_, 'field', this.name, this.value_, newValue));
+        this.sourceBlock_, 'field', this.name, this.value, newValue));
   }
   // Clear menu item for old value.
   if (this.selectedItem) {
     this.selectedItem.setChecked(false);
     this.selectedItem = null;
   }
-  this.value_ = newValue;
+  this.value = newValue;
   // Look up and display the human-readable text.
   var options = this.getOptions();
   for (var i = 0; i < options.length; i++) {

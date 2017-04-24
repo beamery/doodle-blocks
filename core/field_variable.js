@@ -92,7 +92,7 @@ Blockly.FieldVariable.prototype.init = function() {
 
 /**
  * Attach this field to a block.
- * @param {!Blockly.Block} block The block containing this field.
+ * @param {Blockly.Block} block The block containing this field.
  */
 Blockly.FieldVariable.prototype.setSourceBlock = function(block) {
   goog.asserts.assert(!block.isShadow(),
@@ -116,9 +116,9 @@ Blockly.FieldVariable.prototype.getValue = function() {
 Blockly.FieldVariable.prototype.setValue = function(newValue) {
   if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
     Blockly.Events.fire(new Blockly.Events.Change(
-        this.sourceBlock_, 'field', this.name, this.value_, newValue));
+        this.sourceBlock_, 'field', this.name, this.value, newValue));
   }
-  this.value_ = newValue;
+  this.value = newValue;
   this.setText(newValue);
 };
 
@@ -189,9 +189,9 @@ Blockly.FieldVariable.prototype.onItemSelected = function(menu, menuItem) {
     }
 
     // Call any validation function, and allow it to override.
-    itemText = this.callValidator(itemText);
+    itemText = this.callValidator(/** @type {string} */ (itemText));
   }
   if (itemText !== null) {
-    this.setValue(itemText);
+    this.setValue(/** @type {string} */ (itemText));
   }
 };
