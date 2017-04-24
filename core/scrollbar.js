@@ -292,9 +292,9 @@ if (goog.events.BrowserFeature.TOUCH_ENABLED) {
 }
 
 /**
- * @param {!Object} first An object containing computed measurements of a
+ * @param {Object} first An object containing computed measurements of a
  *    workspace.
- * @param {!Object} second Another object containing computed measurements of a
+ * @param {Object} second Another object containing computed measurements of a
  *    workspace.
  * @return {boolean} Whether the two sets of metrics are equivalent.
  * @private

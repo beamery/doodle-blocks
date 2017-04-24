@@ -86,22 +86,22 @@ function test_DB_removeConnection() {
   db.addConnection(o4);
   verify_DB_('Adding connections 1-4', [o1, o2, o3a, o3b, o3c, o4], db);
 
-  db.removeConnection_(o2);
+  db.removeConnection(o2);
   verify_DB_('Removing connection #2', [o1, o3a, o3b, o3c, o4], db);
 
-  db.removeConnection_(o4);
+  db.removeConnection(o4);
   verify_DB_('Removing connection #4', [o1, o3a, o3b, o3c], db);
 
-  db.removeConnection_(o1);
+  db.removeConnection(o1);
   verify_DB_('Removing connection #1', [o3a, o3b, o3c], db);
 
-  db.removeConnection_(o3a);
+  db.removeConnection(o3a);
   verify_DB_('Removing connection #3a', [o3b, o3c], db);
 
-  db.removeConnection_(o3c);
+  db.removeConnection(o3c);
   verify_DB_('Removing connection #3c', [o3b], db);
 
-  db.removeConnection_(o3b);
+  db.removeConnection(o3b);
   verify_DB_('Removing connection #3b', [], db);
 }
 

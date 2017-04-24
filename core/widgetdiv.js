@@ -70,7 +70,7 @@ Blockly.WidgetDiv.disposeAnimationFinished_ = null;
 
 /**
  * Timer ID for the dispose animation.
- * @type {number}
+ * @type {number?}
  * @private
  */
 Blockly.WidgetDiv.disposeAnimationTimer_ = null;
@@ -111,9 +111,15 @@ Blockly.WidgetDiv.show = function(newOwner, rtl, opt_dispose,
     opt_disposeAnimationFinished, opt_disposeAnimationTimerLength) {
   Blockly.WidgetDiv.hide();
   Blockly.WidgetDiv.owner_ = newOwner;
-  Blockly.WidgetDiv.dispose_ = opt_dispose;
-  Blockly.WidgetDiv.disposeAnimationFinished_ = opt_disposeAnimationFinished;
-  Blockly.WidgetDiv.disposeAnimationTimerLength_ = opt_disposeAnimationTimerLength;
+  Blockly.WidgetDiv.dispose_ = goog.isDef(opt_dispose) ? opt_dispose : null;
+  Blockly.WidgetDiv.disposeAnimationFinished_ =
+      goog.isDef(opt_disposeAnimationFinished) ?
+      opt_disposeAnimationFinished :
+      null;
+  Blockly.WidgetDiv.disposeAnimationTimerLength_ =
+      goog.isDefAndNotNull(opt_disposeAnimationTimerLength) ?
+      opt_disposeAnimationTimerLength :
+      0;
   // Temporarily move the widget to the top of the screen so that it does not
   // cause a scrollbar jump in Firefox when displayed.
   var xy = goog.style.getViewportPageOffset(document);

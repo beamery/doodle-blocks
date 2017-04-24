@@ -36,7 +36,7 @@ goog.require('goog.string');
 
 /**
  * Which touch events are we currently paying attention to?
- * @type {DOMString}
+ * @type {string?}
  * @private
  */
 Blockly.Touch.touchIdentifier_ = null;

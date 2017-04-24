@@ -359,10 +359,9 @@ Blockly.Block.prototype.lastConnectionInStack = function() {
 /**
  * Bump unconnected blocks out of alignment.  Two blocks which aren't actually
  * connected should not coincidentally line up on screen.
- * @private
  */
 // TODO: Refactor to return early in headless mode.
-Blockly.Block.prototype.bumpNeighbours_ = function() {
+Blockly.Block.prototype.bumpNeighbours = function() {
   if (!this.workspace) {
     return;  // Deleted block.
   }
@@ -378,10 +377,10 @@ Blockly.Block.prototype.bumpNeighbours_ = function() {
   for (var i = 0, connection; connection = myConnections[i]; i++) {
     // Spider down from this block bumping all sub-blocks.
     if (connection.isConnected() && connection.isSuperior()) {
-      connection.targetBlock().bumpNeighbours_();
+      connection.targetBlock().bumpNeighbours();
     }
 
-    var neighbours = connection.neighbours_(Blockly.SNAP_RADIUS);
+    var neighbours = connection.neighbours(Blockly.SNAP_RADIUS);
     for (var j = 0, otherConnection; otherConnection = neighbours[j]; j++) {
       // If both connections are connected, that's probably fine.  But if
       // either one of them is unconnected, then there could be confusion.

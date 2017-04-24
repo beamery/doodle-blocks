@@ -52,16 +52,16 @@ Blockly.Icon.prototype.SIZE = 17;
 /**
  * Bubble UI (if visible).
  * @type {Blockly.Bubble}
- * @private
+ * @protected
  */
-Blockly.Icon.prototype.bubble_ = null;
+Blockly.Icon.prototype.bubble = null;
 
 /**
  * Absolute coordinate of icon's center.
  * @type {goog.math.Coordinate}
- * @private
+ * @protected
  */
-Blockly.Icon.prototype.iconXY_ = null;
+Blockly.Icon.prototype.iconXY = null;
 
 /**
  * Create the icon on the block.

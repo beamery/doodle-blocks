@@ -110,9 +110,9 @@ Blockly.Warning.prototype.setVisible = function(visible) {
   if (visible) {
     // Create the bubble to display all warnings.
     var paragraph = Blockly.Warning.textToDom_(this.getText());
-    this.bubble_ = new Blockly.Bubble(
+    this.bubble = new Blockly.Bubble(
         /** @type {!Blockly.WorkspaceSvg} */ (this.block_.workspace),
-        paragraph, this.block_.svgPath_, this.iconXY_, null, null);
+        paragraph, this.block_.svgPath_, this.iconXY, null, null);
     if (this.block_.RTL) {
       // Right-align the paragraph.
       // This cannot be done until the bubble is rendered on screen.
@@ -124,12 +124,12 @@ Blockly.Warning.prototype.setVisible = function(visible) {
     }
     this.updateColour();
     // Bump the warning into the right location.
-    var size = this.bubble_.getBubbleSize();
-    this.bubble_.setBubbleSize(size.width, size.height);
+    var size = this.bubble.getBubbleSize();
+    this.bubble.setBubbleSize(size.width, size.height);
   } else {
     // Dispose of the bubble.
-    this.bubble_.dispose();
-    this.bubble_ = null;
+    this.bubble.dispose();
+    this.bubble = null;
     this.body_ = null;
   }
 };
@@ -139,8 +139,8 @@ Blockly.Warning.prototype.setVisible = function(visible) {
  * @param {!Event} e Mouse up event.
  * @private
  */
-Blockly.Warning.prototype.bodyFocus_ = function(/*e*/) {
-  this.bubble_.promote_();
+Blockly.Warning.prototype.bodyFocus_ = function(e) {
+  this.bubble.promote();
 };
 
 /**

@@ -209,11 +209,11 @@ Blockly.Comment.prototype.setVisible = function(visible) {
  * @param {!Event} e Mouse up event.
  * @private
  */
-Blockly.Comment.prototype.textareaFocus_ = function(/*e*/) {
+Blockly.Comment.prototype.textareaFocus_ = function(e) {
   // Ideally this would be hooked to the focus event for the comment.
   // However doing so in Firefox swallows the cursor for unknown reasons.
   // So this is hooked to mouseup instead.  No big deal.
-  this.bubble_.promote_();
+  this.bubble_.promote();
   // Since the act of moving this node within the DOM causes a loss of focus,
   // we need to reapply the focus.
   this.textarea_.focus();

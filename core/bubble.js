@@ -269,7 +269,7 @@ Blockly.Bubble.prototype.createDom_ = function(content, hasResize) {
  * @private
  */
 Blockly.Bubble.prototype.bubbleMouseDown_ = function(e) {
-  this.promote_();
+  this.promote();
   Blockly.Bubble.unbindDragEvents_();
   if (Blockly.utils.isRightButton(e)) {
     // No right-click.
@@ -315,7 +315,7 @@ Blockly.Bubble.prototype.bubbleMouseMove_ = function(e) {
  * @private
  */
 Blockly.Bubble.prototype.resizeMouseDown_ = function(e) {
-  this.promote_();
+  this.promote();
   Blockly.Bubble.unbindDragEvents_();
   if (Blockly.utils.isRightButton(e)) {
     // No right-click.
@@ -362,9 +362,8 @@ Blockly.Bubble.prototype.registerResizeEvent = function(callback) {
 
 /**
  * Move this bubble to the top of the stack.
- * @private
  */
-Blockly.Bubble.prototype.promote_ = function() {
+Blockly.Bubble.prototype.promote = function() {
   var svgGroup = this.bubbleGroup_.parentNode;
   svgGroup.appendChild(this.bubbleGroup_);
 };

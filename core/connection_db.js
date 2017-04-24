@@ -50,7 +50,7 @@ Blockly.ConnectionDB.constructor = Blockly.ConnectionDB;
  * @param {!Blockly.Connection} connection The connection to be added.
  */
 Blockly.ConnectionDB.prototype.addConnection = function(connection) {
-  if (connection.inDB_) {
+  if (connection.inDB) {
     throw 'Connection already in database.';
   }
   if (connection.getSourceBlock().isInFlyout) {
@@ -59,7 +59,7 @@ Blockly.ConnectionDB.prototype.addConnection = function(connection) {
   }
   var position = this.findPositionForConnection_(connection);
   this.splice(position, 0, connection);
-  connection.inDB_ = true;
+  connection.inDB = true;
 };
 
 /**
@@ -134,17 +134,16 @@ Blockly.ConnectionDB.prototype.findPositionForConnection_ =
 /**
  * Remove a connection from the database.  Must already exist in DB.
  * @param {!Blockly.Connection} connection The connection to be removed.
- * @private
  */
-Blockly.ConnectionDB.prototype.removeConnection_ = function(connection) {
-  if (!connection.inDB_) {
+Blockly.ConnectionDB.prototype.removeConnection = function(connection) {
+  if (!connection.inDB) {
     throw 'Connection not in database.';
   }
   var removalIndex = this.findConnection(connection);
   if (removalIndex == -1) {
     throw 'Unable to find connection in connectionDB.';
   }
-  connection.inDB_ = false;
+  connection.inDB = false;
   this.splice(removalIndex, 1);
 };
 

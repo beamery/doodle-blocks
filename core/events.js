@@ -759,8 +759,8 @@ Blockly.Events.Move.prototype.run = function(forward) {
  * Class for a UI event.
  * @param {Blockly.Block} block The affected block.
  * @param {string} element One of 'selected', 'comment', 'mutator', etc.
- * @param {?string} oldValue Previous value of element.
- * @param {string} newValue New value of element.
+ * @param {?string|boolean} oldValue Previous value of element.
+ * @param {string|boolean} newValue New value of element.
  * @extends {Blockly.Events.Abstract}
  * @constructor
  */

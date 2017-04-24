@@ -215,7 +215,6 @@ Blockly.Variables.createValueDom_ = function(name) {
 /**
  * Create a dom element for a shadow tag with the given tupe attribute.
  * @param {string} type The value to use for the type attribute.
- * @param {string} value The value to have inside the tag.
  * @return {!Element} An XML element: <shadow type="type">value</shadow>
  */
 Blockly.Variables.createShadowDom_ = function(type) {

@@ -41,7 +41,7 @@ goog.require('goog.userAgent');
 
 /**
  * Cached value for whether 3D is supported
- * @type {boolean}
+ * @type {boolean?}
  * @private
  */
 Blockly.cache3dSupported_ = null;
@@ -184,24 +184,25 @@ Blockly.utils.getInjectionDivXY_ = function(element) {
   var x = 0;
   var y = 0;
   var scale = 1;
-  while (element) {
-    var xy = Blockly.utils.getRelativeXY(element);
-    var scale = Blockly.utils.getScale_(element);
+  var node = /** @type {Node} */ (element);
+  while (node) {
+    var xy = Blockly.utils.getRelativeXY(node);
+    scale = Blockly.utils.getScale_(node);
     x = (x * scale) + xy.x;
     y = (y * scale) + xy.y;
-    var classes = element.getAttribute('class') || '';
+    var classes = node.getAttribute('class') || '';
     if ((' ' + classes + ' ').indexOf(' injectionDiv ') != -1) {
       break;
     }
-    element = element.parentNode;
+    node = node.parentNode;
   }
   return new goog.math.Coordinate(x, y);
 };
 
 /**
  * Return the scale of this element.
- * @param {!Element} element  The element to find the coordinates of.
- * @return {!number} number represending the scale applied to the element.
+ * @param {!Node} element  The element to find the coordinates of.
+ * @return {number} number represending the scale applied to the element.
  * @private
  */
 Blockly.utils.getScale_ = function(element) {
@@ -236,7 +237,7 @@ Blockly.utils.getRelativeXY.XY_REGEX_ =
  * @type {!RegExp}
  * @private
  */
-Blockly.utils.getScale_REGEXP_ = /scale\(\s*([-+\d.e]+)\s*\)/;
+Blockly.utils.getScale_.REGEXP_ = /scale\(\s*([-+\d.e]+)\s*\)/;
 
 /**
  * Static regex to pull the x,y,z values out of a translate3d() style property.
@@ -418,7 +419,7 @@ Blockly.utils.tokenizeInterpolation = function(message) {
  * the value in Blockly.Msg['MY_MSG'].
  * @param {string|?} message Message, which may be a string that contains
  *                           string table references.
- * @return {!string} String with message references replaced.
+ * @return {string|number} String with message references replaced.
  */
 Blockly.utils.replaceMessageReferences = function(message) {
   if (!goog.isString(message)) {

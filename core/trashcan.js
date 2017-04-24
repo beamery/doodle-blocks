@@ -181,7 +181,7 @@ Blockly.Trashcan.prototype.createDom = function() {
   body.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       this.workspace_.options.pathToMedia + Blockly.SPRITE.url);
 
-  var clip = Blockly.utils.createSvgElement('clipPath',
+  clip = Blockly.utils.createSvgElement('clipPath',
       {'id': 'blocklyTrashLidClipPath' + rnd},
       this.svgGroup_);
   Blockly.utils.createSvgElement('rect',

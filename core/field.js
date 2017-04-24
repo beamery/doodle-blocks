@@ -573,7 +573,7 @@ Blockly.Field.prototype.setText = function(newText) {
   this.size_.width = 0;
   if (this.sourceBlock_ && this.sourceBlock_.rendered) {
     this.sourceBlock_.render();
-    this.sourceBlock_.bumpNeighbours_();
+    this.sourceBlock_.bumpNeighbours();
   }
 };
 

@@ -50,7 +50,7 @@ goog.require('goog.ui.tree.TreeNode');
  */
 Blockly.Toolbox = function(workspace) {
   /**
-   * @type {!Blockly.Workspace}
+   * @type {Blockly.Workspace}
    * @private
    */
   this.workspace_ = workspace;
@@ -175,7 +175,7 @@ Blockly.Toolbox.prototype.createFlyout_ = function() {
 
 /**
  * Fill the toolbox with categories and blocks.
- * @param {!Node} newTree DOM tree of blocks.
+ * @param {Node} newTree DOM tree of blocks.
  */
 Blockly.Toolbox.prototype.populate = function(newTree) {
   this.categoryMenu_.populate(newTree);
@@ -316,7 +316,7 @@ Blockly.Toolbox.prototype.setSelectedItem = function(item) {
 /**
  * Wrapper function for calling setSelectedItem from a touch handler.
  * @param {Blockly.Toolbox.Category} item The category to select.
- * @return {function} A function that can be passed to bindEvent.
+ * @return {function()} A function that can be passed to bindEvent.
  */
 Blockly.Toolbox.prototype.setSelectedItemFactory = function(item) {
   var selectedItem = item;
@@ -484,7 +484,7 @@ Blockly.Toolbox.Category.prototype.setSelected = function(selected) {
 /**
  * Set the contents of this category from DOM.
  * @param {Node} domTree DOM tree of blocks.
- * @constructor
+ * @private
  */
 Blockly.Toolbox.Category.prototype.parseContents_ = function(domTree) {
   for (var i = 0, child; child = domTree.childNodes[i]; i++) {
@@ -527,7 +527,7 @@ Blockly.Toolbox.Category.prototype.setColour = function(node) {
     if (colour.match(/^#[0-9a-fA-F]{6}$/)) {
       this.colour_ = colour;
     } else {
-      this.colour_ = Blockly.hueToRgb(colour);
+      this.colour_ = Blockly.hueToRgb(Number(colour));
     }
     if (secondaryColour.match(/^#[0-9a-fA-F]{6}$/)) {
       this.secondaryColour_ = secondaryColour;

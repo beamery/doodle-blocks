@@ -357,7 +357,7 @@ Blockly.BlockSvg.terminateDrag = function() {
       }, Blockly.BUMP_DELAY / 2);
       setTimeout(function() {
         Blockly.Events.setGroup(group);
-        selected.bumpNeighbours_();
+        selected.bumpNeighbours();
         Blockly.Events.setGroup(false);
       }, Blockly.BUMP_DELAY);
     }
@@ -1633,7 +1633,7 @@ Blockly.BlockSvg.prototype.setCommentText = function(text) {
   if (changedState && this.rendered) {
     this.render();
     // Adding or removing a comment icon will cause the block to change shape.
-    this.bumpNeighbours_();
+    this.bumpNeighbours();
   }
 };
 
@@ -1702,7 +1702,7 @@ Blockly.BlockSvg.prototype.setWarningText = function(text, opt_id) {
   if (changedState && this.rendered) {
     this.render();
     // Adding or removing a warning icon will cause the block to change shape.
-    this.bumpNeighbours_();
+    this.bumpNeighbours();
   }
 };
 
@@ -1779,7 +1779,7 @@ Blockly.BlockSvg.prototype.setPreviousStatement =
 
   if (this.rendered) {
     this.render();
-    this.bumpNeighbours_();
+    this.bumpNeighbours();
   }
 };  /* eslint-enable indent */
 
@@ -1795,7 +1795,7 @@ Blockly.BlockSvg.prototype.setNextStatement = function(newBoolean, opt_check) {
 
   if (this.rendered) {
     this.render();
-    this.bumpNeighbours_();
+    this.bumpNeighbours();
   }
 };
 
@@ -1811,7 +1811,7 @@ Blockly.BlockSvg.prototype.setOutput = function(newBoolean, opt_check) {
 
   if (this.rendered) {
     this.render();
-    this.bumpNeighbours_();
+    this.bumpNeighbours();
   }
 };
 
@@ -1824,7 +1824,7 @@ Blockly.BlockSvg.prototype.setInputsInline = function(newBoolean) {
 
   if (this.rendered) {
     this.render();
-    this.bumpNeighbours_();
+    this.bumpNeighbours();
   }
 };
 
@@ -1841,7 +1841,7 @@ Blockly.BlockSvg.prototype.removeInput = function(name, opt_quiet) {
   if (this.rendered) {
     this.render();
     // Removing an input will cause the block to change shape.
-    this.bumpNeighbours_();
+    this.bumpNeighbours();
   }
 };
 
@@ -1858,7 +1858,7 @@ Blockly.BlockSvg.prototype.moveNumberedInputBefore = function(
   if (this.rendered) {
     this.render();
     // Moving an input will cause the block to change shape.
-    this.bumpNeighbours_();
+    this.bumpNeighbours();
   }
 };
 
@@ -1877,7 +1877,7 @@ Blockly.BlockSvg.prototype.appendInput_ = function(type, name) {
   if (this.rendered) {
     this.render();
     // Adding an input will cause the block to change shape.
-    this.bumpNeighbours_();
+    this.bumpNeighbours();
   }
   return input;
 };
