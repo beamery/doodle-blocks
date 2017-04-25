@@ -632,9 +632,8 @@ Blockly.Flyout.prototype.addBlockListeners = function(root, block, rect) {
  * @param {!Event} e Event that triggered the right-click.  Could originate from
  *     a long-press in a touch environment.
  * @param {Blockly.BlockSvg} block The block that was clicked.
- * @private
  */
-Blockly.Flyout.blockRightClick_ = function(e, block) {
+Blockly.Flyout.blockRightClick = function(e, block) {
   Blockly.terminateDrag();
   Blockly.WidgetDiv.hide(true);
   Blockly.DropDownDiv.hideWithoutAnimation();
@@ -654,7 +653,7 @@ Blockly.Flyout.prototype.blockMouseDown_ = function(block) {
   var flyout = this;
   return function(e) {
     if (Blockly.utils.isRightButton(e)) {
-      Blockly.Flyout.blockRightClick_(e,
+      Blockly.Flyout.blockRightClick(e,
           /** @type {Blockly.BlockSvg} */ (block));
     } else {
       flyout.dragMode_ = Blockly.DRAG_NONE;

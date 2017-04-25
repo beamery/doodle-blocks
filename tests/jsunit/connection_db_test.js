@@ -285,7 +285,7 @@ function helper_searchDB(db, x, y, radius, shared_workspace) {
 
 function helper_makeSourceBlock(sharedWorkspace) {
   return {workspace: sharedWorkspace,
-    parentBlock_: null,
+    parentBlock: null,
     getParent: function() { return null; },
     movable_: true,
     isMovable: function() { return true; },

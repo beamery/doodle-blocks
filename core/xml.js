@@ -344,7 +344,7 @@ Blockly.Xml.domToWorkspace = function(xml, workspace) {
  * Decode an XML block tag and create a block (and possibly sub blocks) on the
  * workspace.
  * @param {!Node} xmlBlock XML block element.
- * @param {!Blockly.Workspace} workspace The workspace.
+ * @param {Blockly.Workspace} workspace The workspace.
  * @return {!Blockly.Block} The root block created.
  */
 Blockly.Xml.domToBlock = function(xmlBlock, workspace) {
@@ -415,7 +415,7 @@ Blockly.Xml.domToBlock = function(xmlBlock, workspace) {
  * Decode an XML block tag and create a block (and possibly sub blocks) on the
  * workspace.
  * @param {!Node} xmlBlock XML block element.
- * @param {!Blockly.Workspace} workspace The workspace.
+ * @param {Blockly.Workspace} workspace The workspace.
  * @return {!Blockly.Block} The root block created.
  * @private
  */

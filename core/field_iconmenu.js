@@ -119,14 +119,13 @@ Blockly.FieldIconMenu.prototype.setValue = function(newValue) {
 /**
 * Find the parent block's FieldImage and set its src.
  * @param {?string} src New src for the parent block FieldImage.
- * @private
  */
 Blockly.FieldIconMenu.prototype.setParentFieldImage = function(src) {
-  // Only attempt if we have a set sourceBlock_ and parentBlock_
+  // Only attempt if we have a set sourceBlock_ and parentBlock
   // It's possible that this function could be called before
   // a parent block is set; in that case, fail silently.
-  if (this.sourceBlock_ && this.sourceBlock_.parentBlock_) {
-    var parentBlock = this.sourceBlock_.parentBlock_;
+  if (this.sourceBlock_ && this.sourceBlock_.parentBlock) {
+    var parentBlock = this.sourceBlock_.parentBlock;
     // Loop through all inputs' fields to find the first FieldImage
     for (var i = 0, input; input = parentBlock.inputList[i]; i++) {
       for (var j = 0, field; field = input.fieldRow[j]; j++) {
@@ -235,7 +234,7 @@ Blockly.FieldIconMenu.prototype.showEditor = function() {
   contentDiv.style.width = Blockly.FieldIconMenu.DROPDOWN_WIDTH + 'px';
 
   Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(), this.sourceBlock_.getColourTertiary());
-  Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock_.getCategory());
+  Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock.getCategory());
 
   // Update source block colour to look selected
   this.savedPrimary_ = this.sourceBlock_.getColour();

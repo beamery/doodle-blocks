@@ -154,7 +154,7 @@ Blockly.Field.prototype.init = function(opt_block) {
   var argTypes = this.getArgTypes();
   if (argTypes !== null) {
     if (this.sourceBlock.isShadow()) {
-      this.sourceBlock.svgGroup_.setAttribute('data-argument-type',
+      this.sourceBlock.svgGroup.setAttribute('data-argument-type',
           argTypes);
     } else {
       // Fields without a shadow wrapper, like square dropdowns.

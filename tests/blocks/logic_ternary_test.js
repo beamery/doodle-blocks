@@ -105,7 +105,7 @@ function test_logic_ternary_attachDifferectTypeChecksInThenAndElseWithUncheckedP
     var parent = workspace.newBlock('text_print');
 
     parent.getInput('TEXT').connection.connect(block.outputConnection);
-    assertEquals(parent, block.parentBlock_);
+    assertEquals(parent, block.parentBlock);
 
     var string = workspace.newBlock('text');
     var number = workspace.newBlock('math_number');
@@ -131,7 +131,7 @@ function test_logic_ternary_attachDifferectTypeChecksInThenAndElseWithPermissive
     var parent = workspace.newBlock('text_length');  // Allows String or Array
 
     parent.getInput('VALUE').connection.connect(block.outputConnection);
-    assertEquals(parent, block.parentBlock_);
+    assertEquals(parent, block.parentBlock);
 
     var string = workspace.newBlock('text');
     var array = workspace.newBlock('lists_create_empty');
@@ -158,7 +158,7 @@ function test_logic_ternary_attachMismatchTypeToThen_breakWithParent() {
 
     parent.getInput('VALUE').connection.connect(block.outputConnection);
     Blockly.Events.fireNow_();  // Force synchronous onchange() call.
-    assertEquals(parent, block.parentBlock_);
+    assertEquals(parent, block.parentBlock);
 
     var string = workspace.newBlock('text');
     var number = workspace.newBlock('math_number');
@@ -187,7 +187,7 @@ function test_logic_ternary_attachMismatchTypeToElse_breakWithParent() {
 
     parent.getInput('VALUE').connection.connect(block.outputConnection);
     Blockly.Events.fireNow_();  // Force synchronous onchange() call.
-    assertEquals(parent, block.parentBlock_);
+    assertEquals(parent, block.parentBlock);
 
     var string = workspace.newBlock('text');
     var number = workspace.newBlock('math_number');

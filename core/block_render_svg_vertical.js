@@ -462,9 +462,9 @@ Blockly.BlockSvg.SHAPE_IN_SHAPE_PADDING = {
  */
 Blockly.BlockSvg.prototype.updateColour = function() {
   var strokeColour = this.getColourTertiary();
-  if (this.isShadow() && this.parentBlock_) {
+  if (this.isShadow() && this.parentBlock) {
     // Pull shadow block stroke colour from parent block's tertiary if possible.
-    strokeColour = this.parentBlock_.getColourTertiary();
+    strokeColour = this.parentBlock.getColourTertiary();
     // Special case: if we contain a colour field, set to a special stroke colour.
     if (this.inputList[0] &&
         this.inputList[0].fieldRow[0] &&
@@ -510,11 +510,11 @@ Blockly.BlockSvg.prototype.updateColour = function() {
 Blockly.BlockSvg.prototype.highlightForReplacement = function(add) {
   if (add) {
     this.svgPath_.setAttribute('filter', 'url(#blocklyReplacementGlowFilter)');
-    Blockly.utils.addClass(/** @type {!Element} */ (this.svgGroup_),
+    Blockly.utils.addClass(/** @type {!Element} */ (this.svgGroup),
         'blocklyReplaceable');
   } else {
     this.svgPath_.removeAttribute('filter');
-    Blockly.utils.removeClass(/** @type {!Element} */ (this.svgGroup_),
+    Blockly.utils.removeClass(/** @type {!Element} */ (this.svgGroup),
         'blocklyReplaceable');
   }
 };
@@ -533,11 +533,11 @@ Blockly.BlockSvg.prototype.highlightShapeForInput = function(conn, add) {
   var inputShape = this.inputShapes_[input.name];
   if (add) {
     inputShape.setAttribute('filter', 'url(#blocklyReplacementGlowFilter)');
-    Blockly.utils.addClass(/** @type {!Element} */ (this.svgGroup_),
+    Blockly.utils.addClass(/** @type {!Element} */ (this.svgGroup),
         'blocklyReplaceable');
   } else {
     inputShape.removeAttribute('filter');
-    Blockly.utils.removeClass(/** @type {!Element} */ (this.svgGroup_),
+    Blockly.utils.removeClass(/** @type {!Element} */ (this.svgGroup),
         'blocklyReplaceable');
   }
 };
@@ -999,7 +999,7 @@ Blockly.BlockSvg.prototype.renderClassify_ = function() {
   var shapes = [];
 
   if (this.outputConnection) {
-    if (this.isShadow_) {
+    if (this.isShadowBlock) {
       shapes.push('argument');
     } else {
       shapes.push('reporter');
@@ -1033,10 +1033,10 @@ Blockly.BlockSvg.prototype.renderClassify_ = function() {
     }
   }
 
-  this.svgGroup_.setAttribute('data-shapes', shapes.join(' '));
+  this.svgGroup.setAttribute('data-shapes', shapes.join(' '));
 
   if (this.getCategory()) {
-    this.svgGroup_.setAttribute('data-category', this.getCategory());
+    this.svgGroup.setAttribute('data-category', this.getCategory());
   }
 };
 
@@ -1371,11 +1371,11 @@ Blockly.BlockSvg.prototype.renderDrawLeft_ = function(steps, connectionsXY) {
  * when connected to it.
  * @param {!Blockly.Block} newBlock The block to position - either the first
  *     block in a dragged stack or an insertion marker.
- * @param {!Blockly.Connection} newConnection The connection on the new block's
+ * @param {Blockly.Connection} newConnection The connection on the new block's
  *     stack - either a connection on newBlock, or the last NEXT_STATEMENT
  *     connection on the stack if the stack's being dropped before another
  *     block.
- * @param {!Blockly.Connection} existingConnection The connection on the
+ * @param {Blockly.Connection} existingConnection The connection on the
  *     existing block, which newBlock should line up with.
  */
 Blockly.BlockSvg.prototype.positionNewBlock =

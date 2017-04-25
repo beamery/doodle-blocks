@@ -358,7 +358,7 @@ Blockly.RenderedConnection.prototype.neighbours = function(maxLimit) {
 /**
  * Connect two connections together.  This is the connection on the superior
  * block.  Rerender blocks as needed.
- * @param {!Blockly.Connection} childConnection Connection on inferior block.
+ * @param {Blockly.Connection} childConnection Connection on inferior block.
  * @protected
  */
 Blockly.RenderedConnection.prototype.connect = function(childConnection) {

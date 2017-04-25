@@ -115,17 +115,15 @@ Blockly.insertionMarker = null;
  * The block that will be replaced if the drag is released immediately.  Should
  * be visually highlighted to indicate this to the user.
  * @type {Blockly.Block}
- * @private
  */
-Blockly.replacementMarker_ = null;
+Blockly.replacementMarker = null;
 
 /**
  * Connection that was bumped out of the way by an insertion marker, and may
  * need to be put back as the drag continues.
  * @type {Blockly.Connection}
- * @private
  */
-Blockly.bumpedConnection_ = null;
+Blockly.bumpedConnection = null;
 
 /**
  * Contents of the local clipboard.
@@ -296,9 +294,8 @@ Blockly.copy_ = function(block) {
 /**
  * Duplicate this block and its children.
  * @param {!Blockly.Block} block Block to be copied.
- * @private
  */
-Blockly.duplicate_ = function(block) {
+Blockly.duplicate = function(block) {
   // Save the clipboard.
   var clipboardXml = Blockly.clipboardXml_;
   var clipboardSource = Blockly.clipboardSource_;

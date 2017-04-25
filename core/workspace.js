@@ -77,9 +77,8 @@ Blockly.Workspace = function(opt_options) {
 
   /**
    * @type {!Object}
-   * @private
    */
-  this.blockDB_ = Object.create(null);
+  this.blockDB = Object.create(null);
 
   /**
    * @type {!Array.<string>}
@@ -482,9 +481,9 @@ Blockly.Workspace.prototype.fireChangeListener = function(event) {
  * @return {Blockly.Block} The sought after block or null if not found.
  */
 Blockly.Workspace.prototype.getBlockById = function(id) {
-  var block = this.blockDB_[id];
+  var block = this.blockDB[id];
   if (!block && this.getFlyout() && this.getFlyout().getWorkspace()) {
-    block = this.getFlyout().getWorkspace().blockDB_[id];
+    block = this.getFlyout().getWorkspace().blockDB[id];
   }
   return block || null;
 };

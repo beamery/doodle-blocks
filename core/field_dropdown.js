@@ -227,12 +227,12 @@ Blockly.FieldDropdown.prototype.showEditor = function() {
   menuSize.height = menuDom.scrollHeight;
 
   var primaryColour = (this.sourceBlock_.isShadow()) ?
-    this.sourceBlock_.parentBlock_.getColour() : this.sourceBlock_.getColour();
+    this.sourceBlock_.parentBlock.getColour() : this.sourceBlock_.getColour();
 
   Blockly.DropDownDiv.setColour(primaryColour, this.sourceBlock_.getColourTertiary());
 
   var category = (this.sourceBlock_.isShadow()) ?
-    this.sourceBlock_.parentBlock_.getCategory() : this.sourceBlock_.getCategory();
+    this.sourceBlock_.parentBlock.getCategory() : this.sourceBlock_.getCategory();
   Blockly.DropDownDiv.setCategory(category);
 
   // Calculate positioning based on the field position.

@@ -461,7 +461,7 @@ Blockly.Connection.prototype.isConnectionAllowed = function(
 
 /**
  * Connect this connection to another connection.
- * @param {!Blockly.Connection} otherConnection Connection to connect to.
+ * @param {Blockly.Connection} otherConnection Connection to connect to.
  */
 Blockly.Connection.prototype.connect = function(otherConnection) {
   if (this.targetConnection == otherConnection) {
@@ -693,7 +693,6 @@ Blockly.Connection.prototype.getShadowDom = function() {
  * computed from the rendered positioning.
  * @param {number} maxLimit The maximum radius to another connection.
  * @return {!Array.<!Blockly.Connection>} List of connections.
- * @protected
  */
 Blockly.Connection.prototype.neighbours = function(maxLimit) {
   return [];

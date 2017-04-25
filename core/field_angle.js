@@ -168,9 +168,9 @@ Blockly.FieldAngle.prototype.showEditor = function() {
     }, svg);
   }
 
-  Blockly.DropDownDiv.setColour(this.sourceBlock_.parentBlock_.getColour(),
+  Blockly.DropDownDiv.setColour(this.sourceBlock_.parentBlock.getColour(),
       this.sourceBlock_.getColourTertiary());
-  Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock_.getCategory());
+  Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock.getCategory());
   Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
 
   // The angle picker is different from other fields in that it updates on
