@@ -42,20 +42,21 @@ goog.require('goog.userAgent');
  *     to validate any constraints on what the user entered.  Takes the new
  *     text as an argument and returns the accepted text or null to abort
  *     the change.
- * @extends {Blockly.FieldTextInput}
+ * @extends {Blockly.FieldTextDropdown}
  * @constructor
  */
 Blockly.FieldNumberDropdown = function(value, menuGenerator, opt_min, opt_max,
     opt_precision, opt_validator) {
   this.setConstraints_ = Blockly.FieldNumber.prototype.setConstraints_;
 
-  var numRestrictor = Blockly.FieldNumber.prototype.getNumRestrictor.call(
-    this, opt_min, opt_max, opt_precision
-  );
-  Blockly.FieldNumberDropdown.superClass_.constructor.call(
-    this, value, menuGenerator, opt_validator, numRestrictor
+  var numRestrictor = this.getNumRestrictor(opt_min, opt_max, opt_precision);
+  Blockly.FieldNumberDropdown.superClass_.constructor.call(this,
+    value, menuGenerator, opt_validator, numRestrictor
   );
   this.addArgType('numberdropdown');
 };
+
+Blockly.FieldNumberDropdown.prototype.getNumRestrictor =
+    Blockly.FieldNumber.prototype.getNumRestrictor;
 
 goog.inherits(Blockly.FieldNumberDropdown, Blockly.FieldTextDropdown);

@@ -106,7 +106,7 @@ Blockly.FieldNumber.NUMPAD_DELETE_ICON = 'data:image/svg+xml;utf8,' +
 /**
  * Currently active field during an edit.
  * Used to give a reference to the num-pad button callbacks.
- * @type {?FieldNumber}
+ * @type {?Blockly.FieldNumber}
  * @private
  */
 Blockly.FieldNumber.activeField_ = null;
@@ -121,7 +121,7 @@ Blockly.FieldNumber.activeField_ = null;
  */
 Blockly.FieldNumber.prototype.getNumRestrictor = function(opt_min, opt_max,
     opt_precision) {
-  this.setConstraints_(opt_min, opt_max, opt_precision);
+  this.setConstraints_(Number(opt_min), Number(opt_max), Number(opt_precision));
   var pattern = "[\\d]"; // Always allow digits.
   if (this.decimalAllowed_) {
     pattern += "|[\\.]";
@@ -152,12 +152,12 @@ Blockly.FieldNumber.prototype.setConstraints_ = function(opt_min, opt_max,
  * appropriate.
  * @private
  */
-Blockly.FieldNumber.prototype.showEditor_ = function() {
+Blockly.FieldNumber.prototype.showEditor = function() {
   Blockly.FieldNumber.activeField_ = this;
   // Do not focus on mobile devices so we can show the num-pad
   var showNumPad =
       goog.userAgent.MOBILE || goog.userAgent.ANDROID || goog.userAgent.IPAD;
-  Blockly.FieldNumber.superClass_.showEditor_.call(this, false, showNumPad);
+  Blockly.FieldNumber.superClass_.showEditor.call(this, false, showNumPad);
 
   // Show a numeric keypad in the drop-down on touch
   if (showNumPad) {
@@ -202,7 +202,7 @@ Blockly.FieldNumber.prototype.position_ = function() {
   var bBox = this.sourceBlock_.getHeightWidth();
   bBox.width *= scale;
   bBox.height *= scale;
-  var position = this.getAbsoluteXY_();
+  var position = this.getAbsoluteXY();
   // If we can fit it, render below the shadow block
   var primaryX = position.x + bBox.width / 2;
   var primaryY = position.y + bBox.height +
@@ -270,10 +270,10 @@ Blockly.FieldNumber.numPadButtonTouch = function() {
   // String of the button (e.g., '7')
   var spliceValue = this.innerHTML;
   // Old value of the text field
-  var oldValue = Blockly.FieldTextInput.htmlInput_.value;
+  var oldValue = Blockly.FieldTextInput.htmlInput.value;
   // Determine the selected portion of the text field
-  var selectionStart = Blockly.FieldTextInput.htmlInput_.selectionStart;
-  var selectionEnd = Blockly.FieldTextInput.htmlInput_.selectionEnd;
+  var selectionStart = Blockly.FieldTextInput.htmlInput.selectionStart;
+  var selectionEnd = Blockly.FieldTextInput.htmlInput.selectionEnd;
 
   // Splice in the new value
   var newValue = oldValue.slice(0, selectionStart) + spliceValue +
@@ -291,10 +291,10 @@ Blockly.FieldNumber.numPadButtonTouch = function() {
  */
 Blockly.FieldNumber.numPadEraseButtonTouch = function() {
   // Old value of the text field
-  var oldValue = Blockly.FieldTextInput.htmlInput_.value;
+  var oldValue = Blockly.FieldTextInput.htmlInput.value;
   // Determine what is selected to erase (if anything)
-  var selectionStart = Blockly.FieldTextInput.htmlInput_.selectionStart;
-  var selectionEnd = Blockly.FieldTextInput.htmlInput_.selectionEnd;
+  var selectionStart = Blockly.FieldTextInput.htmlInput.selectionStart;
+  var selectionEnd = Blockly.FieldTextInput.htmlInput.selectionEnd;
   // Cut out anything that was previously selected
   var newValue = oldValue.slice(0, selectionStart) +
       oldValue.slice(selectionEnd);
@@ -316,15 +316,15 @@ Blockly.FieldNumber.numPadEraseButtonTouch = function() {
  */
 Blockly.FieldNumber.updateDisplay_ = function(newValue) {
   // Updates the display. The actual setValue occurs when editing ends.
-  Blockly.FieldTextInput.htmlInput_.value = newValue;
+  Blockly.FieldTextInput.htmlInput.value = newValue;
   // Resize and scroll the text field appropriately
-  Blockly.FieldNumber.superClass_.resizeEditor_.call(
+  Blockly.FieldNumber.superClass_.resizeEditor.call(
       Blockly.FieldNumber.activeField_);
-  Blockly.FieldTextInput.htmlInput_.setSelectionRange(newValue.length,
+  Blockly.FieldTextInput.htmlInput.setSelectionRange(newValue.length,
       newValue.length);
-  Blockly.FieldTextInput.htmlInput_.scrollLeft =
-      Blockly.FieldTextInput.htmlInput_.scrollWidth;
-  Blockly.FieldNumber.activeField_.validate_();
+  Blockly.FieldTextInput.htmlInput.scrollLeft =
+      Blockly.FieldTextInput.htmlInput.scrollWidth;
+  Blockly.FieldNumber.activeField_.validate();
 };
 
 /**

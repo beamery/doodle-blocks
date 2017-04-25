@@ -40,7 +40,7 @@ goog.require('goog.userAgent');
  *     bubble.
  * @param {!Element} content SVG content for the bubble.
  * @param {Element} shape SVG element to avoid eclipsing.
- * @param {!goog.math.Coodinate} anchorXY Absolute position of bubble's anchor
+ * @param {goog.math.Coordinate} anchorXY Absolute position of bubble's anchor
  *     point.
  * @param {?number} bubbleWidth Width of bubble, or null if not resizable.
  * @param {?number} bubbleHeight Height of bubble, or null if not resizable.
@@ -145,9 +145,8 @@ Blockly.Bubble.unbindDragEvents_ = function() {
   }
 };
 
-/*
+/**
  * Handle a mouse-up event while dragging a bubble's border or resize handle.
- * @param {!Event} e Mouse up event.
  * @private
  */
 Blockly.Bubble.bubbleMouseUp_ = function(/*e*/) {
@@ -371,7 +370,7 @@ Blockly.Bubble.prototype.promote = function() {
 /**
  * Notification that the anchor has moved.
  * Update the arrow and bubble accordingly.
- * @param {!goog.math.Coordinate} xy Absolute location.
+ * @param {goog.math.Coordinate} xy Absolute location.
  */
 Blockly.Bubble.prototype.setAnchorLocation = function(xy) {
   this.anchorXY_ = xy;

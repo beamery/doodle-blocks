@@ -116,9 +116,9 @@ Blockly.Block = function(workspace, prototypeName, opt_id) {
 
   /**
    * @type {boolean}
-   * @private
+   * @protected
    */
-  this.collapsed_ = false;
+  this.collapsed = false;
 
   /**
    * @type {boolean}
@@ -909,7 +909,7 @@ Blockly.Block.prototype.setPreviousStatement = function(newBoolean, opt_check) {
       goog.asserts.assert(!this.outputConnection,
           'Remove output connection prior to adding previous connection.');
       this.previousConnection =
-          this.makeConnection_(Blockly.PREVIOUS_STATEMENT);
+          this.makeConnection(Blockly.PREVIOUS_STATEMENT);
     }
     this.previousConnection.setCheck(opt_check);
   } else {
@@ -934,7 +934,7 @@ Blockly.Block.prototype.setNextStatement = function(newBoolean, opt_check) {
       opt_check = null;
     }
     if (!this.nextConnection) {
-      this.nextConnection = this.makeConnection_(Blockly.NEXT_STATEMENT);
+      this.nextConnection = this.makeConnection(Blockly.NEXT_STATEMENT);
     }
     this.nextConnection.setCheck(opt_check);
   } else {
@@ -962,7 +962,7 @@ Blockly.Block.prototype.setOutput = function(newBoolean, opt_check) {
     if (!this.outputConnection) {
       goog.asserts.assert(!this.previousConnection,
           'Remove previous connection prior to adding output connection.');
-      this.outputConnection = this.makeConnection_(Blockly.OUTPUT_VALUE);
+      this.outputConnection = this.makeConnection(Blockly.OUTPUT_VALUE);
     }
     this.outputConnection.setCheck(opt_check);
   } else {
@@ -1049,7 +1049,7 @@ Blockly.Block.prototype.getInheritedDisabled = function() {
  * @return {boolean} True if collapsed.
  */
 Blockly.Block.prototype.isCollapsed = function() {
-  return this.collapsed_;
+  return this.collapsed;
 };
 
 /**
@@ -1057,10 +1057,10 @@ Blockly.Block.prototype.isCollapsed = function() {
  * @param {boolean} collapsed True if collapsed.
  */
 Blockly.Block.prototype.setCollapsed = function(collapsed) {
-  if (this.collapsed_ != collapsed) {
+  if (this.collapsed != collapsed) {
     Blockly.Events.fire(new Blockly.Events.Change(
-        this, 'collapsed', null, this.collapsed_, collapsed));
-    this.collapsed_ = collapsed;
+        this, 'collapsed', null, this.collapsed, collapsed));
+    this.collapsed = collapsed;
   }
 };
 
@@ -1074,7 +1074,7 @@ Blockly.Block.prototype.setCollapsed = function(collapsed) {
 Blockly.Block.prototype.toString = function(opt_maxLength, opt_emptyToken) {
   var text = [];
   var emptyFieldPlaceholder = opt_emptyToken || '?';
-  if (this.collapsed_) {
+  if (this.collapsed) {
     text.push(this.getInput('_TEMP_COLLAPSED_INPUT').fieldRow[0].text_);
   } else {
     for (var i = 0, input; input = this.inputList[i]; i++) {
@@ -1112,7 +1112,7 @@ Blockly.Block.prototype.toString = function(opt_maxLength, opt_emptyToken) {
  * @return {!Blockly.Input} The input object created.
  */
 Blockly.Block.prototype.appendValueInput = function(name) {
-  return this.appendInput_(Blockly.INPUT_VALUE, name);
+  return this.appendInput(Blockly.INPUT_VALUE, name);
 };
 
 /**
@@ -1122,7 +1122,7 @@ Blockly.Block.prototype.appendValueInput = function(name) {
  * @return {!Blockly.Input} The input object created.
  */
 Blockly.Block.prototype.appendStatementInput = function(name) {
-  return this.appendInput_(Blockly.NEXT_STATEMENT, name);
+  return this.appendInput(Blockly.NEXT_STATEMENT, name);
 };
 
 /**
@@ -1132,7 +1132,7 @@ Blockly.Block.prototype.appendStatementInput = function(name) {
  * @return {!Blockly.Input} The input object created.
  */
 Blockly.Block.prototype.appendDummyInput = function(opt_name) {
-  return this.appendInput_(Blockly.DUMMY_INPUT, opt_name || '');
+  return this.appendInput(Blockly.DUMMY_INPUT, opt_name || '');
 };
 
 /**
@@ -1480,12 +1480,12 @@ Blockly.Block.newFieldVariableGetterFromJson_ = function(options) {
  * @param {string} name Language-neutral identifier which may used to find this
  *     input again.  Should be unique to this block.
  * @return {!Blockly.Input} The input object created.
- * @private
+ * @protected
  */
-Blockly.Block.prototype.appendInput_ = function(type, name) {
+Blockly.Block.prototype.appendInput = function(type, name) {
   var connection = null;
   if (type == Blockly.INPUT_VALUE || type == Blockly.NEXT_STATEMENT) {
-    connection = this.makeConnection_(type);
+    connection = this.makeConnection(type);
   }
   var input = new Blockly.Input(type, name, this, connection);
   // Append input to list.
@@ -1678,18 +1678,18 @@ Blockly.Block.prototype.hasCheckboxInFlyout = function() {
 /**
  * Set this block's warning text.
  * @param {?string} text The text, or null to delete.
- * @abstract
+ * @param {string=} opt_id An optional ID for the warning text to be able to
+ *     maintain multiple warnings.
  */
-Blockly.Block.prototype.setWarningText = function(/* text */) {
+Blockly.Block.prototype.setWarningText = function(text, opt_id) {
   // NOP.
 };
 
 /**
  * Give this block a mutator dialog.
  * @param {Blockly.Mutator} mutator A mutator dialog instance or null to remove.
- * @abstract
  */
-Blockly.Block.prototype.setMutator = function(/* mutator */) {
+Blockly.Block.prototype.setMutator = function(mutator) {
   // NOP.
 };
 
@@ -1719,9 +1719,9 @@ Blockly.Block.prototype.moveBy = function(dx, dy) {
  * Create a connection of the specified type.
  * @param {number} type The type of the connection to create.
  * @return {!Blockly.Connection} A new connection of the specified type.
- * @private
+ * @protected
  */
-Blockly.Block.prototype.makeConnection_ = function(type) {
+Blockly.Block.prototype.makeConnection = function(type) {
   return new Blockly.Connection(this, type);
 };
 

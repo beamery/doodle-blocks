@@ -303,8 +303,8 @@ Blockly.RenderedConnection.prototype.isConnectionAllowed = function(candidate,
 
 /**
  * Disconnect two blocks that are connected by this connection.
- * @param {!Blockly.Block} parentBlock The superior block.
- * @param {!Blockly.Block} childBlock The inferior block.
+ * @param {Blockly.Block} parentBlock The superior block.
+ * @param {Blockly.Block} childBlock The inferior block.
  * @protected
  */
 Blockly.RenderedConnection.prototype.disconnectInternal = function(parentBlock,

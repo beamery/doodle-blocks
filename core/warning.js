@@ -78,9 +78,8 @@ Blockly.Warning.prototype.drawIcon_ = function(group) {
  * Create the text for the warning's bubble.
  * @param {string} text The text to display.
  * @return {!SVGTextElement} The top-level node of the text.
- * @private
  */
-Blockly.Warning.textToDom_ = function(text) {
+Blockly.Warning.textToDom = function(text) {
   var paragraph = /** @type {!SVGTextElement} */ (
       Blockly.utils.createSvgElement('text',
           {'class': 'blocklyText blocklyBubbleText',

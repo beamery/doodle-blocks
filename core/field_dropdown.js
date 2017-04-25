@@ -33,6 +33,7 @@ goog.require('Blockly.DropDownDiv');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.style');
+goog.require('goog.ui.Component');
 goog.require('goog.ui.Menu');
 goog.require('goog.ui.MenuItem');
 goog.require('goog.userAgent');
@@ -52,7 +53,7 @@ goog.require('goog.userAgent');
  */
 Blockly.FieldDropdown = function(menuGenerator, opt_validator) {
   this.menuGenerator_ = menuGenerator;
-  this.trimOptions_();
+  this.trimOptions();
   var firstTuple = this.getOptions()[0];
 
   // Call parent's constructor.
@@ -101,6 +102,11 @@ Blockly.FieldDropdown.prototype.imageElement_ = null;
 Blockly.FieldDropdown.prototype.imageJson_ = null;
 
 /**
+ * @private {boolean}
+ */
+Blockly.FieldDropdown.prototype.disableColourChange_ = false;
+
+/**
  * Install this dropdown on a block.
  */
 Blockly.FieldDropdown.prototype.init = function() {
@@ -110,11 +116,11 @@ Blockly.FieldDropdown.prototype.init = function() {
   }
   // Add dropdown arrow: "option ▾" (LTR) or "▾ אופציה" (RTL)
   // Positioned on render, after text size is calculated.
-  /** @type {Number} */
+  /** @type {number} */
   this.arrowSize_ = 12;
-  /** @type {Number} */
+  /** @type {number} */
   this.arrowX_ = 0;
-  /** @type {Number} */
+  /** @type {number} */
   this.arrowY_ = 11;
   this.arrow_ = Blockly.utils.createSvgElement('image', {
     'height': this.arrowSize_ + 'px',
@@ -148,9 +154,8 @@ Blockly.FieldDropdown.prototype.init = function() {
 
 /**
  * Create a dropdown menu under the text.
- * @private
  */
-Blockly.FieldDropdown.prototype.showEditor_ = function() {
+Blockly.FieldDropdown.prototype.showEditor = function() {
   this.dropDownOpen_ = true;
   // If there is an existing drop-down someone else owns, hide it immediately and clear it.
   Blockly.DropDownDiv.hideWithoutAnimation();
@@ -207,10 +212,10 @@ Blockly.FieldDropdown.prototype.showEditor_ = function() {
     // Activate the menu item.
     control.performActionInternal(e);
   }
-  menu.getHandler().listen(menu.getElement(), goog.events.EventType.TOUCHSTART,
-                           callbackTouchStart);
-  menu.getHandler().listen(menu.getElement(), goog.events.EventType.TOUCHEND,
-                           callbackTouchEnd);
+  goog.events.listen(
+      menu, goog.events.EventType.TOUCHSTART, callbackTouchStart);
+  goog.events.listen(
+      menu, goog.events.EventType.TOUCHEND, callbackTouchEnd);
 
   // Record windowSize and scrollOffset before adding menu.
   menu.render(contentDiv);
@@ -285,19 +290,18 @@ Blockly.FieldDropdown.prototype.onItemSelected = function(menu, menuItem) {
   var value = menuItem.getValue();
   if (this.sourceBlock_) {
     // Call any validation function, and allow it to override.
-    value = this.callValidator(value);
+    value = this.callValidator(/** @type {string} */ (value));
   }
   if (value !== null) {
-    this.setValue(value);
+    this.setValue(/** @type {string} */ (value));
   }
 };
 
 /**
  * Factor out common words in statically defined options.
  * Create prefix and/or suffix labels.
- * @private
  */
-Blockly.FieldDropdown.prototype.trimOptions_ = function() {
+Blockly.FieldDropdown.prototype.trimOptions = function() {
   this.prefixField = null;
   this.suffixField = null;
   var options = this.menuGenerator_;
@@ -376,7 +380,7 @@ Blockly.FieldDropdown.prototype.getOptions = function() {
  * @return {string} Current text.
  */
 Blockly.FieldDropdown.prototype.getValue = function() {
-  return this.value;
+  return /** @type {string} */ (this.value);
 };
 
 /**
@@ -420,7 +424,7 @@ Blockly.FieldDropdown.prototype.setValue = function(newValue) {
 
 /**
  * Sets the text in this field.  Trigger a rerender of the source block.
- * @param {?string} text New text.
+ * @param {*} text New text.
  */
 Blockly.FieldDropdown.prototype.setText = function(text) {
   if (text === null || text === this.text_) {
@@ -428,11 +432,11 @@ Blockly.FieldDropdown.prototype.setText = function(text) {
     return;
   }
   this.text_ = text;
-  this.updateTextNode_();
+  this.updateTextNode();
 
   if (this.textElement_) {
     // Update class for dropdown text.
-    // This class is reset every time updateTextNode_ is called.
+    // This class is reset every time updateTextNode is called.
     this.textElement_.setAttribute('class',
         this.textElement_.getAttribute('class') + ' blocklyDropdownText'
     );

@@ -40,16 +40,9 @@ goog.require('goog.userAgent');
 
 
 /**
- * Cached value for whether 3D is supported
- * @type {boolean?}
- * @private
- */
-Blockly.cache3dSupported_ = null;
-
-/**
  * Add a CSS class to a element.
  * Similar to Closure's goog.dom.classes.add, except it handles SVG elements.
- * @param {!Element} element DOM element to add class to.
+ * @param {Element} element DOM element to add class to.
  * @param {string} className Name of class to add.
  * @return {boolean} True if class was added, false if already present.
  */
@@ -261,10 +254,10 @@ Blockly.utils.getRelativeXY.XY_2D_REGEX_ =
  * Helper method for creating SVG elements.
  * @param {string} name Element's tag name.
  * @param {!Object} attrs Dictionary of attribute names and values.
- * @param {Element} parent Optional parent on which to append the element.
+ * @param {Element=} opt_parent Optional parent on which to append the element.
  * @return {!SVGElement} Newly created SVG element.
  */
-Blockly.utils.createSvgElement = function(name, attrs, parent) {
+Blockly.utils.createSvgElement = function(name, attrs, opt_parent) {
   var e = /** @type {!SVGElement} */ (
       document.createElementNS(Blockly.SVG_NS, name));
   for (var key in attrs) {
@@ -276,8 +269,8 @@ Blockly.utils.createSvgElement = function(name, attrs, parent) {
   if (document.body.runtimeStyle) {  // Indicates presence of IE-only attr.
     e.runtimeStyle = e.currentStyle = e.style;
   }
-  if (parent) {
-    parent.appendChild(e);
+  if (opt_parent) {
+    opt_parent.appendChild(e);
   }
   return e;
 };

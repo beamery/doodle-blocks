@@ -66,10 +66,10 @@ Blockly.FieldColour.prototype.columns_ = 0;
 
 /**
  * Install this field on a block.
- * @param {!Blockly.Block} block The block containing this field.
+ * @param {Blockly.Block=} opt_block The block containing this field.
  */
-Blockly.FieldColour.prototype.init = function(block) {
-  Blockly.FieldColour.superClass_.init.call(this, block);
+Blockly.FieldColour.prototype.init = function(opt_block) {
+  Blockly.FieldColour.superClass_.init.call(this, opt_block);
   this.setValue(this.getValue());
 };
 
@@ -140,7 +140,7 @@ Blockly.FieldColour.prototype.getSize = function() {
  * An array of colour strings for the palette.
  * See bottom of this page for the default:
  * http://docs.closure-library.googlecode.com/git/closure_goog_ui_colorpicker.js.source.html
- * @type {!Array.<string>}
+ * @type {Array.<string>}
  */
 Blockly.FieldColour.COLOURS = goog.ui.ColorPicker.SIMPLE_GRID_COLORS;
 
@@ -175,7 +175,7 @@ Blockly.FieldColour.prototype.setColumns = function(columns) {
  * Create a palette under the colour field.
  * @private
  */
-Blockly.FieldColour.prototype.showEditor_ = function() {
+Blockly.FieldColour.prototype.showEditor = function() {
   Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL,
       Blockly.FieldColour.widgetDispose_);
   // Create the palette using Closure.
@@ -187,8 +187,8 @@ Blockly.FieldColour.prototype.showEditor_ = function() {
   // Record windowSize and scrollOffset before adding the palette.
   var windowSize = goog.dom.getViewportSize();
   var scrollOffset = goog.style.getViewportPageOffset(document);
-  var xy = this.getAbsoluteXY_();
-  var borderBBox = this.getScaledBBox_();
+  var xy = this.getAbsoluteXY();
+  var borderBBox = this.getScaledBBox();
   var div = Blockly.WidgetDiv.DIV;
   picker.render(div);
   picker.setSelectedColor(this.getValue());

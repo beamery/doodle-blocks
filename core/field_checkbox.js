@@ -95,7 +95,7 @@ Blockly.FieldCheckbox.prototype.setValue = function(newBool) {
   if (this.state_ !== newState) {
     if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
       Blockly.Events.fire(new Blockly.Events.Change(
-          this.sourceBlock_, 'field', this.name, this.state_, newState));
+          this.sourceBlock_, 'field', this.name, this.state_, String(newState)));
     }
     this.state_ = newState;
     if (this.checkElement_) {
@@ -108,11 +108,11 @@ Blockly.FieldCheckbox.prototype.setValue = function(newBool) {
  * Toggle the state of the checkbox.
  * @private
  */
-Blockly.FieldCheckbox.prototype.showEditor_ = function() {
+Blockly.FieldCheckbox.prototype.showEditor = function() {
   var newState = !this.state_;
   if (this.sourceBlock_) {
     // Call any validation function, and allow it to override.
-    newState = this.callValidator(newState);
+    newState = this.callValidator(String(newState));
   }
   if (newState !== null) {
     this.setValue(String(newState).toUpperCase());

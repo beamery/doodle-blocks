@@ -98,7 +98,7 @@ Blockly.DropDownDiv.ANIMATION_TIME = 0.25;
 /**
  * Timer for animation out, to be cleared if we need to immediately hide
  * without disrupting new shows.
- * @type {number}
+ * @type {?number}
  */
 Blockly.DropDownDiv.animateOutTimer_ = null;
 
@@ -106,11 +106,10 @@ Blockly.DropDownDiv.animateOutTimer_ = null;
  * Callback for when the drop-down is hidden.
  * @type {Function}
  */
-Blockly.DropDownDiv.onHide_ = 0;
+Blockly.DropDownDiv.onHide_ = null;
 
 /**
  * Create and insert the DOM element for this div.
- * @param {Element} container Element that the div should be contained in.
  */
 Blockly.DropDownDiv.createDom = function() {
   if (Blockly.DropDownDiv.DIV_) {
@@ -179,7 +178,7 @@ Blockly.DropDownDiv.setCategory = function(category) {
  * @param {Object} owner The object showing the drop-down
  * @param {!Blockly.Block} block Block to position the drop-down around.
  * @param {Function=} opt_onHide Optional callback for when the drop-down is hidden.
- * @param {Number} opt_secondaryYOffset Optional Y offset for above-block positioning.
+ * @param {number} opt_secondaryYOffset Optional Y offset for above-block positioning.
  * @return {boolean} True if the menu rendered below block; false if above.
  */
 Blockly.DropDownDiv.showPositionedByBlock = function(owner, block,
@@ -221,7 +220,7 @@ Blockly.DropDownDiv.showPositionedByBlock = function(owner, block,
  */
 Blockly.DropDownDiv.show = function(owner, primaryX, primaryY, secondaryX, secondaryY, opt_onHide) {
   Blockly.DropDownDiv.owner_ = owner;
-  Blockly.DropDownDiv.onHide_ = opt_onHide;
+  Blockly.DropDownDiv.onHide_ = opt_onHide ? opt_onHide : null;
   var div = Blockly.DropDownDiv.DIV_;
   var metrics = Blockly.DropDownDiv.getPositionMetrics(primaryX, primaryY, secondaryX, secondaryY);
   // Update arrow CSS
@@ -354,7 +353,7 @@ Blockly.DropDownDiv.isVisible = function() {
 /**
  * Hide the menu only if it is owned by the provided object.
  * @param {Object} owner Object which must be owning the drop-down to hide
- * @return {Boolean} True if hidden
+ * @return {boolean} True if hidden
  */
 Blockly.DropDownDiv.hideIfOwner = function(owner) {
   if (Blockly.DropDownDiv.owner_ === owner) {

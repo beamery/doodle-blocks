@@ -49,7 +49,8 @@ goog.require('goog.userAgent');
  */
 Blockly.FieldTextDropdown = function(text, menuGenerator, opt_validator, opt_restrictor) {
   this.menuGenerator_ = menuGenerator;
-  Blockly.FieldDropdown.prototype.trimOptions_.call(this);
+  this.dropDownOpen_ = false;
+  this.trimOptions();
   Blockly.FieldTextDropdown.superClass_.constructor.call(this, text, opt_validator, opt_restrictor);
   this.addArgType('textdropdown');
 };
@@ -63,11 +64,11 @@ Blockly.FieldTextDropdown.prototype.init = function() {
   // Add dropdown arrow: "option ▾" (LTR) or "▾ אופציה" (RTL)
   // Positioned on render, after text size is calculated.
   if (!this.arrow_) {
-    /** @type {Number} */
+    /** @type {number} */
     this.arrowSize_ = 12;
-    /** @type {Number} */
+    /** @type {number} */
     this.arrowX_ = 0;
-    /** @type {Number} */
+    /** @type {number} */
     this.arrowY_ = 11;
     this.arrow_ = Blockly.utils.createSvgElement('image', {
       'height': this.arrowSize_ + 'px',
@@ -85,6 +86,14 @@ Blockly.FieldTextDropdown.prototype.init = function() {
   this.disableColourChange_ = true;
 };
 
+
+/**
+ * Factor out common words in statically defined options.
+ * Create prefix and/or suffix labels.
+ */
+Blockly.FieldTextDropdown.prototype.trimOptions = Blockly.FieldDropdown.prototype.trimOptions;
+
+
 /**
  * Close the input widget if this input is being deleted.
  */
@@ -100,9 +109,9 @@ Blockly.FieldTextDropdown.prototype.dispose = function() {
 /**
  * If the drop-down isn't open, show the text editor.
  */
-Blockly.FieldTextDropdown.prototype.showEditor_ = function() {
+Blockly.FieldTextDropdown.prototype.showEditor = function() {
   if (!this.dropDownOpen_) {
-    Blockly.FieldTextDropdown.superClass_.showEditor_.call(this, null, null,
+    Blockly.FieldTextDropdown.superClass_.showEditor.call(this, undefined, undefined,
       true, function() {
         // When the drop-down arrow is clicked, hide text editor and show drop-down.
         Blockly.WidgetDiv.hide();
@@ -115,17 +124,18 @@ Blockly.FieldTextDropdown.prototype.showEditor_ = function() {
 /**
  * Return a list of the options for this dropdown.
  * See: Blockly.FieldDropDown.prototype.getOptions_.
- * @return {!Array.<!Array.<string>>} Array of option tuples:
+ * return {!Array.<!Array.<string>>} Array of option tuples:
  *     (human-readable text, language-neutral name).
- * @private
+ * @private {function(): !Array.<!Array.<string>>}
  */
 Blockly.FieldTextDropdown.prototype.getOptions_ = Blockly.FieldDropdown.prototype.getOptions_;
 
 /**
  * Position a drop-down arrow at the appropriate location at render-time.
  * See: Blockly.FieldDropDown.prototype.positionArrow.
- * @param {number} x X position the arrow is being rendered at, in px.
- * @return {number} Amount of space the arrow is taking up, in px.
+ * param {number} x X position the arrow is being rendered at, in px.
+ * return {number} Amount of space the arrow is taking up, in px.
+ * @type {function(number): number}
  */
 Blockly.FieldTextDropdown.prototype.positionArrow = Blockly.FieldDropdown.prototype.positionArrow;
 
@@ -133,7 +143,7 @@ Blockly.FieldTextDropdown.prototype.positionArrow = Blockly.FieldDropdown.protot
  * Create the dropdown menu.
  * @private
  */
-Blockly.FieldTextDropdown.prototype.showDropdown_ = Blockly.FieldDropdown.prototype.showEditor_;
+Blockly.FieldTextDropdown.prototype.showDropdown_ = Blockly.FieldDropdown.prototype.showEditor;
 
 /**
  * Callback when the drop-down menu is hidden.

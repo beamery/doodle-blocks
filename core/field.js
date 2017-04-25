@@ -49,7 +49,7 @@ Blockly.Field = function(text, opt_validator) {
     Blockly.BlockSvg.FIELD_WIDTH,
     Blockly.BlockSvg.FIELD_HEIGHT);
   this.setValue(text);
-  this.setValidator(opt_validator);
+  this.setValidator(opt_validator ? opt_validator : null);
 
   /**
    * Maximum characters of text to display before adding an ellipsis.
@@ -84,9 +84,9 @@ Blockly.Field.prototype.name = null;
 /**
  * Visible text to display.
  * @type {string}
- * @private
+ * @protected
  */
-Blockly.Field.prototype.text_ = '';
+Blockly.Field.prototype.text = '';
 
 /**
  * Block this field is attached to.  Starts as null, then in set in init.
@@ -98,9 +98,9 @@ Blockly.Field.prototype.sourceBlock = null;
 /**
  * Is the field visible, or hidden due to the block being collapsed?
  * @type {boolean}
- * @private
+ * @protected
  */
-Blockly.Field.prototype.visible_ = true;
+Blockly.Field.prototype.visible = true;
 
 /**
  * Null, or an array of the field's argTypes (for styling).
@@ -147,23 +147,24 @@ Blockly.Field.prototype.init = function(opt_block) {
   }
   // Build the DOM.
   this.fieldGroup_ = Blockly.utils.createSvgElement('g', {}, null);
-  if (!this.visible_) {
+  if (!this.visible) {
     this.fieldGroup_.style.display = 'none';
   }
   // Add an attribute to cassify the type of field.
-  if (this.getArgTypes() !== null) {
+  var argTypes = this.getArgTypes();
+  if (argTypes !== null) {
     if (this.sourceBlock.isShadow()) {
       this.sourceBlock.svgGroup_.setAttribute('data-argument-type',
-          this.getArgTypes());
+          argTypes);
     } else {
       // Fields without a shadow wrapper, like square dropdowns.
-      this.fieldGroup_.setAttribute('data-argument-type', this.getArgTypes());
+      this.fieldGroup_.setAttribute('data-argument-type', argTypes);
     }
   }
   // Adjust X to be flipped for RTL. Position is relative to horizontal start of source block.
   var size = this.getSize();
   var fieldX = (this.sourceBlock.RTL) ? -size.width / 2 : size.width / 2;
-  /** @type {!Element} */
+  /** @type {Element} */
   this.textElement_ = Blockly.utils.createSvgElement('text',
       {'class': 'blocklyText',
        'x': fieldX,
@@ -232,7 +233,7 @@ Blockly.Field.prototype.isCurrentlyEditable = function() {
  * @return {boolean} True if visible.
  */
 Blockly.Field.prototype.isVisible = function() {
-  return this.visible_;
+  return this.visible;
 };
 
 /**
@@ -240,10 +241,10 @@ Blockly.Field.prototype.isVisible = function() {
  * @param {boolean} visible True if visible.
  */
 Blockly.Field.prototype.setVisible = function(visible) {
-  if (this.visible_ == visible) {
+  if (this.visible == visible) {
     return;
   }
-  this.visible_ = visible;
+  this.visible = visible;
   var root = this.getSvgRoot();
   if (root) {
     root.style.display = visible ? 'block' : 'none';
@@ -264,7 +265,7 @@ Blockly.Field.prototype.addArgType = function(argType) {
 
 /**
  * Gets the field's argTypes joined as a string, or returns null (used for styling).
- * @return {string} argType string, or null.
+ * @return {?string} argType string, or null.
  */
 Blockly.Field.prototype.getArgTypes = function() {
   if (this.argType_ === null || this.argType_.length === 0) {
@@ -293,7 +294,7 @@ Blockly.Field.prototype.getValidator = function() {
 /**
  * Validates a change.  Does nothing.  Subclasses may override this.
  * @param {string} text The user's text.
- * @return {string} No change needed.
+ * @return {?string} No change needed.
  */
 Blockly.Field.prototype.classValidator = function(text) {
   return text;
@@ -341,7 +342,7 @@ Blockly.Field.prototype.getSvgRoot = function() {
  * @protected
  */
 Blockly.Field.prototype.render = function() {
-  if (this.visible_ && this.textElement_) {
+  if (this.visible && this.textElement_) {
     // Replace the text.
     goog.dom.removeChildren(/** @type {!Element} */ (this.textElement_));
     var textNode = document.createTextNode(this.getDisplayText_());
@@ -417,7 +418,7 @@ Blockly.Field.prototype.updateWidth = function() {
 
 /**
  * Gets the width of a text element, caching it in the process.
- * @param {!Element} textElement An SVG 'text' element.
+ * @param {Element} textElement An SVG 'text' element.
  * @return {number} Width of element.
  */
 Blockly.Field.getCachedWidth = function(textElement) {
@@ -488,9 +489,9 @@ Blockly.Field.prototype.getSize = function() {
  * Returns the height and width of the field,
  * accounting for the workspace scaling.
  * @return {!goog.math.Size} Height and width.
- * @private
+ * @protected
  */
-Blockly.Field.prototype.getScaledBBox_ = function() {
+Blockly.Field.prototype.getScaledBBox = function() {
   var size = this.getSize();
   // Create new object, so as to not return an uneditable SVGRect in IE.
   return new goog.math.Size(size.width * this.sourceBlock.workspace.scale,
@@ -504,32 +505,7 @@ Blockly.Field.prototype.getScaledBBox_ = function() {
  * @private
  */
 Blockly.Field.prototype.getDisplayText_ = function() {
-  var text = this.text_;
-  if (!text) {
-    // Prevent the field from disappearing if empty.
-    return Blockly.Field.NBSP;
-  }
-  if (text.length > this.maxDisplayLength) {
-    // Truncate displayed string and add an ellipsis ('...').
-    text = text.substring(0, this.maxDisplayLength - 2) + '\u2026';
-  }
-  // Replace whitespace with non-breaking spaces so the text doesn't collapse.
-  text = text.replace(/\s/g, Blockly.Field.NBSP);
-  if (this.sourceBlock.RTL) {
-    // The SVG is LTR, force text to be RTL.
-    text += '\u200F';
-  }
-  return text;
-};
-
-/**
- * Get the text from this field as displayed on screen.  May differ from getText
- * due to ellipsis, and other formatting.
- * @return {string} Currently displayed text.
- * @private
- */
-Blockly.Field.prototype.getDisplayText_ = function() {
-  var text = this.text_;
+  var text = this.text;
   if (!text) {
     // Prevent the field from disappearing if empty.
     return Blockly.Field.NBSP;
@@ -552,7 +528,7 @@ Blockly.Field.prototype.getDisplayText_ = function() {
  * @return {string} Current text.
  */
 Blockly.Field.prototype.getText = function() {
-  return this.text_;
+  return this.text;
 };
 
 /**
@@ -565,11 +541,11 @@ Blockly.Field.prototype.setText = function(newText) {
     return;
   }
   newText = String(newText);
-  if (newText === this.text_) {
+  if (newText === this.text) {
     // No change.
     return;
   }
-  this.text_ = newText;
+  this.text = newText;
   // Set width to 0 to force a rerender of this field.
   this.size_.width = 0;
   if (this.sourceBlock && this.sourceBlock.rendered) {
@@ -580,14 +556,14 @@ Blockly.Field.prototype.setText = function(newText) {
 
 /**
  * Update the text node of this field to display the current text.
- * @private
+ * @protected
  */
-Blockly.Field.prototype.updateTextNode_ = function() {
+Blockly.Field.prototype.updateTextNode = function() {
   if (!this.textElement_) {
     // Not rendered yet.
     return;
   }
-  var text = this.text_;
+  var text = this.text;
   if (text.length > this.maxDisplayLength) {
     // Truncate displayed string and add an ellipsis ('...').
     text = text.substring(0, this.maxDisplayLength - 2) + '\u2026';
@@ -664,8 +640,8 @@ Blockly.Field.prototype.onMouseUp_ = function(e) {
     // Drag operation is concluding.  Don't open the editor.
     return;
   } else if (this.sourceBlock.isEditable()) {
-    // Non-abstract sub-classes must define a showEditor_ method.
-    this.showEditor_();
+    // Non-abstract sub-classes must define a showEditor method.
+    this.showEditor();
     // The field is handling the touch, but we also want the blockSvg onMouseUp
     // handler to fire, so we will leave the touch identifier as it is.
     // The next onMouseUp is responsible for nulling it out.
@@ -676,9 +652,8 @@ Blockly.Field.prototype.onMouseUp_ = function(e) {
  * Change the tooltip text for this field.
  * @param {string|!Element} newTip Text for tooltip or a parent element to
  *     link to for its tooltip.
- * @abstract
  */
-Blockly.Field.prototype.setTooltip = function(/*newTip*/) {
+Blockly.Field.prototype.setTooltip = function(newTip) {
   // Non-abstract sub-classes may wish to implement this.  See FieldLabel.
 };
 
@@ -711,8 +686,8 @@ Blockly.Field.prototype.getClickTarget_ = function() {
  * Return the absolute coordinates of the top-left corner of this field.
  * The origin (0,0) is the top-left corner of the page body.
  * @return {!goog.math.Coordinate} Object with .x and .y properties.
- * @private
+ * @protected
  */
-Blockly.Field.prototype.getAbsoluteXY_ = function() {
+Blockly.Field.prototype.getAbsoluteXY = function() {
   return goog.style.getPageOffset(this.getClickTarget_());
 };

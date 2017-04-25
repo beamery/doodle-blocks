@@ -60,6 +60,7 @@ Blockly.FieldLabel.prototype.init = function() {
     return;
   }
   // Build the DOM.
+  /** @private {SVGElement}  */
   this.textElement_ = Blockly.utils.createSvgElement('text',
       {'class': 'blocklyText',
       'y': Blockly.BlockSvg.FIELD_TOP_PADDING,
@@ -69,7 +70,7 @@ Blockly.FieldLabel.prototype.init = function() {
   if (this.class_) {
     Blockly.utils.addClass(this.textElement_, this.class_);
   }
-  if (!this.visible_) {
+  if (!this.visible) {
     this.textElement_.style.display = 'none';
   }
   this.sourceBlock_.getSvgRoot().appendChild(this.textElement_);

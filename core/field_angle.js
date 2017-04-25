@@ -125,11 +125,11 @@ Blockly.FieldAngle.prototype.dispose_ = function() {
  * Show the inline free-text editor on top of the text.
  * @private
  */
-Blockly.FieldAngle.prototype.showEditor_ = function() {
+Blockly.FieldAngle.prototype.showEditor = function() {
   var noFocus =
       goog.userAgent.MOBILE || goog.userAgent.ANDROID || goog.userAgent.IPAD;
   // Mobile browsers have issues with in-line textareas (focus & keyboards).
-  Blockly.FieldAngle.superClass_.showEditor_.call(this, noFocus);
+  Blockly.FieldAngle.superClass_.showEditor.call(this, noFocus);
   // If there is an existing drop-down someone else owns, hide it immediately and clear it.
   Blockly.DropDownDiv.hideWithoutAnimation();
   Blockly.DropDownDiv.clearContent();
@@ -217,16 +217,16 @@ Blockly.FieldAngle.prototype.onMouseMove = function(e) {
     angle = Math.round(angle / Blockly.FieldAngle.ROUND) *
         Blockly.FieldAngle.ROUND;
   }
-  angle = this.callValidator(angle);
-  Blockly.FieldTextInput.htmlInput_.value = angle;
+  angle = this.callValidator(String(angle));
+  Blockly.FieldTextInput.htmlInput.value = angle;
   this.setValue(angle);
-  this.validate_();
-  this.resizeEditor_();
+  this.validate();
+  this.resizeEditor();
 };
 
 /**
  * Insert a degree symbol.
- * @param {?string} text New text.
+ * @param {*} text New text.
  */
 Blockly.FieldAngle.prototype.setText = function(text) {
   Blockly.FieldAngle.superClass_.setText.call(this, text);

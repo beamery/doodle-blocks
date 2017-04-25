@@ -151,6 +151,7 @@ Blockly.Options = function(options) {
   this.enableRealtime = enableRealtime;
   this.realtimeOptions = realtimeOptions;
   this.toolboxPosition = toolboxPosition;
+  this.embossFilterId = undefined;
 };
 
 /**

@@ -100,6 +100,7 @@ Blockly.Input.prototype.insertFieldAt = function(index, field, opt_name) {
   if (!field && !opt_name) {
     throw new Error('No field or name');
   }
+  //
   // Generate a FieldLabel when given a plain text field.
   if (goog.isString(field)) {
     field = new Blockly.FieldLabel(/** @type {string} */ (field));

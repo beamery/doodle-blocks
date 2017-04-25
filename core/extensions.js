@@ -46,7 +46,7 @@ Blockly.Extensions.ALL_ = {};
  * handlers and mutators. These are applied using Block.applyExtension(), or
  * the JSON "extensions" array attribute.
  * @param {string} name The name of this extension.
- * @param {function} initFn The function to initialize an extended block.
+ * @param {function()} initFn The function to initialize an extended block.
  * @throws {Error} if the extension name is empty, the extension is already
  *     registered, or extensionFn is not a function.
  */
@@ -139,7 +139,7 @@ Blockly.Extensions.buildTooltipForDropdown = function(dropdownName, lookupTable)
     }
 
     this.setTooltip(function() {
-      var value = this.getFieldValue(dropdownName);
+      var value = /** @type {string} */ (this.getFieldValue(dropdownName));
       var tooltip = lookupTable[value];
       if (tooltip == null) {
         if (blockTypesChecked.indexOf(this.type) === -1) {

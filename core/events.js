@@ -271,13 +271,13 @@ Blockly.Events.fromJson = function(json, workspace) {
       event = new Blockly.Events.Delete(null);
       break;
     case Blockly.Events.CHANGE:
-      event = new Blockly.Events.Change(null);
+      event = new Blockly.Events.Change(null, '', '', '', '');
       break;
     case Blockly.Events.MOVE:
       event = new Blockly.Events.Move(null);
       break;
     case Blockly.Events.UI:
-      event = new Blockly.Events.Ui(null);
+      event = new Blockly.Events.Ui(null, null);
       break;
     default:
       throw 'Unknown event type.';
@@ -338,7 +338,6 @@ Blockly.Events.Abstract.prototype.isNull = function() {
 /**
  * Run an event.
  * @param {boolean} forward True if run forward, false if run backward (undo).
- * @abstract
  */
 Blockly.Events.Abstract.prototype.run = function(forward) {
   // Defined by subclasses.
@@ -401,7 +400,7 @@ Blockly.Events.Create.prototype.run = function(forward) {
   if (forward) {
     var xml = goog.dom.createDom('xml');
     xml.appendChild(this.xml);
-    Blockly.Xml.domToWorkspace(xml, workspace);
+    Blockly.Xml.domToWorkspace(xml, /** @type {!Blockly.Workspace} */ (workspace));
   } else {
     for (var i = 0, id; id = this.ids[i]; i++) {
       var block = workspace.getBlockById(id);
@@ -483,7 +482,7 @@ Blockly.Events.Delete.prototype.run = function(forward) {
   } else {
     var xml = goog.dom.createDom('xml');
     xml.appendChild(this.oldXml);
-    Blockly.Xml.domToWorkspace(xml, workspace);
+    Blockly.Xml.domToWorkspace(xml, /** @type {!Blockly.Workspace} */ (workspace));
   }
 };
 
@@ -758,7 +757,7 @@ Blockly.Events.Move.prototype.run = function(forward) {
 /**
  * Class for a UI event.
  * @param {Blockly.Block} block The affected block.
- * @param {string} element One of 'selected', 'comment', 'mutator', etc.
+ * @param {?string} element One of 'selected', 'comment', 'mutator', etc.
  * @param {(?string|boolean)=} opt_oldValue Previous value of element.
  * @param {(string|boolean)=} opt_newValue New value of element.
  * @extends {Blockly.Events.Abstract}

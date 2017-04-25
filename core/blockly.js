@@ -82,39 +82,34 @@ Blockly.selected = null;
 /**
  * Currently highlighted connection (during a drag).
  * @type {Blockly.Connection}
- * @private
  */
-Blockly.highlightedConnection_ = null;
+Blockly.highlightedConnection = null;
 
 /**
  * Connection on dragged block that matches the highlighted connection.
  * @type {Blockly.Connection}
- * @private
  */
-Blockly.localConnection_ = null;
+Blockly.localConnection = null;
 
 /**
  * All of the connections on blocks that are currently being dragged.
  * @type {!Array.<!Blockly.Connection>}
- * @private
  */
-Blockly.draggingConnections_ = [];
+Blockly.draggingConnections = [];
 
 /**
  * Connection on the insertion marker block that matches
- * Blockly.localConnection_ on the dragged block.
+ * Blockly.localConnection on the dragged block.
  * @type {Blockly.Connection}
- * @private
  */
-Blockly.insertionMarkerConnection_ = null;
+Blockly.insertionMarkerConnection = null;
 
 /**
  * Grayed-out block that indicates to the user what will happen if they release
  * a drag immediately.
  * @type {Blockly.Block}
- * @private
  */
-Blockly.insertionMarker_ = null;
+Blockly.insertionMarker = null;
 
 /**
  * The block that will be replaced if the drag is released immediately.  Should
@@ -156,7 +151,7 @@ Blockly.dragMode = Blockly.DRAG_NONE;
 
 /**
  * Cached value for whether 3D is supported.
- * @type {!boolean}
+ * @type {?boolean}
  * @private
  */
 Blockly.cache3dSupported_ = null;
@@ -253,9 +248,9 @@ Blockly.onKeyDown = function(e) {
         Blockly.hideChaff();
         var heal = Blockly.dragMode != Blockly.DRAG_FREE;
         Blockly.selected.dispose(heal, true);
-        if (Blockly.highlightedConnection_) {
-          Blockly.highlightedConnection_.unhighlight();
-          Blockly.highlightedConnection_ = null;
+        if (Blockly.highlightedConnection) {
+          Blockly.highlightedConnection.unhighlight();
+          Blockly.highlightedConnection = null;
         }
       }
     }
@@ -294,7 +289,8 @@ Blockly.copy_ = function(block) {
   xmlBlock.setAttribute('x', block.RTL ? -xy.x : xy.x);
   xmlBlock.setAttribute('y', xy.y);
   Blockly.clipboardXml_ = xmlBlock;
-  Blockly.clipboardSource_ = block.workspace;
+  Blockly.clipboardSource_ =
+      /** @type {Blockly.WorkspaceSvg} */ (block.workspace);
 };
 
 /**
@@ -349,7 +345,7 @@ Blockly.hideChaff = function(opt_allowToolbox) {
  * Returns the main workspace.  Returns the last used main workspace (based on
  * focus).  Try not to use this function, particularly if there are multiple
  * Blockly instances on a page.
- * @return {!Blockly.Workspace} The main workspace.
+ * @return {Blockly.Workspace} The main workspace.
  */
 Blockly.getMainWorkspace = function() {
   return Blockly.mainWorkspace;
@@ -385,7 +381,7 @@ Blockly.confirm = function(message, callback) {
  * recommend testing mobile when overriding this.
  * @param {string} message The message to display to the user.
  * @param {string} defaultValue The value to initialize the prompt with.
- * @param {!function(string)} callback The callback for handling user response.
+ * @param {!function(?string)} callback The callback for handling user response.
  */
 Blockly.prompt = function(message, defaultValue, callback) {
   callback(window.prompt(message, defaultValue));

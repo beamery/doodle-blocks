@@ -163,6 +163,44 @@ Blockly.Comment.prototype.resizeBubble_ = function() {
 };
 
 /**
+ * Show or hide the warning bubble.
+ * @param {boolean} visible True if the bubble should be visible.
+ */
+Blockly.Comment.prototype.setVisibleWarning = function(visible) {
+  if (visible == this.isVisible()) {
+    // No change.
+    return;
+  }
+  Blockly.Events.fire(
+      new Blockly.Events.Ui(this.block_, 'warningOpen', !visible, visible));
+  if (visible) {
+    // Create the bubble to display all warnings.
+    var paragraph = Blockly.Warning.textToDom(this.getText());
+    this.bubble = new Blockly.Bubble(
+        /** @type {!Blockly.WorkspaceSvg} */ (this.block_.workspace),
+        paragraph, this.block_.svgPath_, this.iconXY, null, null);
+    if (this.block_.RTL) {
+      // Right-align the paragraph.
+      // This cannot be done until the bubble is rendered on screen.
+      var maxWidth = paragraph.getBBox().width;
+      for (var i = 0, textElement; textElement = paragraph.childNodes[i]; i++) {
+        textElement.setAttribute('text-anchor', 'end');
+        textElement.setAttribute('x', maxWidth + Blockly.Bubble.BORDER_WIDTH);
+      }
+    }
+    this.updateColour();
+    // Bump the warning into the right location.
+    var size = this.bubble.getBubbleSize();
+    this.bubble.setBubbleSize(size.width, size.height);
+  } else {
+    // Dispose of the bubble.
+    this.bubble.dispose();
+    this.bubble = null;
+    this.body_ = null;
+  }
+};
+
+/**
  * Show or hide the comment bubble.
  * @param {boolean} visible True if the bubble should be visible.
  */
@@ -178,7 +216,7 @@ Blockly.Comment.prototype.setVisible = function(visible) {
     // MSIE does not support foreignobject; textareas are impossible.
     // http://msdn.microsoft.com/en-us/library/hh834675%28v=vs.85%29.aspx
     // Always treat comments in IE as uneditable.
-    Blockly.Warning.prototype.setVisible.call(this, visible);
+    this.setVisibleWarning(visible);
     return;
   }
   // Save the bubble stats before the visibility switch.

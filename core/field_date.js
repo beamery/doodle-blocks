@@ -99,7 +99,7 @@ Blockly.FieldDate.prototype.setValue = function(date) {
  * Create a date picker under the date field.
  * @private
  */
-Blockly.FieldDate.prototype.showEditor_ = function() {
+Blockly.FieldDate.prototype.showEditor = function() {
   Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL,
       Blockly.FieldDate.widgetDispose_);
   // Create the date picker using Closure.
@@ -112,8 +112,8 @@ Blockly.FieldDate.prototype.showEditor_ = function() {
   // Record windowSize and scrollOffset before adding the picker.
   var windowSize = goog.dom.getViewportSize();
   var scrollOffset = goog.style.getViewportPageOffset(document);
-  var xy = this.getAbsoluteXY_();
-  var borderBBox = this.getScaledBBox_();
+  var xy = this.getAbsoluteXY();
+  var borderBBox = this.getScaledBBox();
   var div = Blockly.WidgetDiv.DIV;
   picker.render(div);
   picker.setDate(goog.date.fromIsoString(this.getValue()));

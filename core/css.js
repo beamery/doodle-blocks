@@ -53,7 +53,7 @@ Blockly.Css.currentCursor_ = '';
 
 /**
  * Large stylesheet added by Blockly.Css.inject.
- * @type {Element}
+ * @type {CSSStyleSheet}
  * @private
  */
 Blockly.Css.styleSheet_ = null;

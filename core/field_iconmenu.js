@@ -38,7 +38,7 @@ goog.require('Blockly.DropDownDiv');
  * @constructor
  */
 Blockly.FieldIconMenu = function(icons) {
-  /** @type {object} */
+  /** @type {Object} */
   this.icons_ = icons;
   // Example:
   // [{src: '...', width: 20, height: 20, alt: '...', value: 'machine_value'}, ...]
@@ -59,24 +59,24 @@ Blockly.FieldIconMenu.DROPDOWN_WIDTH = 168;
 
 /**
  * Save the primary colour of the source block while the menu is open, for reset.
- * @type {number|string}
+ * @type {?(number|string)}
  * @private
  */
 Blockly.FieldIconMenu.savedPrimary_ = null;
 
 /**
  * Called when the field is placed on a block.
- * @param {Block} block The owning block.
+ * @param {Blockly.Block=} opt_block The owning block.
  */
-Blockly.FieldIconMenu.prototype.init = function(block) {
+Blockly.FieldIconMenu.prototype.init = function(opt_block) {
   // Render the arrow icon
   // Fixed sizes in px. Saved for creating the flip transform of the menu renders above the button.
   var arrowSize = 12;
-  /** @type {Number} */
+  /** @type {number} */
   this.arrowX_ = 18;
-  /** @type {Number} */
+  /** @type {number} */
   this.arrowY_ = 10;
-  if (block.RTL) {
+  if (opt_block.RTL) {
     // In RTL, the icon position is flipped and rendered from the right (offset by width)
     this.arrowX_ = -this.arrowX_ - arrowSize;
   }
@@ -88,8 +88,8 @@ Blockly.FieldIconMenu.prototype.init = function(block) {
   });
   this.arrowIcon_.setAttributeNS('http://www.w3.org/1999/xlink',
       'xlink:href', Blockly.mainWorkspace.options.pathToMedia + 'dropdown-arrow.svg');
-  block.getSvgRoot().appendChild(this.arrowIcon_);
-  Blockly.FieldIconMenu.superClass_.init.call(this, block);
+  opt_block.getSvgRoot().appendChild(this.arrowIcon_);
+  Blockly.FieldIconMenu.superClass_.init.call(this, opt_block);
 };
 
 /**
@@ -159,13 +159,14 @@ Blockly.FieldIconMenu.prototype.getSrcForValue = function(value) {
       return icon.src;
     }
   }
+  return '';
 };
 
 /**
  * Show the drop-down menu for editing this field.
  * @private
  */
-Blockly.FieldIconMenu.prototype.showEditor_ = function() {
+Blockly.FieldIconMenu.prototype.showEditor = function() {
   // If there is an existing drop-down we own, this is a request to hide the drop-down.
   if (Blockly.DropDownDiv.hideIfOwner(this)) {
     return;

@@ -78,7 +78,7 @@ Blockly.FieldVariableGetter.prototype.init = function() {
  * This field is editable, but only through the right-click menu.
  * @private
  */
-Blockly.FieldVariableGetter.prototype.showEditor_ = function() {
+Blockly.FieldVariableGetter.prototype.showEditor = function() {
   // nop.
 };
 
