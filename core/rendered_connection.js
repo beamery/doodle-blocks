@@ -361,8 +361,8 @@ Blockly.RenderedConnection.prototype.neighbours = function(maxLimit) {
  * @param {!Blockly.Connection} childConnection Connection on inferior block.
  * @protected
  */
-Blockly.RenderedConnection.prototype.connect = function(childConnection) {
-  Blockly.RenderedConnection.superClass_.connect.call(this, childConnection);
+Blockly.RenderedConnection.prototype.connectInternal = function(childConnection) {
+  Blockly.RenderedConnection.superClass_.connectInternal.call(this, childConnection);
 
   var parentConnection = this;
   var parentBlock = parentConnection.getSourceBlock();
