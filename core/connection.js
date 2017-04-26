@@ -128,7 +128,7 @@ Blockly.Connection.prototype.hidden = null;
 /**
  * Connect two connections together.  This is the connection on the superior
  * block.
- * @param {!Blockly.Connection} childConnection Connection on inferior block.
+ * @param {Blockly.Connection} childConnection Connection on inferior block.
  * @protected
  */
 Blockly.Connection.prototype.connectInternal = function(childConnection) {
