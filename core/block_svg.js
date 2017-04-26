@@ -28,8 +28,10 @@ goog.provide('Blockly.BlockSvg');
 
 goog.require('Blockly.Block');
 goog.require('Blockly.ContextMenu');
+goog.require('Blockly.Icon');
 goog.require('Blockly.Touch');
 goog.require('Blockly.RenderedConnection');
+goog.require('Blockly.Warning');
 goog.require('goog.asserts');
 goog.require('goog.dom');
 goog.require('goog.math.Coordinate');
@@ -258,7 +260,7 @@ Blockly.BlockSvg.prototype.setGlowStack = function(isGlowingStack) {
 
 /**
  * Block's mutator icon (if any).
- * @type {Blockly.Mutator}
+ * @type {Blockly.Icon}
  */
 Blockly.BlockSvg.prototype.mutator = null;
 
@@ -1124,8 +1126,8 @@ Blockly.BlockSvg.prototype.updatePreviews = function(closestConnection,
     // If there's already an insertion marker but it's representing the wrong
     // block, delete it so we can create the correct one.
     if (Blockly.insertionMarker &&
-        ((candidateIsLast && Blockly.localConnection.sourceBlock_ == this) ||
-         (!candidateIsLast && Blockly.localConnection.sourceBlock_ != this))) {
+        ((candidateIsLast && Blockly.localConnection.sourceBlock == this) ||
+         (!candidateIsLast && Blockly.localConnection.sourceBlock != this))) {
       Blockly.insertionMarker.dispose();
       Blockly.insertionMarker = null;
     }
@@ -1138,7 +1140,7 @@ Blockly.BlockSvg.prototype.updatePreviews = function(closestConnection,
   // Add an insertion marker or replacement marker if needed.
   if (!wouldDeleteBlock && closestConnection &&
       closestConnection != Blockly.highlightedConnection &&
-      !closestConnection.sourceBlock_.isInsertionMarker()) {
+      !closestConnection.sourceBlock.isInsertionMarker()) {
     Blockly.highlightedConnection = closestConnection;
     Blockly.localConnection = localConnection;
 
@@ -1179,7 +1181,7 @@ Blockly.BlockSvg.prototype.addReplacementMarker_ = function(localConnection,
     Blockly.replacementMarker = closestConnection.targetBlock();
     Blockly.replacementMarker.highlightForReplacement(true);
   } else if(localConnection.type == Blockly.OUTPUT_VALUE) {
-    Blockly.replacementMarker = closestConnection.sourceBlock_;
+    Blockly.replacementMarker = closestConnection.sourceBlock;
     (/** @type {!Blockly.BlockSvg} */ (Blockly.replacementMarker)).highlightShapeForInput(closestConnection,
         true);
   }
@@ -1217,7 +1219,7 @@ Blockly.BlockSvg.removeReplacementMarker = function() {
  */
 Blockly.BlockSvg.prototype.connectInsertionMarker_ = function(localConnection,
     closestConnection) {
-  var insertingBlock = Blockly.localConnection.sourceBlock_;
+  var insertingBlock = Blockly.localConnection.sourceBlock;
   if (!Blockly.insertionMarker) {
     Blockly.insertionMarker =
         this.workspace.newBlock(insertingBlock.type);
@@ -1231,7 +1233,7 @@ Blockly.BlockSvg.prototype.connectInsertionMarker_ = function(localConnection,
 
   var insertionMarker = Blockly.insertionMarker;
   var insertionMarkerConnection = insertionMarker.getMatchingConnection(
-      localConnection.sourceBlock_, localConnection);
+      localConnection.sourceBlock, localConnection);
   if (insertionMarkerConnection != Blockly.insertionMarkerConnection) {
     insertionMarker.rendered = true;
     // Render disconnected from everything else so that we have a valid
@@ -1272,7 +1274,7 @@ Blockly.BlockSvg.disconnectInsertionMarker = function() {
       Blockly.insertionMarkerConnection !=
       Blockly.insertionMarker.nextConnection) {
     var innerConnection = Blockly.insertionMarkerConnection.targetConnection;
-    innerConnection.sourceBlock_.unplug(false);
+    innerConnection.sourceBlock.unplug(false);
     var previousBlockNextConnection =
         Blockly.insertionMarker.previousConnection ?
         Blockly.insertionMarker.previousConnection.targetConnection : null;
@@ -1614,7 +1616,7 @@ Blockly.BlockSvg.prototype.setWarningText = function(text, opt_id) {
 
 /**
  * Give this block a mutator dialog.
- * @param {Blockly.Mutator} mutator A mutator dialog instance or null to remove.
+ * @param {Blockly.Icon} mutator A mutator dialog instance or null to remove.
  */
 Blockly.BlockSvg.prototype.setMutator = function(mutator) {
   if (this.mutator && this.mutator !== mutator) {

@@ -107,9 +107,9 @@ Blockly.FieldIconMenu.prototype.setValue = function(newValue) {
   if (newValue === null || newValue === this.value_) {
     return;  // No change
   }
-  if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
+  if (this.sourceBlock && Blockly.Events.isEnabled()) {
     Blockly.Events.fire(new Blockly.Events.Change(
-        this.sourceBlock_, 'field', this.name, this.value_, newValue));
+        this.sourceBlock, 'field', this.name, this.value_, newValue));
   }
   this.value_ = newValue;
   // Find the relevant icon in this.icons_ to get the image src.
@@ -121,11 +121,11 @@ Blockly.FieldIconMenu.prototype.setValue = function(newValue) {
  * @param {?string} src New src for the parent block FieldImage.
  */
 Blockly.FieldIconMenu.prototype.setParentFieldImage = function(src) {
-  // Only attempt if we have a set sourceBlock_ and parentBlock
+  // Only attempt if we have a set sourceBlock and parentBlock
   // It's possible that this function could be called before
   // a parent block is set; in that case, fail silently.
-  if (this.sourceBlock_ && this.sourceBlock_.parentBlock) {
-    var parentBlock = this.sourceBlock_.parentBlock;
+  if (this.sourceBlock && this.sourceBlock.parentBlock) {
+    var parentBlock = this.sourceBlock.parentBlock;
     // Loop through all inputs' fields to find the first FieldImage
     for (var i = 0, input; input = parentBlock.inputList[i]; i++) {
       for (var j = 0, field; field = input.fieldRow[j]; j++) {
@@ -196,14 +196,14 @@ Blockly.FieldIconMenu.prototype.showEditor = function() {
     button.title = icon.alt;
     button.style.width = icon.width + 'px';
     button.style.height = icon.height + 'px';
-    var backgroundColor = this.sourceBlock_.getColour();
+    var backgroundColor = this.sourceBlock.getColour();
     if (icon.value == this.getValue()) {
       // This icon is selected, show it in a different colour
-      backgroundColor = this.sourceBlock_.getColourTertiary();
+      backgroundColor = this.sourceBlock.getColourTertiary();
       button.setAttribute('aria-selected', 'true');
     }
     button.style.backgroundColor = backgroundColor;
-    button.style.borderColor = this.sourceBlock_.getColourTertiary();
+    button.style.borderColor = this.sourceBlock.getColourTertiary();
     Blockly.bindEvent(button, 'click', this, this.buttonClick_);
     Blockly.bindEvent(button, 'mouseup', this, this.buttonClick_);
     // These are applied manually instead of using the :hover pseudoclass
@@ -233,21 +233,22 @@ Blockly.FieldIconMenu.prototype.showEditor = function() {
   }
   contentDiv.style.width = Blockly.FieldIconMenu.DROPDOWN_WIDTH + 'px';
 
-  Blockly.DropDownDiv.setColour(this.sourceBlock_.getColour(), this.sourceBlock_.getColourTertiary());
-  Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock.getCategory());
+  Blockly.DropDownDiv.setColour(this.sourceBlock.getColour(), this.sourceBlock.getColourTertiary());
+  Blockly.DropDownDiv.setCategory(
+      /** @type {string} */ (this.sourceBlock.parentBlock.getCategory()));
 
   // Update source block colour to look selected
-  this.savedPrimary_ = this.sourceBlock_.getColour();
-  this.sourceBlock_.setColour(this.sourceBlock_.getColourSecondary(),
-    this.sourceBlock_.getColourSecondary(), this.sourceBlock_.getColourTertiary());
+  this.savedPrimary_ = this.sourceBlock.getColour();
+  this.sourceBlock.setColour(this.sourceBlock.getColourSecondary(),
+    this.sourceBlock.getColourSecondary(), this.sourceBlock.getColourTertiary());
 
-  var scale = this.sourceBlock_.workspace.scale;
+  var scale = this.sourceBlock.workspace.scale;
   // Offset for icon-type horizontal blocks.
   var secondaryYOffset = (
     -(Blockly.BlockSvg.MIN_BLOCK_Y * scale) - (Blockly.BlockSvg.FIELD_Y_OFFSET * scale)
   );
   var renderedPrimary = Blockly.DropDownDiv.showPositionedByBlock(
-      this, this.sourceBlock_, this.onHide_.bind(this), secondaryYOffset);
+      this, this.sourceBlock, this.onHide_.bind(this), secondaryYOffset);
   if (!renderedPrimary) {
     // Adjust for rotation
     var arrowX = this.arrowX_ + Blockly.DropDownDiv.ARROW_SIZE / 1.5 + 1;
@@ -275,12 +276,12 @@ Blockly.FieldIconMenu.prototype.buttonClick_ = function(e) {
  */
 Blockly.FieldIconMenu.prototype.onHide_ = function() {
   // Reset the button colour and clear accessibility properties
-  // Only attempt to do this reset if sourceBlock_ is not disposed.
+  // Only attempt to do this reset if sourceBlock is not disposed.
   // It could become disposed before an onHide_, for example,
   // when a block is dragged from the flyout.
-  if (this.sourceBlock_) {
-    this.sourceBlock_.setColour(this.savedPrimary_,
-      this.sourceBlock_.getColourSecondary(), this.sourceBlock_.getColourTertiary());
+  if (this.sourceBlock) {
+    this.sourceBlock.setColour(this.savedPrimary_,
+      this.sourceBlock.getColourSecondary(), this.sourceBlock.getColourTertiary());
   }
   Blockly.DropDownDiv.content_.removeAttribute('role');
   Blockly.DropDownDiv.content_.removeAttribute('aria-haspopup');

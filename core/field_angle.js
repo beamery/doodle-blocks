@@ -168,10 +168,11 @@ Blockly.FieldAngle.prototype.showEditor = function() {
     }, svg);
   }
 
-  Blockly.DropDownDiv.setColour(this.sourceBlock_.parentBlock.getColour(),
-      this.sourceBlock_.getColourTertiary());
-  Blockly.DropDownDiv.setCategory(this.sourceBlock_.parentBlock.getCategory());
-  Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock_);
+  Blockly.DropDownDiv.setColour(this.sourceBlock.parentBlock.getColour(),
+      this.sourceBlock.getColourTertiary());
+  Blockly.DropDownDiv.setCategory(
+      /** @type {string} */ (this.sourceBlock.parentBlock.getCategory()));
+  Blockly.DropDownDiv.showPositionedByBlock(this, this.sourceBlock);
 
   // The angle picker is different from other fields in that it updates on
   // mousemove even if it's not in the middle of a drag.  In future we may
@@ -236,7 +237,7 @@ Blockly.FieldAngle.prototype.setText = function(text) {
   }
   this.updateGraph_();
   // Insert degree symbol.
-  if (this.sourceBlock_.RTL) {
+  if (this.sourceBlock.RTL) {
     this.textElement_.insertBefore(this.symbol_, this.textElement_.firstChild);
   } else {
     this.textElement_.appendChild(this.symbol_);

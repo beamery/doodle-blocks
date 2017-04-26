@@ -31,12 +31,19 @@ goog.require('Blockly.Colours');
 goog.require('Blockly.Comment');
 goog.require('Blockly.Connection');
 goog.require('Blockly.Extensions');
+goog.require('Blockly.FieldAngle');
+goog.require('Blockly.FieldCheckbox');
+goog.require('Blockly.FieldColour');
+goog.require('Blockly.FieldImage');
+goog.require('Blockly.FieldNumber');
+goog.require('Blockly.FieldNumberDropdown');
+goog.require('Blockly.FieldTextDropdown');
+goog.require('Blockly.FieldTextInput');
+goog.require('Blockly.FieldVariable');
 goog.require('Blockly.FieldVariableGetter');
+goog.require('Blockly.Icon');
 goog.require('Blockly.Input');
-goog.require('Blockly.Mutator');
-goog.require('Blockly.Warning');
 goog.require('Blockly.Workspace');
-goog.require('Blockly.Xml');
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.math.Coordinate');
@@ -303,7 +310,7 @@ Blockly.Block.prototype.unplug = function(opt_healStack) {
       // Disconnect the next statement.
       var nextTarget = this.nextConnection.targetConnection;
       nextTarget.disconnect();
-      if (previousTarget && previousTarget.checkType_(nextTarget)) {
+      if (previousTarget && previousTarget.checkType(nextTarget)) {
         // Attach the next statement to the previous statement.
         previousTarget.connect(nextTarget);
       }
@@ -1685,7 +1692,7 @@ Blockly.Block.prototype.setWarningText = function(text, opt_id) {
 
 /**
  * Give this block a mutator dialog.
- * @param {Blockly.Mutator} mutator A mutator dialog instance or null to remove.
+ * @param {Blockly.Icon} mutator A mutator dialog instance or null to remove.
  */
 Blockly.Block.prototype.setMutator = function(mutator) {
   // NOP.

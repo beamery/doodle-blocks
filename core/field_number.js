@@ -197,9 +197,9 @@ Blockly.FieldNumber.prototype.showNumPad_ = function() {
  */
 Blockly.FieldNumber.prototype.position_ = function() {
   // Calculate positioning for the drop-down
-  // sourceBlock_ is the rendered shadow field input box
-  var scale = this.sourceBlock_.workspace.scale;
-  var bBox = this.sourceBlock_.getHeightWidth();
+  // sourceBlock is the rendered shadow field input box
+  var scale = this.sourceBlock.workspace.scale;
+  var bBox = this.sourceBlock.getHeightWidth();
   bBox.width *= scale;
   bBox.height *= scale;
   var position = this.getAbsoluteXY();
@@ -213,7 +213,7 @@ Blockly.FieldNumber.prototype.position_ = function() {
       (Blockly.BlockSvg.FIELD_Y_OFFSET * scale);
 
   Blockly.DropDownDiv.setBoundsElement(
-      this.sourceBlock_.workspace.getParentSvg().parentNode);
+      this.sourceBlock.workspace.getParentSvg().parentNode);
   Blockly.DropDownDiv.show(this, primaryX, primaryY, secondaryX, secondaryY,
       this.onHide_.bind(this));
 };
@@ -234,7 +234,7 @@ Blockly.FieldNumber.prototype.addButtons_ = function(contentDiv) {
     button.title = buttonText;
     button.innerHTML = buttonText;
     Blockly.bindEvent(button, 'mousedown', button,
-        Blockly.FieldNumber.numPadButtonTouch);
+        Blockly.FieldNumber.prototype.numPadButtonTouch);
     if (buttonText == '.' && !this.decimalAllowed_) {
       // Don't show the decimal point for inputs that must be round numbers
       button.setAttribute('style', 'visibility: hidden');
@@ -266,7 +266,7 @@ Blockly.FieldNumber.prototype.addButtons_ = function(contentDiv) {
  * Call for when a num-pad number or punctuation button is touched.
  * Determine what the user is inputting and update the text field appropriately.
  */
-Blockly.FieldNumber.numPadButtonTouch = function() {
+Blockly.FieldNumber.prototype.numPadButtonTouch = function() {
   // String of the button (e.g., '7')
   var spliceValue = this.innerHTML;
   // Old value of the text field

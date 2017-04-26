@@ -83,7 +83,7 @@ Blockly.FieldDate.prototype.getValue = function() {
  * @param {string} date The new date.
  */
 Blockly.FieldDate.prototype.setValue = function(date) {
-  if (this.sourceBlock_) {
+  if (this.sourceBlock) {
     var validated = this.callValidator(date);
     // If the new date is invalid, validation returns null.
     // In this case we still want to display the illegal result.
@@ -100,10 +100,10 @@ Blockly.FieldDate.prototype.setValue = function(date) {
  * @private
  */
 Blockly.FieldDate.prototype.showEditor = function() {
-  Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL,
+  Blockly.WidgetDiv.show(this, this.sourceBlock.RTL,
       Blockly.FieldDate.widgetDispose_);
   // Create the date picker using Closure.
-  Blockly.FieldDate.loadLanguage_();
+  //Blockly.FieldDate.loadLanguage_();
   var picker = new goog.ui.DatePicker();
   picker.setAllowNone(false);
   picker.setShowWeekNum(false);
@@ -127,7 +127,7 @@ Blockly.FieldDate.prototype.showEditor = function() {
   } else {
     xy.y += borderBBox.height - 1;
   }
-  if (this.sourceBlock_.RTL) {
+  if (this.sourceBlock.RTL) {
     xy.x += borderBBox.width;
     xy.x -= pickerSize.width;
     // Don't go offscreen left.
@@ -141,7 +141,7 @@ Blockly.FieldDate.prototype.showEditor = function() {
     }
   }
   Blockly.WidgetDiv.position(xy.x, xy.y, windowSize, scrollOffset,
-                             this.sourceBlock_.RTL);
+                             this.sourceBlock.RTL);
 
   // Configure event handler.
   var thisField = this;
@@ -150,7 +150,7 @@ Blockly.FieldDate.prototype.showEditor = function() {
       function(event) {
         var date = event.date ? event.date.toIsoString(true) : '';
         Blockly.WidgetDiv.hide();
-        if (thisField.sourceBlock_) {
+        if (thisField.sourceBlock) {
           // Call any validation function, and allow it to override.
           date = thisField.callValidator(date);
         }
@@ -169,23 +169,23 @@ Blockly.FieldDate.widgetDispose_ = function() {
   Blockly.Events.setGroup(false);
 };
 
-/**
- * Load the best language pack by scanning the Blockly.Msg object for a
- * language that matches the available languages in Closure.
- * @private
- */
-Blockly.FieldDate.loadLanguage_ = function() {
-  var reg = /^DateTimeSymbols_(.+)$/;
-  for (var prop in goog.i18n) {
-    var m = prop.match(reg);
-    if (m) {
-      var lang = m[1].toLowerCase().replace('_', '.');  // E.g. 'pt.br'
-      if (goog.getObjectByName(lang, Blockly.Msg)) {
-        goog.i18n.DateTimeSymbols = goog.i18n[prop];
-      }
-    }
-  }
-};
+///**
+// * Load the best language pack by scanning the Blockly.Msg object for a
+// * language that matches the available languages in Closure.
+// * @private
+// */
+//Blockly.FieldDate.loadLanguage_ = function() {
+//  var reg = /^DateTimeSymbols_(.+)$/;
+//  for (var prop in goog.i18n) {
+//    var m = prop.match(reg);
+//    if (m) {
+//      var lang = m[1].toLowerCase().replace('_', '.');  // E.g. 'pt.br'
+//      if (goog.getObjectByName(lang, Blockly.Msg)) {
+//        goog.i18n.DateTimeSymbols = goog.i18n[prop];
+//      }
+//    }
+//  }
+//};
 
 /**
  * CSS for date picker.  See css.js for use.

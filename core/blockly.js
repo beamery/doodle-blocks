@@ -30,35 +30,16 @@
  */
 goog.provide('Blockly');
 
-goog.require('Blockly.BlockSvg.render');
 goog.require('Blockly.DropDownDiv');
 goog.require('Blockly.Events');
-goog.require('Blockly.FieldAngle');
-goog.require('Blockly.FieldCheckbox');
-goog.require('Blockly.FieldColour');
 // Date picker commented out since it increases footprint by 60%.
 // Add it only if you need it.
 //goog.require('Blockly.FieldDate');
-goog.require('Blockly.FieldDropdown');
-goog.require('Blockly.FieldIconMenu');
-goog.require('Blockly.FieldImage');
-goog.require('Blockly.FieldTextInput');
-goog.require('Blockly.FieldTextDropdown');
-goog.require('Blockly.FieldNumber');
-goog.require('Blockly.FieldNumberDropdown');
-goog.require('Blockly.FieldVariable');
-goog.require('Blockly.Generator');
-goog.require('Blockly.Msg');
-goog.require('Blockly.Procedures');
-goog.require('Blockly.Toolbox');
 goog.require('Blockly.Touch');
 goog.require('Blockly.WidgetDiv');
-goog.require('Blockly.WorkspaceSvg');
-goog.require('Blockly.constants');
-goog.require('Blockly.inject');
+goog.require('Blockly.Workspace');
 goog.require('Blockly.utils');
 goog.require('goog.color');
-goog.require('goog.userAgent');
 
 
 // Turn off debugging when compiled.
@@ -272,7 +253,7 @@ Blockly.onKeyDown = function(e) {
  */
 Blockly.terminateDrag = function() {
   Blockly.BlockSvg.terminateDrag();
-  Blockly.Flyout.terminateDrag_();
+  Blockly.Flyout.terminateDrag();
 };
 
 /**
@@ -478,8 +459,6 @@ Blockly.bindEventWithChecks = function(node, name, thisObject, func,
  * Bind an event to a function call.  Handles multitouch events by using the
  * coordinates of the first changed touch, and doesn't do any safety checks for
  * simultaneous event processing.
- * @deprecated in favor of bindEventWithChecks_, but preserved for external
- * users.
  * @param {Node} node Node upon which to listen.
  * @param {string} name Event name to listen to (e.g. 'mousedown').
  * @param {Object} thisObject The value of 'this' in the function.

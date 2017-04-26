@@ -27,15 +27,20 @@
 goog.provide('Blockly.WorkspaceSvg');
 
 // TODO(scr): Fix circular dependencies
-//goog.require('Blockly.BlockSvg');
+goog.require('Blockly');
+goog.require('Blockly.BlockSvg');
 goog.require('Blockly.Colours');
 goog.require('Blockly.ConnectionDB');
-goog.require('Blockly.constants');
 goog.require('Blockly.DropDownDiv');
 goog.require('Blockly.Events');
+goog.require('Blockly.Flyout');
+goog.require('Blockly.FlyoutButton');
 //goog.require('Blockly.HorizontalFlyout');
+goog.require('Blockly.Msg.en');
 goog.require('Blockly.Options');
+goog.require('Blockly.Procedures');
 goog.require('Blockly.ScrollbarPair');
+goog.require('Blockly.Toolbox');
 goog.require('Blockly.Touch');
 goog.require('Blockly.Trashcan');
 //goog.require('Blockly.VerticalFlyout');

@@ -39,7 +39,6 @@ goog.require('goog.dom');
 Blockly.Connection = function(source, type) {
   /**
    * @type {!Blockly.Block}
-   * @protected
    */
   this.sourceBlock = source;
   /** @type {number} */
@@ -598,7 +597,6 @@ Blockly.Connection.prototype.targetBlock = function() {
  * value type system.  E.g. square_root("Hello") is not compatible.
  * @param {Blockly.Connection} otherConnection Connection to compare against.
  * @return {boolean} True if the connections share a type.
- * @protected
  */
 Blockly.Connection.prototype.checkType = function(otherConnection) {
   if (!this.check_ || !otherConnection.check_) {

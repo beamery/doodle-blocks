@@ -128,7 +128,7 @@ Blockly.FieldTextDropdown.prototype.showEditor = function() {
  *     (human-readable text, language-neutral name).
  * @private {function(): !Array.<!Array.<string>>}
  */
-Blockly.FieldTextDropdown.prototype.getOptions_ = Blockly.FieldDropdown.prototype.getOptions_;
+Blockly.FieldTextDropdown.prototype.getOptions_ = Blockly.FieldDropdown.prototype.getOptions;
 
 /**
  * Position a drop-down arrow at the appropriate location at render-time.

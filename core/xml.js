@@ -30,10 +30,11 @@
  **/
 goog.provide('Blockly.Xml');
 
+goog.require('Blockly.Block');
+goog.require('Blockly.BlockSvg.render');
 goog.require('goog.asserts');
 goog.require('goog.dom');
 goog.require('goog.userAgent');
-
 
 /**
  * Encode a block tree as XML.

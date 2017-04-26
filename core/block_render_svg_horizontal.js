@@ -27,6 +27,7 @@
 goog.provide('Blockly.BlockSvg.render');
 
 goog.require('Blockly.BlockSvg');
+goog.require('Blockly.FieldIconMenu');
 
 
 // UI constants for rendering blocks.
@@ -498,9 +499,10 @@ Blockly.BlockSvg.prototype.renderCompute_ = function() {
   // If this block is an icon menu shadow, attempt to set the parent's
   // ImageField src to the one that represents the current value of the field.
   if (metrics.iconMenu) {
-    var currentSrc = metrics.iconMenu.getSrcForValue(metrics.iconMenu.getValue());
+    var iconMenu = /** @type {Blockly.FieldIconMenu} */ (metrics.iconMenu);
+    var currentSrc = iconMenu.getSrcForValue(iconMenu.getValue());
     if (currentSrc) {
-      metrics.iconMenu.setParentFieldImage(currentSrc);
+      iconMenu.setParentFieldImage(currentSrc);
     }
   }
 
@@ -887,7 +889,7 @@ Blockly.BlockSvg.prototype.positionNewBlock = function(newBlock, newConnection, 
     // positioned above the inner block, as its connection point will stretch
     // downwards when connected.
     if (newConnection == newBlock.getFirstStatementConnection()) {
-      dy -= existingConnection.sourceBlock_.getHeightWidth(true).height -
+      dy -= existingConnection.sourceBlock.getHeightWidth(true).height -
           Blockly.BlockSvg.MIN_BLOCK_Y;
     }
 

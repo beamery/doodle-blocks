@@ -73,13 +73,13 @@ Blockly.FieldLabel.prototype.init = function() {
   if (!this.visible) {
     this.textElement_.style.display = 'none';
   }
-  this.sourceBlock_.getSvgRoot().appendChild(this.textElement_);
+  this.sourceBlock.getSvgRoot().appendChild(this.textElement_);
 
   // Configure the field to be transparent with respect to tooltips.
-  this.textElement_.tooltip = this.sourceBlock_;
+  this.textElement_.tooltip = this.sourceBlock;
   Blockly.Tooltip.bindMouseEvents(this.textElement_);
   // Force a render.
-  this.render_();
+  this.render();
 };
 
 /**
