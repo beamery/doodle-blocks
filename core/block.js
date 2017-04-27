@@ -305,7 +305,7 @@ Blockly.Block.prototype.unplug = function(opt_healStack) {
       // Disconnect the next statement.
       var nextTarget = this.nextConnection.targetConnection;
       nextTarget.disconnect();
-      if (previousTarget && previousTarget.checkType_(nextTarget)) {
+      if (previousTarget && previousTarget.checkType(nextTarget)) {
         // Attach the next statement to the previous statement.
         previousTarget.connect(nextTarget);
       }

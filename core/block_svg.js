@@ -1170,10 +1170,10 @@ Blockly.BlockSvg.prototype.handleDragFree_ = function(oldXY, newXY, e) {
   if (localConnection && localConnection.type == Blockly.OUTPUT_VALUE) {
     updatePreviews = true; // Always update previews for output connections.
   } else if (Blockly.localConnection_ && Blockly.highlightedConnection_) {
-    var xDiff = Blockly.localConnection_.x_ + dxy.x -
-        Blockly.highlightedConnection_.x_;
-    var yDiff = Blockly.localConnection_.y_ + dxy.y -
-        Blockly.highlightedConnection_.y_;
+    var xDiff = Blockly.localConnection_.x + dxy.x -
+        Blockly.highlightedConnection_.x;
+    var yDiff = Blockly.localConnection_.y + dxy.y -
+        Blockly.highlightedConnection_.y;
     var curDistance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 
     // Slightly prefer the existing preview over a new preview.
@@ -1224,8 +1224,8 @@ Blockly.BlockSvg.prototype.updatePreviews = function(closestConnection,
     // If there's already an insertion marker but it's representing the wrong
     // block, delete it so we can create the correct one.
     if (Blockly.insertionMarker_ &&
-        ((candidateIsLast && Blockly.localConnection_.sourceBlock_ == this) ||
-         (!candidateIsLast && Blockly.localConnection_.sourceBlock_ != this))) {
+        ((candidateIsLast && Blockly.localConnection_.sourceBlock == this) ||
+         (!candidateIsLast && Blockly.localConnection_.sourceBlock != this))) {
       Blockly.insertionMarker_.dispose();
       Blockly.insertionMarker_ = null;
     }
@@ -1238,7 +1238,7 @@ Blockly.BlockSvg.prototype.updatePreviews = function(closestConnection,
   // Add an insertion marker or replacement marker if needed.
   if (!wouldDeleteBlock && closestConnection &&
       closestConnection != Blockly.highlightedConnection_ &&
-      !closestConnection.sourceBlock_.isInsertionMarker()) {
+      !closestConnection.sourceBlock.isInsertionMarker()) {
     Blockly.highlightedConnection_ = closestConnection;
     Blockly.localConnection_ = localConnection;
 
@@ -1279,7 +1279,7 @@ Blockly.BlockSvg.prototype.addReplacementMarker_ = function(localConnection,
     Blockly.replacementMarker_ = closestConnection.targetBlock();
     Blockly.replacementMarker_.highlightForReplacement(true);
   } else if(localConnection.type == Blockly.OUTPUT_VALUE) {
-    Blockly.replacementMarker_ = closestConnection.sourceBlock_;
+    Blockly.replacementMarker_ = closestConnection.sourceBlock;
     Blockly.replacementMarker_.highlightShapeForInput(closestConnection,
         true);
   }
@@ -1311,7 +1311,7 @@ Blockly.BlockSvg.removeReplacementMarker = function() {
  */
 Blockly.BlockSvg.prototype.connectInsertionMarker_ = function(localConnection,
     closestConnection) {
-  var insertingBlock = Blockly.localConnection_.sourceBlock_;
+  var insertingBlock = Blockly.localConnection_.sourceBlock;
   if (!Blockly.insertionMarker_) {
     Blockly.insertionMarker_ =
         this.workspace.newBlock(insertingBlock.type);
@@ -1325,7 +1325,7 @@ Blockly.BlockSvg.prototype.connectInsertionMarker_ = function(localConnection,
 
   var insertionMarker = Blockly.insertionMarker_;
   var insertionMarkerConnection = insertionMarker.getMatchingConnection(
-      localConnection.sourceBlock_, localConnection);
+      localConnection.sourceBlock, localConnection);
   if (insertionMarkerConnection != Blockly.insertionMarkerConnection_) {
     insertionMarker.rendered = true;
     // Render disconnected from everything else so that we have a valid
@@ -1366,7 +1366,7 @@ Blockly.BlockSvg.disconnectInsertionMarker = function() {
       Blockly.insertionMarkerConnection_ !=
       Blockly.insertionMarker_.nextConnection) {
     var innerConnection = Blockly.insertionMarkerConnection_.targetConnection;
-    innerConnection.sourceBlock_.unplug(false);
+    innerConnection.sourceBlock.unplug(false);
     var previousBlockNextConnection =
         Blockly.insertionMarker_.previousConnection ?
         Blockly.insertionMarker_.previousConnection.targetConnection : null;

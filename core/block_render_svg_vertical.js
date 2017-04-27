@@ -1384,8 +1384,8 @@ Blockly.BlockSvg.prototype.positionNewBlock =
   // We only need to position the new block if it's before the existing one,
   // otherwise its position is set by the previous block.
   if (newConnection.type == Blockly.NEXT_STATEMENT) {
-    var dx = existingConnection.x_ - newConnection.x_;
-    var dy = existingConnection.y_ - newConnection.y_;
+    var dx = existingConnection.x - newConnection.x;
+    var dy = existingConnection.y - newConnection.y;
 
     newBlock.moveBy(dx, dy);
   }
