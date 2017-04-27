@@ -211,8 +211,8 @@ Blockly.utils.getScale_ = function(element) {
   if (transform) {
     var transformComponents =
         transform.match(Blockly.utils.getScale_.REGEXP_);
-    if (transformComponents && transformComponents[0]) {
-      scale = parseFloat(transformComponents[0]);
+    if (transformComponents && transformComponents[1]) {
+      scale = parseFloat(transformComponents[1]);
     }
   }
   return scale;

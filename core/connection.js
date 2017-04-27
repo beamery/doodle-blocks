@@ -132,7 +132,7 @@ Blockly.Connection.prototype.hidden = null;
  * @param {!Blockly.Connection} childConnection Connection on inferior block.
  * @protected
  */
-Blockly.Connection.prototype.connect = function(childConnection) {
+Blockly.Connection.prototype.connectInternal = function(childConnection) {
   var parentConnection = this;
   var parentBlock = parentConnection.getSourceBlock();
   var childBlock = childConnection.getSourceBlock();
@@ -472,10 +472,10 @@ Blockly.Connection.prototype.connect = function(otherConnection) {
   // Determine which block is superior (higher in the source stack).
   if (this.isSuperior()) {
     // Superior block.
-    this.connect(otherConnection);
+    this.connectInternal(otherConnection);
   } else {
     // Inferior block.
-    otherConnection.connect(this);
+    otherConnection.connectInternal(this);
   }
 };
 
