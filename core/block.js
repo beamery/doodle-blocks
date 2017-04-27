@@ -1784,10 +1784,10 @@ Blockly.Block.prototype.getProcedureDef = function() {
 };
 /**
  * @param {boolean=} opt_booleanArg
- * @return {!Element}
+ * @return {Element}
  */
 Blockly.Block.prototype.mutationToDom = function(opt_booleanArg) {
-  return new Element();
+  return null;
 };
 /**
  * @param {Node} node
@@ -1806,5 +1806,5 @@ Blockly.Block.prototype.compose = function(rootBlock) {};
  * @return {Blockly.Block}
  */
 Blockly.Block.prototype.decompose = function(workspace) {
-  return new Blockly.Block(workspace);
+  return null;
 };
