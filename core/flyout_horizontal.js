@@ -46,9 +46,9 @@ Blockly.HorizontalFlyout = function(workspaceOptions) {
   /**
    * Flyout should be laid out horizontally vs vertically.
    * @type {boolean}
-   * @private
+   * @protected
    */
-  this.horizontalLayout_ = true;
+  this.horizontalLayout = true;
 };
 goog.inherits(Blockly.HorizontalFlyout, Blockly.Flyout);
 
@@ -141,11 +141,11 @@ Blockly.HorizontalFlyout.prototype.position = function() {
     // Hidden components will return null.
     return;
   }
-  var edgeWidth = this.horizontalLayout_ ?
+  var edgeWidth = this.horizontalLayout ?
       targetWorkspaceMetrics.viewWidth - 2 * this.CORNER_RADIUS :
       this.width - this.CORNER_RADIUS;
 
-  var edgeHeight = this.horizontalLayout_ ?
+  var edgeHeight = this.horizontalLayout ?
     this.height - this.CORNER_RADIUS :
     targetWorkspaceMetrics.viewHeight - 2 * this.CORNER_RADIUS;
 
@@ -165,7 +165,7 @@ Blockly.HorizontalFlyout.prototype.position = function() {
 
   // Record the height for Blockly.Flyout.getMetrics_, or width if the layout is
   // horizontal.
-  if (this.horizontalLayout_) {
+  if (this.horizontalLayout) {
     this.width = targetWorkspaceMetrics.viewWidth;
   } else {
     this.height = targetWorkspaceMetrics.viewHeight;
@@ -331,9 +331,9 @@ Blockly.HorizontalFlyout.prototype.layout_ = function(contents, gaps) {
 /**
  * Handle a mouse-move to drag the flyout.
  * @param {!Event} e Mouse move event.
- * @private
+ * @protected
  */
-Blockly.HorizontalFlyout.prototype.onMouseMove_ = function(e) {
+Blockly.HorizontalFlyout.prototype.onMouseMove = function(e) {
   var metrics = this.getMetrics_();
   if (metrics.contentWidth - metrics.viewWidth < 0) {
     return;
