@@ -1533,7 +1533,7 @@ Blockly.WorkspaceSvg.prototype.zoomToFit = function() {
   var workspaceWidth = metrics.viewWidth;
   var workspaceHeight = metrics.viewHeight;
   if (this.flyout_) {
-    workspaceWidth -= this.flyout_.width_;
+    workspaceWidth -= this.flyout_.width;
   }
   if (!this.scrollbar) {
     // Origin point of 0,0 is fixed, blocks will not scroll to center.
@@ -1561,7 +1561,7 @@ Blockly.WorkspaceSvg.prototype.scrollCenter = function() {
   var metrics = this.getMetrics();
   var x = (metrics.contentWidth - metrics.viewWidth) / 2;
   if (this.flyout_) {
-    x -= this.flyout_.width_ / 2;
+    x -= this.flyout_.width / 2;
   }
   var y = (metrics.contentHeight - metrics.viewHeight) / 2;
   this.scrollbar.set(x, y);
