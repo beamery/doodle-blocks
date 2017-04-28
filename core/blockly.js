@@ -279,7 +279,7 @@ Blockly.onKeyDown = function(e) {
  */
 Blockly.terminateDrag = function() {
   Blockly.BlockSvg.terminateDrag();
-  Blockly.Flyout.terminateDrag_();
+  Blockly.Flyout.terminateDrag();
 };
 
 /**

@@ -62,7 +62,7 @@ Blockly.inject = function(container, opt_options) {
   // Create surfaces for dragging things. These are optimizations
   // so that the broowser does not repaint during the drag.
   var blockDragSurface = new Blockly.BlockDragSurfaceSvg(subContainer);
-  var workspaceDragSurface = new Blockly.workspaceDragSurfaceSvg(subContainer);
+  var workspaceDragSurface = new Blockly.WorkspaceDragSurfaceSvg(subContainer);
 
   var workspace = Blockly.createMainWorkspace_(svg, options, blockDragSurface,
       workspaceDragSurface);
@@ -328,12 +328,12 @@ Blockly.init_ = function(mainWorkspace) {
       mainWorkspace.flyout_.scrollToStart();
       // Translate the workspace to avoid the fixed flyout.
       if (options.horizontalLayout) {
-        mainWorkspace.scrollY = mainWorkspace.flyout_.height_;
+        mainWorkspace.scrollY = mainWorkspace.flyout_.height;
         if (options.toolboxPosition == Blockly.TOOLBOX_AT_BOTTOM) {
           mainWorkspace.scrollY *= -1;
         }
       } else {
-        mainWorkspace.scrollX = mainWorkspace.flyout_.width_;
+        mainWorkspace.scrollX = mainWorkspace.flyout_.width;
         if (options.toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {
           mainWorkspace.scrollX *= -1;
         }
