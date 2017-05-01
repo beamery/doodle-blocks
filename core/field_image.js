@@ -49,7 +49,7 @@ Blockly.FieldImage = function(src, width, height, opt_alt, opt_flip_rtl) {
   this.height_ = Number(height);
   this.width_ = Number(width);
   this.size_ = new goog.math.Size(this.width_, this.height_);
-  this.text_ = opt_alt || '';
+  this.text = opt_alt || '';
   this.flipRTL_ = !!opt_flip_rtl;
   this.setValue(src);
 };
@@ -71,7 +71,7 @@ Blockly.FieldImage.prototype.init = function() {
   // Build the DOM.
   /** @type {SVGElement} */
   this.fieldGroup_ = Blockly.utils.createSvgElement('g', {}, null);
-  if (!this.visible_) {
+  if (!this.visible) {
     this.fieldGroup_.style.display = 'none';
   }
   /** @type {SVGElement} */
@@ -152,7 +152,7 @@ Blockly.FieldImage.prototype.setText = function(alt) {
     // No change if null.
     return;
   }
-  this.text_ = alt;
+  this.text = alt;
 };
 
 /**
