@@ -480,7 +480,7 @@ Blockly.Field.stopCache = function() {
  */
 Blockly.Field.prototype.getSize = function() {
   if (!this.size_.width) {
-    this.render_();
+    this.render();
   }
   return this.size_;
 };
