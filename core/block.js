@@ -1081,7 +1081,7 @@ Blockly.Block.prototype.toString = function(opt_maxLength, opt_emptyToken) {
   var text = [];
   var emptyFieldPlaceholder = opt_emptyToken || '?';
   if (this.collapsed) {
-    text.push(this.getInput('_TEMP_COLLAPSED_INPUT').fieldRow[0].text_);
+    text.push(this.getInput('_TEMP_COLLAPSED_INPUT').fieldRow[0].text);
   } else {
     for (var i = 0, input; input = this.inputList[i]; i++) {
       for (var j = 0, field; field = input.fieldRow[j]; j++) {

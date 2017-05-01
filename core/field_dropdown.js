@@ -147,8 +147,8 @@ Blockly.FieldDropdown.prototype.init = function() {
     this.fieldGroup_.insertBefore(this.box_, this.textElement_);
   }
   // Force a reset of the text to add the arrow.
-  var text = this.text_;
-  this.text_ = null;
+  var text = this.text;
+  this.text = null;
   this.setText(text);
 };
 
@@ -427,11 +427,11 @@ Blockly.FieldDropdown.prototype.setValue = function(newValue) {
  * @param {*} text New text.
  */
 Blockly.FieldDropdown.prototype.setText = function(text) {
-  if (text === null || text === this.text_) {
+  if (text === null || text === this.text) {
     // No change if null.
     return;
   }
-  this.text_ = text;
+  this.text = text;
   this.updateTextNode();
 
   if (this.textElement_) {
