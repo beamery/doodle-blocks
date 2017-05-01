@@ -169,23 +169,23 @@ Blockly.FieldDate.widgetDispose_ = function() {
   Blockly.Events.setGroup(false);
 };
 
-///**
-// * Load the best language pack by scanning the Blockly.Msg object for a
-// * language that matches the available languages in Closure.
-// * @private
-// */
-//Blockly.FieldDate.loadLanguage_ = function() {
-//  var reg = /^DateTimeSymbols_(.+)$/;
-//  for (var prop in goog.i18n) {
-//    var m = prop.match(reg);
-//    if (m) {
-//      var lang = m[1].toLowerCase().replace('_', '.');  // E.g. 'pt.br'
-//      if (goog.getObjectByName(lang, Blockly.Msg)) {
-//        goog.i18n.DateTimeSymbols = goog.i18n[prop];
-//      }
-//    }
-//  }
-//};
+/**
+ * Load the best language pack by scanning the Blockly.Msg object for a
+ * language that matches the available languages in Closure.
+ * @private
+ */
+Blockly.FieldDate.loadLanguage_ = function() {
+  var reg = /^DateTimeSymbols_(.+)$/;
+  for (var prop in goog.i18n) {
+    var m = prop.match(reg);
+    if (m) {
+      var lang = m[1].toLowerCase().replace('_', '.');  // E.g. 'pt.br'
+      if (goog.getObjectByName(lang, Blockly.Msg)) {
+        goog.i18n.DateTimeSymbols = goog.i18n[prop];
+      }
+    }
+  }
+};
 
 /**
  * CSS for date picker.  See css.js for use.
