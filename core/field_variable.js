@@ -77,16 +77,16 @@ Blockly.FieldVariable.prototype.init = function() {
   if (!this.getValue()) {
     // Variables without names get uniquely named for this workspace.
     var workspace =
-        this.sourceBlock_.isInFlyout ?
-            this.sourceBlock_.workspace.targetWorkspace :
-            this.sourceBlock_.workspace;
+        this.sourceBlock.isInFlyout ?
+            this.sourceBlock.workspace.targetWorkspace :
+            this.sourceBlock.workspace;
     this.setValue(Blockly.Variables.generateUniqueName(workspace));
   }
   // If the selected variable doesn't exist yet, create it.
   // For instance, some blocks in the toolbox have variable dropdowns filled
   // in by default.
-  if (!this.sourceBlock_.isInFlyout) {
-    this.sourceBlock_.workspace.createVariable(this.getValue());
+  if (!this.sourceBlock.isInFlyout) {
+    this.sourceBlock.workspace.createVariable(this.getValue());
   }
 };
 
@@ -114,9 +114,9 @@ Blockly.FieldVariable.prototype.getValue = function() {
  * @param {string} newValue New text.
  */
 Blockly.FieldVariable.prototype.setValue = function(newValue) {
-  if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
+  if (this.sourceBlock && Blockly.Events.isEnabled()) {
     Blockly.Events.fire(new Blockly.Events.Change(
-        this.sourceBlock_, 'field', this.name, this.value, newValue));
+        this.sourceBlock, 'field', this.name, this.value, newValue));
   }
   this.value = newValue;
   this.setText(newValue);
@@ -129,10 +129,10 @@ Blockly.FieldVariable.prototype.setValue = function(newValue) {
  * @this {Blockly.FieldVariable}
  */
 Blockly.FieldVariable.dropdownCreate = function() {
-  if (this.sourceBlock_ && this.sourceBlock_.workspace) {
+  if (this.sourceBlock && this.sourceBlock.workspace) {
     // Get a copy of the list, so that adding rename and new variable options
     // doesn't modify the workspace's list.
-    var variableList = this.sourceBlock_.workspace.variableList.slice(0);
+    var variableList = this.sourceBlock.workspace.variableList.slice(0);
   } else {
     var variableList = [];
   }
@@ -166,8 +166,8 @@ Blockly.FieldVariable.dropdownCreate = function() {
  */
 Blockly.FieldVariable.prototype.onItemSelected = function(menu, menuItem) {
   var itemText = menuItem.getValue();
-  if (this.sourceBlock_) {
-    var workspace = this.sourceBlock_.workspace;
+  if (this.sourceBlock) {
+    var workspace = this.sourceBlock.workspace;
     if (this.renameVarItemIndex_ >= 0 &&
         menu.getChildAt(this.renameVarItemIndex_) === menuItem) {
       // Rename variable.

@@ -108,7 +108,7 @@ Blockly.Warning.prototype.setVisible = function(visible) {
       new Blockly.Events.Ui(this.block_, 'warningOpen', !visible, visible));
   if (visible) {
     // Create the bubble to display all warnings.
-    var paragraph = Blockly.Warning.textToDom_(this.getText());
+    var paragraph = Blockly.Warning.textToDom(this.getText());
     this.bubble = new Blockly.Bubble(
         /** @type {!Blockly.WorkspaceSvg} */ (this.block_.workspace),
         paragraph, this.block_.svgPath_, this.iconXY, null, null);

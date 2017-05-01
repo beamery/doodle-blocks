@@ -880,14 +880,14 @@ Blockly.BlockSvg.prototype.positionNewBlock = function(newBlock, newConnection, 
   // We only need to position the new block if it's before the existing one,
   // otherwise its position is set by the previous block.
   if (newConnection.type == Blockly.NEXT_STATEMENT) {
-    var dx = existingConnection.x_ - newConnection.x_;
-    var dy = existingConnection.y_ - newConnection.y_;
+    var dx = existingConnection.x - newConnection.x;
+    var dy = existingConnection.y - newConnection.y;
 
     // When putting a c-block around another c-block, the outer block must
     // positioned above the inner block, as its connection point will stretch
     // downwards when connected.
     if (newConnection == newBlock.getFirstStatementConnection()) {
-      dy -= existingConnection.sourceBlock_.getHeightWidth(true).height -
+      dy -= existingConnection.sourceBlock.getHeightWidth(true).height -
           Blockly.BlockSvg.MIN_BLOCK_Y;
     }
 

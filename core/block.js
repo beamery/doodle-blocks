@@ -303,7 +303,7 @@ Blockly.Block.prototype.unplug = function(opt_healStack) {
       // Disconnect the next statement.
       var nextTarget = this.nextConnection.targetConnection;
       nextTarget.disconnect();
-      if (previousTarget && previousTarget.checkType_(nextTarget)) {
+      if (previousTarget && previousTarget.checkType(nextTarget)) {
         // Attach the next statement to the previous statement.
         previousTarget.connect(nextTarget);
       }
@@ -1074,7 +1074,7 @@ Blockly.Block.prototype.toString = function(opt_maxLength, opt_emptyToken) {
   var text = [];
   var emptyFieldPlaceholder = opt_emptyToken || '?';
   if (this.collapsed) {
-    text.push(this.getInput('_TEMP_COLLAPSED_INPUT').fieldRow[0].text_);
+    text.push(this.getInput('_TEMP_COLLAPSED_INPUT').fieldRow[0].text);
   } else {
     for (var i = 0, input; input = this.inputList[i]; i++) {
       for (var j = 0, field; field = input.fieldRow[j]; j++) {
@@ -1782,10 +1782,10 @@ Blockly.Block.prototype.getProcedureDef = function() {
 };
 /**
  * @param {boolean=} opt_booleanArg
- * @return {!Element}
+ * @return {Element}
  */
 Blockly.Block.prototype.mutationToDom = function(opt_booleanArg) {
-  return new Element();
+  return null;
 };
 /**
  * @param {Node} node
