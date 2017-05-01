@@ -36,6 +36,7 @@ goog.require('Blockly.Events');
 goog.require('Blockly.Flyout');
 goog.require('Blockly.FlyoutButton');
 //goog.require('Blockly.HorizontalFlyout');
+goog.require('Blockly.Msg.en');
 goog.require('Blockly.Options');
 goog.require('Blockly.Procedures');
 goog.require('Blockly.ScrollbarPair');
