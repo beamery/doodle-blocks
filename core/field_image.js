@@ -42,7 +42,7 @@ goog.require('goog.userAgent');
  * @extends {Blockly.Field}
  * @constructor
  */
-Blockly.FieldImage = function(src, width, height, opt_alt, flip_rtl) {
+Blockly.FieldImage = function(src, width, height, opt_alt, opt_flip_rtl) {
   this.sourceBlock = null;
 
   // Ensure height and width are numbers.  Strings are bad at math.
