@@ -86,14 +86,12 @@ Blockly.Connection.prototype.shadowDom_ = null;
 /**
  * Horizontal location of this connection.
  * @type {number}
- * @protected
  */
 Blockly.Connection.prototype.x = 0;
 
 /**
  * Vertical location of this connection.
  * @type {number}
- * @protected
  */
 Blockly.Connection.prototype.y = 0;
 

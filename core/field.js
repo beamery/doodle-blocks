@@ -83,8 +83,7 @@ Blockly.Field.prototype.name = null;
 
 /**
  * Visible text to display.
- * @type {string}
- * @protected
+ * @type {?string}
  */
 Blockly.Field.prototype.text = '';
 
@@ -528,7 +527,7 @@ Blockly.Field.prototype.getDisplayText_ = function() {
  * @return {string} Current text.
  */
 Blockly.Field.prototype.getText = function() {
-  return this.text;
+  return /** @type {string} */ (this.text);
 };
 
 /**

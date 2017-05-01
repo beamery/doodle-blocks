@@ -431,7 +431,7 @@ Blockly.FieldDropdown.prototype.setText = function(text) {
     // No change if null.
     return;
   }
-  this.text = text;
+  this.text = /** @type {string} */ (text);
   this.updateTextNode();
 
   if (this.textElement_) {

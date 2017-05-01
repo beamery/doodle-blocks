@@ -232,7 +232,7 @@ Blockly.FieldTextInput.prototype.showEditor = function(
     div.appendChild(dropDownArrow);
   }
 
-  htmlInput.value = htmlInput.defaultValue = this.text;
+  htmlInput.value = htmlInput.defaultValue = /** @type {string} */ (this.text);
   htmlInput.oldValue_ = null;
   this.validate();
   this.resizeEditor();

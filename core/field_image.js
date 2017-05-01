@@ -101,7 +101,7 @@ Blockly.FieldImage.prototype.dispose = function() {
 
 /**
  * Change the tooltip text for this field.
- * @param {string|!Element} newTip Text for tooltip or a parent element to
+ * @param {string|!Element|Blockly.Block} newTip Text for tooltip or a parent element to
  *     link to for its tooltip.
  */
 Blockly.FieldImage.prototype.setTooltip = function(newTip) {
@@ -152,7 +152,7 @@ Blockly.FieldImage.prototype.setText = function(alt) {
     // No change if null.
     return;
   }
-  this.text = alt;
+  this.text = /** @type{string} */ (alt);
 };
 
 /**
