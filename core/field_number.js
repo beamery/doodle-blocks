@@ -197,9 +197,9 @@ Blockly.FieldNumber.prototype.showNumPad_ = function() {
  */
 Blockly.FieldNumber.prototype.position_ = function() {
   // Calculate positioning for the drop-down
-  // sourceBlock_ is the rendered shadow field input box
-  var scale = this.sourceBlock_.workspace.scale;
-  var bBox = this.sourceBlock_.getHeightWidth();
+  // sourceBlock is the rendered shadow field input box
+  var scale = this.sourceBlock.workspace.scale;
+  var bBox = this.sourceBlock.getHeightWidth();
   bBox.width *= scale;
   bBox.height *= scale;
   var position = this.getAbsoluteXY();
@@ -213,7 +213,7 @@ Blockly.FieldNumber.prototype.position_ = function() {
       (Blockly.BlockSvg.FIELD_Y_OFFSET * scale);
 
   Blockly.DropDownDiv.setBoundsElement(
-      this.sourceBlock_.workspace.getParentSvg().parentNode);
+      this.sourceBlock.workspace.getParentSvg().parentNode);
   Blockly.DropDownDiv.show(this, primaryX, primaryY, secondaryX, secondaryY,
       this.onHide_.bind(this));
 };

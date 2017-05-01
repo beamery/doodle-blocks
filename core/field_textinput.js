@@ -86,7 +86,7 @@ Blockly.FieldTextInput.prototype.init = function() {
 
   Blockly.FieldTextInput.superClass_.init.call(this);
   // If not in a shadow block, draw a box.
-  if (!this.sourceBlock_.isShadow()) {
+  if (!this.sourceBlock.isShadow()) {
     this.box_ = Blockly.utils.createSvgElement('rect', {
       'rx': Blockly.BlockSvg.CORNER_RADIUS,
       'ry': Blockly.BlockSvg.CORNER_RADIUS,
@@ -95,7 +95,7 @@ Blockly.FieldTextInput.prototype.init = function() {
       'width': this.size_.width,
       'height': this.size_.height,
       'fill': Blockly.Colours.textField,
-      'stroke': this.sourceBlock_.getColourTertiary()
+      'stroke': this.sourceBlock.getColourTertiary()
     });
     this.fieldGroup_.insertBefore(this.box_, this.textElement_);
   }
@@ -118,7 +118,7 @@ Blockly.FieldTextInput.prototype.setValue = function(newValue) {
   if (newValue === null) {
     return;  // No change if null.
   }
-  if (this.sourceBlock_) {
+  if (this.sourceBlock) {
     var validated = this.callValidator(newValue);
     // If the new value is invalid, validation returns null.
     // In this case we still want to display the illegal result.
@@ -143,9 +143,9 @@ Blockly.FieldTextInput.prototype.setText = function(newText) {
     // No change.
     return;
   }
-  if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
+  if (this.sourceBlock && Blockly.Events.isEnabled()) {
     Blockly.Events.fire(new Blockly.Events.Change(
-        this.sourceBlock_, 'field', this.name, this.text, newText));
+        this.sourceBlock, 'field', this.name, this.text, newText));
   }
   Blockly.Field.prototype.setText.call(this, newText);
 };
@@ -178,10 +178,10 @@ Blockly.FieldTextInput.prototype.setRestrictor = function(restrictor) {
  */
 Blockly.FieldTextInput.prototype.showEditor = function(
   opt_quietInput, opt_readOnly, opt_withArrow, opt_arrowCallback) {
-  this.workspace_ = this.sourceBlock_.workspace;
+  this.workspace_ = this.sourceBlock.workspace;
   var quietInput = opt_quietInput || false;
   var readOnly = opt_readOnly || false;
-  Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL,
+  Blockly.WidgetDiv.show(this, this.sourceBlock.RTL,
       this.widgetDispose_(), this.widgetDisposeAnimationFinished_(),
       Blockly.FieldTextInput.ANIMATION_TIME);
   var div = Blockly.WidgetDiv.DIV;
@@ -200,7 +200,7 @@ Blockly.FieldTextInput.prototype.showEditor = function(
 
   if (opt_withArrow) {
     // Move text in input to account for displayed drop-down arrow.
-    if (this.sourceBlock_.RTL) {
+    if (this.sourceBlock.RTL) {
       htmlInput.style.paddingLeft = (this.arrowSize_+ Blockly.BlockSvg.DROPDOWN_ARROW_PADDING) + 'px';
     } else {
       htmlInput.style.paddingRight = (this.arrowSize_ + Blockly.BlockSvg.DROPDOWN_ARROW_PADDING) + 'px';
@@ -216,7 +216,7 @@ Blockly.FieldTextInput.prototype.showEditor = function(
     dropDownArrow.style.cursor = 'pointer';
     // Magic number for positioning the drop-down arrow on top of the text editor.
     var dropdownArrowMagic = '11px';
-    if (this.sourceBlock_.RTL) {
+    if (this.sourceBlock.RTL) {
       dropDownArrow.style.left = dropdownArrowMagic;
     } else {
       dropDownArrow.style.right = dropdownArrowMagic;
@@ -290,7 +290,7 @@ Blockly.FieldTextInput.prototype.onHtmlInputKeyDown_ = function(e) {
     Blockly.WidgetDiv.hide();
   } else if (e.keyCode == tabKey) {
     Blockly.WidgetDiv.hide();
-    this.sourceBlock_.tab(this, !e.shiftKey);
+    this.sourceBlock.tab(this, !e.shiftKey);
     e.preventDefault();
   }
 };
@@ -351,7 +351,7 @@ Blockly.FieldTextInput.prototype.onHtmlInputChange_ = function(e) {
   } else if (goog.userAgent.WEBKIT) {
     // Cursor key.  Render the source block to show the caret moving.
     // Chrome only (version 26, OS X).
-    this.sourceBlock_.render();
+    this.sourceBlock.render();
   }
   this.resizeEditor();
 };
@@ -364,7 +364,7 @@ Blockly.FieldTextInput.prototype.validate = function() {
   var valid = true;
   goog.asserts.assertObject(Blockly.FieldTextInput.htmlInput);
   var htmlInput = Blockly.FieldTextInput.htmlInput;
-  if (this.sourceBlock_) {
+  if (this.sourceBlock) {
     valid = this.callValidator(htmlInput.value);
   }
   if (valid === null) {
@@ -379,7 +379,7 @@ Blockly.FieldTextInput.prototype.validate = function() {
  * @protected
  */
 Blockly.FieldTextInput.prototype.resizeEditor = function() {
-  var scale = this.sourceBlock_.workspace.scale;
+  var scale = this.sourceBlock.workspace.scale;
   var div = Blockly.WidgetDiv.DIV;
 
   var width;
@@ -397,7 +397,7 @@ Blockly.FieldTextInput.prototype.resizeEditor = function() {
     width = textWidth;
   } else {
     // Set width to (truncated) block size.
-    width = this.sourceBlock_.getHeightWidth().width * scale;
+    width = this.sourceBlock.getHeightWidth().width * scale;
   }
   // The width must be at least FIELD_WIDTH and at most FIELD_WIDTH_MAX_EDIT
   width = Math.max(width, Blockly.BlockSvg.FIELD_WIDTH_MIN_EDIT * scale);
@@ -410,7 +410,7 @@ Blockly.FieldTextInput.prototype.resizeEditor = function() {
   // Use margin-left to animate repositioning of the box (value is unscaled).
   // This is the difference between the default position and the positioning
   // after growing the box.
-  var fieldWidth = this.sourceBlock_.getHeightWidth().width;
+  var fieldWidth = this.sourceBlock.getHeightWidth().width;
   var initialWidth = fieldWidth * scale;
   var finalWidth = width;
   div.style.marginLeft = -0.5 * (finalWidth - initialWidth) + 'px';
@@ -420,7 +420,7 @@ Blockly.FieldTextInput.prototype.resizeEditor = function() {
   div.style.borderRadius = borderRadius + 'px';
   Blockly.FieldTextInput.htmlInput.style.borderRadius = borderRadius + 'px';
   // Pull stroke colour from the existing shadow block
-  var strokeColour = this.sourceBlock_.getColourTertiary();
+  var strokeColour = this.sourceBlock.getColourTertiary();
   div.style.borderColor = strokeColour;
 
   var xy = this.getAbsoluteXY();
@@ -429,7 +429,7 @@ Blockly.FieldTextInput.prototype.resizeEditor = function() {
   xy.y -= scale / 2;
   // In RTL mode block fields and LTR input fields the left edge moves,
   // whereas the right edge is fixed.  Reposition the editor.
-  if (this.sourceBlock_.RTL) {
+  if (this.sourceBlock.RTL) {
     xy.x += width;
     xy.x -= div.offsetWidth * scale;
     xy.x += 1 * scale;
@@ -455,7 +455,7 @@ Blockly.FieldTextInput.prototype.resizeEditor = function() {
  * @return {number} Border radius in px.
 */
 Blockly.FieldTextInput.prototype.getBorderRadius = function() {
-  if (this.sourceBlock_.getOutputShape() == Blockly.OUTPUT_SHAPE_ROUND) {
+  if (this.sourceBlock.getOutputShape() == Blockly.OUTPUT_SHAPE_ROUND) {
     return Blockly.BlockSvg.NUMBER_FIELD_CORNER_RADIUS;
   }
   return Blockly.BlockSvg.TEXT_FIELD_CORNER_RADIUS;
@@ -473,7 +473,7 @@ Blockly.FieldTextInput.prototype.widgetDispose_ = function() {
     var htmlInput = Blockly.FieldTextInput.htmlInput;
     // Save the edit (if it validates).
     var text = htmlInput.value;
-    if (thisField.sourceBlock_) {
+    if (thisField.sourceBlock) {
       var text1 = thisField.callValidator(text);
       if (text1 === null) {
         // Invalid edit.
@@ -488,7 +488,7 @@ Blockly.FieldTextInput.prototype.widgetDispose_ = function() {
     }
     thisField.setText(text);
     // Rerender the field now that the text has changed.
-    thisField.sourceBlock_.rendered && thisField.render();
+    thisField.sourceBlock.rendered && thisField.render();
     Blockly.unbindEvent(htmlInput.onKeyDownWrapper_);
     Blockly.unbindEvent(htmlInput.onKeyUpWrapper_);
     Blockly.unbindEvent(htmlInput.onKeyPressWrapper_);
@@ -504,8 +504,8 @@ Blockly.FieldTextInput.prototype.widgetDispose_ = function() {
     htmlInput.style.fontSize = Blockly.BlockSvg.FIELD_TEXTINPUT_FONTSIZE_INITIAL + 'pt';
     div.style.boxShadow = '';
     // Resize to actual size of final source block.
-    if (thisField.sourceBlock_) {
-      var size = thisField.sourceBlock_.getHeightWidth();
+    if (thisField.sourceBlock) {
+      var size = thisField.sourceBlock.getHeightWidth();
       div.style.width = (size.width + 1) + 'px';
       div.style.height = (size.height + 1) + 'px';
     }

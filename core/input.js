@@ -49,7 +49,7 @@ Blockly.Input = function(type, name, block, connection) {
    * @type {Blockly.Block}
    * @private
    */
-  this.sourceBlock_ = block;
+  this.sourceBlock = block;
   /** @type {Blockly.Connection} */
   this.connection = connection;
   /** @type {!Array.<!Blockly.Field>} */
@@ -105,8 +105,8 @@ Blockly.Input.prototype.insertFieldAt = function(index, field, opt_name) {
   if (goog.isString(field)) {
     field = new Blockly.FieldLabel(/** @type {string} */ (field));
   }
-  field.setSourceBlock(this.sourceBlock_);
-  if (this.sourceBlock_.rendered) {
+  field.setSourceBlock(this.sourceBlock);
+  if (this.sourceBlock.rendered) {
     field.init();
   }
   field.name = opt_name ? opt_name : null;
@@ -123,10 +123,10 @@ Blockly.Input.prototype.insertFieldAt = function(index, field, opt_name) {
     index = this.insertFieldAt(index, field.suffixField);
   }
 
-  if (this.sourceBlock_.rendered) {
-    this.sourceBlock_.render();
+  if (this.sourceBlock.rendered) {
+    this.sourceBlock.render();
     // Adding a field will cause the block to change shape.
-    this.sourceBlock_.bumpNeighbours();
+    this.sourceBlock.bumpNeighbours();
   }
   return index;
 };
@@ -141,10 +141,10 @@ Blockly.Input.prototype.removeField = function(name) {
     if (field.name === name) {
       field.dispose();
       this.fieldRow.splice(i, 1);
-      if (this.sourceBlock_.rendered) {
-        this.sourceBlock_.render();
+      if (this.sourceBlock.rendered) {
+        this.sourceBlock.render();
         // Removing a field will cause the block to change shape.
-        this.sourceBlock_.bumpNeighbours();
+        this.sourceBlock.bumpNeighbours();
       }
       return;
     }
@@ -217,8 +217,8 @@ Blockly.Input.prototype.setCheck = function(check) {
  */
 Blockly.Input.prototype.setAlign = function(align) {
   this.align = align;
-  if (this.sourceBlock_.rendered) {
-    this.sourceBlock_.render();
+  if (this.sourceBlock.rendered) {
+    this.sourceBlock.render();
   }
   return this;
 };
@@ -227,11 +227,11 @@ Blockly.Input.prototype.setAlign = function(align) {
  * Initialize the fields on this input.
  */
 Blockly.Input.prototype.init = function() {
-  if (!this.sourceBlock_.workspace.rendered) {
+  if (!this.sourceBlock.workspace.rendered) {
     return;  // Headless blocks don't need fields initialized.
   }
   for (var i = 0; i < this.fieldRow.length; i++) {
-    this.fieldRow[i].init(this.sourceBlock_);
+    this.fieldRow[i].init(this.sourceBlock);
   }
 };
 
@@ -245,5 +245,5 @@ Blockly.Input.prototype.dispose = function() {
   if (this.connection) {
     this.connection.dispose();
   }
-  this.sourceBlock_ = null;
+  this.sourceBlock = null;
 };

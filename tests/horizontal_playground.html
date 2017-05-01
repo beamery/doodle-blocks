@@ -156,8 +156,8 @@
         if (sessionStorage) {
           sessionStorage.setItem('logFlyoutEvents', state ? 'checked' : '');
         }
-        var flyoutWorkspace = (workspace.flyout_) ? workspace.flyout_.workspace_ :
-          workspace.toolbox_.flyout_.workspace_;
+        var flyoutWorkspace = (workspace.flyout_) ? workspace.flyout_.workspace :
+          workspace.toolbox_.flyout_.workspace;
         if (state) {
           flyoutWorkspace.addChangeListener(logger);
         } else {

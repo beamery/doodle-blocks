@@ -53,8 +53,7 @@ Blockly.Flyout = function(workspaceOptions) {
    * @type {Blockly.Workspace}
    * @protected
    */
-  this.workspace = new Blockly.WorkspaceSvg(
-      new Blockly.Options(workspaceOptions));
+  this.workspace = new Blockly.WorkspaceSvg(workspaceOptions);
   this.workspace.isFlyout = true;
 
   /**

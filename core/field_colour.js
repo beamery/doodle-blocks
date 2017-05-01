@@ -99,17 +99,17 @@ Blockly.FieldColour.prototype.getValue = function() {
  * @param {string} colour The new colour in '#rrggbb' format.
  */
 Blockly.FieldColour.prototype.setValue = function(colour) {
-  if (this.sourceBlock_ && Blockly.Events.isEnabled() &&
+  if (this.sourceBlock && Blockly.Events.isEnabled() &&
       this.colour_ != colour) {
     Blockly.Events.fire(new Blockly.Events.Change(
-        this.sourceBlock_, 'field', this.name, this.colour_, colour));
+        this.sourceBlock, 'field', this.name, this.colour_, colour));
   }
   this.colour_ = colour;
-  if (this.sourceBlock_) {
-    this.sourceBlock_.setColour(
+  if (this.sourceBlock) {
+    this.sourceBlock.setColour(
       colour,
-      this.sourceBlock_.getColourSecondary(),
-      this.sourceBlock_.getColourTertiary()
+      this.sourceBlock.getColourSecondary(),
+      this.sourceBlock.getColourTertiary()
     );
   }
 };
@@ -176,7 +176,7 @@ Blockly.FieldColour.prototype.setColumns = function(columns) {
  * @private
  */
 Blockly.FieldColour.prototype.showEditor = function() {
-  Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL,
+  Blockly.WidgetDiv.show(this, this.sourceBlock.RTL,
       Blockly.FieldColour.widgetDispose_);
   // Create the palette using Closure.
   var picker = new goog.ui.ColorPicker();
@@ -202,7 +202,7 @@ Blockly.FieldColour.prototype.showEditor = function() {
   } else {
     xy.y += borderBBox.height - 1;
   }
-  if (this.sourceBlock_.RTL) {
+  if (this.sourceBlock.RTL) {
     xy.x += borderBBox.width;
     xy.x -= paletteSize.width;
     // Don't go offscreen left.
@@ -216,7 +216,7 @@ Blockly.FieldColour.prototype.showEditor = function() {
     }
   }
   Blockly.WidgetDiv.position(xy.x, xy.y, windowSize, scrollOffset,
-                             this.sourceBlock_.RTL);
+                             this.sourceBlock.RTL);
 
   // Configure event handler.
   var thisField = this;
@@ -225,7 +225,7 @@ Blockly.FieldColour.prototype.showEditor = function() {
       function(event) {
         var colour = event.target.getSelectedColor() || '#000000';
         Blockly.WidgetDiv.hide();
-        if (thisField.sourceBlock_) {
+        if (thisField.sourceBlock) {
           // Call any validation function, and allow it to override.
           colour = thisField.callValidator(colour);
         }

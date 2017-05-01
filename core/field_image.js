@@ -43,7 +43,7 @@ goog.require('goog.userAgent');
  * @constructor
  */
 Blockly.FieldImage = function(src, width, height, opt_alt, opt_flip_rtl) {
-  this.sourceBlock_ = null;
+  this.sourceBlock = null;
 
   // Ensure height and width are numbers.  Strings are bad at math.
   this.height_ = Number(height);
@@ -83,10 +83,10 @@ Blockly.FieldImage.prototype.init = function() {
     },
     this.fieldGroup_);
   this.setValue(this.src_);
-  this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
+  this.sourceBlock.getSvgRoot().appendChild(this.fieldGroup_);
 
   // Configure the field to be transparent with respect to tooltips.
-  this.setTooltip(this.sourceBlock_);
+  this.setTooltip(this.sourceBlock);
   Blockly.Tooltip.bindMouseEvents(this.imageElement_);
 };
 
