@@ -21,8 +21,12 @@
 'use strict';
 
 goog.provide('Blockly.Blocks.defaultToolbox');
+goog.provide('Blockly.Blocks.defaultToolboxSimple');
 
 goog.require('Blockly.Blocks');
+goog.require('Blockly.Blocks.event');
+goog.require('Blockly.Blocks.control');
+goog.require('Blockly.Blocks.math');
 
 /**
  * @fileoverview Provide a default toolbox XML.
