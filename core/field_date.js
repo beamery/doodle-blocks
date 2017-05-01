@@ -83,7 +83,7 @@ Blockly.FieldDate.prototype.getValue = function() {
  * @param {string} date The new date.
  */
 Blockly.FieldDate.prototype.setValue = function(date) {
-  if (this.sourceBlock_) {
+  if (this.sourceBlock) {
     var validated = this.callValidator(date);
     // If the new date is invalid, validation returns null.
     // In this case we still want to display the illegal result.
@@ -100,7 +100,7 @@ Blockly.FieldDate.prototype.setValue = function(date) {
  * @private
  */
 Blockly.FieldDate.prototype.showEditor_ = function() {
-  Blockly.WidgetDiv.show(this, this.sourceBlock_.RTL,
+  Blockly.WidgetDiv.show(this, this.sourceBlock.RTL,
       Blockly.FieldDate.widgetDispose_);
   // Create the date picker using Closure.
   Blockly.FieldDate.loadLanguage_();
@@ -127,7 +127,7 @@ Blockly.FieldDate.prototype.showEditor_ = function() {
   } else {
     xy.y += borderBBox.height - 1;
   }
-  if (this.sourceBlock_.RTL) {
+  if (this.sourceBlock.RTL) {
     xy.x += borderBBox.width;
     xy.x -= pickerSize.width;
     // Don't go offscreen left.
@@ -141,7 +141,7 @@ Blockly.FieldDate.prototype.showEditor_ = function() {
     }
   }
   Blockly.WidgetDiv.position(xy.x, xy.y, windowSize, scrollOffset,
-                             this.sourceBlock_.RTL);
+                             this.sourceBlock.RTL);
 
   // Configure event handler.
   var thisField = this;
@@ -150,7 +150,7 @@ Blockly.FieldDate.prototype.showEditor_ = function() {
       function(event) {
         var date = event.date ? event.date.toIsoString(true) : '';
         Blockly.WidgetDiv.hide();
-        if (thisField.sourceBlock_) {
+        if (thisField.sourceBlock) {
           // Call any validation function, and allow it to override.
           date = thisField.callValidator(date);
         }

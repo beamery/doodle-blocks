@@ -93,9 +93,9 @@ Blockly.FieldCheckbox.prototype.setValue = function(newBool) {
   var newState = (typeof newBool == 'string') ?
       (newBool.toUpperCase() == 'TRUE') : !!newBool;
   if (this.state_ !== newState) {
-    if (this.sourceBlock_ && Blockly.Events.isEnabled()) {
+    if (this.sourceBlock && Blockly.Events.isEnabled()) {
       Blockly.Events.fire(new Blockly.Events.Change(
-          this.sourceBlock_, 'field', this.name, this.state_, newState));
+          this.sourceBlock, 'field', this.name, this.state_, newState));
     }
     this.state_ = newState;
     if (this.checkElement_) {
@@ -110,7 +110,7 @@ Blockly.FieldCheckbox.prototype.setValue = function(newBool) {
  */
 Blockly.FieldCheckbox.prototype.showEditor_ = function() {
   var newState = !this.state_;
-  if (this.sourceBlock_) {
+  if (this.sourceBlock) {
     // Call any validation function, and allow it to override.
     newState = this.callValidator(newState);
   }
