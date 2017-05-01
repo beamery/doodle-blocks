@@ -328,12 +328,12 @@ Blockly.init_ = function(mainWorkspace) {
       mainWorkspace.flyout_.scrollToStart();
       // Translate the workspace to avoid the fixed flyout.
       if (options.horizontalLayout) {
-        mainWorkspace.scrollY = mainWorkspace.flyout_.height_;
+        mainWorkspace.scrollY = mainWorkspace.flyout_.height;
         if (options.toolboxPosition == Blockly.TOOLBOX_AT_BOTTOM) {
           mainWorkspace.scrollY *= -1;
         }
       } else {
-        mainWorkspace.scrollX = mainWorkspace.flyout_.width_;
+        mainWorkspace.scrollX = mainWorkspace.flyout_.width;
         if (options.toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {
           mainWorkspace.scrollX *= -1;
         }

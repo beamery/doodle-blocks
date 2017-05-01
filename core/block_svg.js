@@ -1072,10 +1072,10 @@ Blockly.BlockSvg.prototype.handleDragFree_ = function(oldXY, newXY, e) {
   if (localConnection && localConnection.type == Blockly.OUTPUT_VALUE) {
     updatePreviews = true; // Always update previews for output connections.
   } else if (Blockly.localConnection && Blockly.highlightedConnection) {
-    var xDiff = Blockly.localConnection.x_ + dxy.x -
-        Blockly.highlightedConnection.x_;
-    var yDiff = Blockly.localConnection.y_ + dxy.y -
-        Blockly.highlightedConnection.y_;
+    var xDiff = Blockly.localConnection.x + dxy.x -
+        Blockly.highlightedConnection.x;
+    var yDiff = Blockly.localConnection.y + dxy.y -
+        Blockly.highlightedConnection.y;
     var curDistance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 
     // Slightly prefer the existing preview over a new preview.

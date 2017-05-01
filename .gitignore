@@ -5,6 +5,9 @@
 /node_modules
 npm-*
 
+# Vim swap files
+*.swp
+
 # Localization / I18N
 common.pyc
 .settings

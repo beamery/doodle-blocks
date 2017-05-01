@@ -46,9 +46,9 @@ Blockly.HorizontalFlyout = function(workspaceOptions) {
   /**
    * Flyout should be laid out horizontally vs vertically.
    * @type {boolean}
-   * @private
+   * @protected
    */
-  this.horizontalLayout_ = true;
+  this.horizontalLayout = true;
 };
 goog.inherits(Blockly.HorizontalFlyout, Blockly.Flyout);
 
@@ -90,7 +90,7 @@ Blockly.HorizontalFlyout.prototype.getMetrics_ = function() {
   if (this.toolboxPosition == Blockly.TOOLBOX_AT_TOP) {
     viewHeight += this.MARGIN;
   }
-  var viewWidth = this.width_ - 2 * this.SCROLLBAR_PADDING;
+  var viewWidth = this.width - 2 * this.SCROLLBAR_PADDING;
 
   var metrics = {
     viewHeight: viewHeight,
@@ -141,11 +141,11 @@ Blockly.HorizontalFlyout.prototype.position = function() {
     // Hidden components will return null.
     return;
   }
-  var edgeWidth = this.horizontalLayout_ ?
+  var edgeWidth = this.horizontalLayout ?
       targetWorkspaceMetrics.viewWidth - 2 * this.CORNER_RADIUS :
-      this.width_ - this.CORNER_RADIUS;
+      this.width - this.CORNER_RADIUS;
 
-  var edgeHeight = this.horizontalLayout_ ?
+  var edgeHeight = this.horizontalLayout ?
     this.height - this.CORNER_RADIUS :
     targetWorkspaceMetrics.viewHeight - 2 * this.CORNER_RADIUS;
 
@@ -154,7 +154,7 @@ Blockly.HorizontalFlyout.prototype.position = function() {
   var x = targetWorkspaceMetrics.absoluteLeft;
   if (this.toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {
     x += targetWorkspaceMetrics.viewWidth;
-    x -= this.width_;
+    x -= this.width;
   }
 
   var y = targetWorkspaceMetrics.absoluteTop;
@@ -165,13 +165,13 @@ Blockly.HorizontalFlyout.prototype.position = function() {
 
   // Record the height for Blockly.Flyout.getMetrics_, or width if the layout is
   // horizontal.
-  if (this.horizontalLayout_) {
-    this.width_ = targetWorkspaceMetrics.viewWidth;
+  if (this.horizontalLayout) {
+    this.width = targetWorkspaceMetrics.viewWidth;
   } else {
     this.height = targetWorkspaceMetrics.viewHeight;
   }
 
-  this.svgGroup_.setAttribute("width", this.width_);
+  this.svgGroup_.setAttribute("width", this.width);
   this.svgGroup_.setAttribute("height", this.height);
   var transform = 'translate(' + x + 'px,' + y + 'px)';
   Blockly.utils.setCssTransform(this.svgGroup_, transform);
@@ -331,9 +331,9 @@ Blockly.HorizontalFlyout.prototype.layout_ = function(contents, gaps) {
 /**
  * Handle a mouse-move to drag the flyout.
  * @param {!Event} e Mouse move event.
- * @private
+ * @protected
  */
-Blockly.HorizontalFlyout.prototype.onMouseMove_ = function(e) {
+Blockly.HorizontalFlyout.prototype.onMouseMove = function(e) {
   var metrics = this.getMetrics_();
   if (metrics.contentWidth - metrics.viewWidth < 0) {
     return;

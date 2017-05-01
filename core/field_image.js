@@ -43,13 +43,13 @@ goog.require('goog.userAgent');
  * @constructor
  */
 Blockly.FieldImage = function(src, width, height, opt_alt, opt_flip_rtl) {
-  this.sourceBlock_ = null;
+  this.sourceBlock = null;
 
   // Ensure height and width are numbers.  Strings are bad at math.
   this.height_ = Number(height);
   this.width_ = Number(width);
   this.size_ = new goog.math.Size(this.width_, this.height_);
-  this.text_ = opt_alt || '';
+  this.text = opt_alt || '';
   this.flipRTL_ = !!opt_flip_rtl;
   this.setValue(src);
 };
@@ -83,10 +83,10 @@ Blockly.FieldImage.prototype.init = function() {
     },
     this.fieldGroup_);
   this.setValue(this.src_);
-  this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
+  this.sourceBlock.getSvgRoot().appendChild(this.fieldGroup_);
 
   // Configure the field to be transparent with respect to tooltips.
-  this.setTooltip(this.sourceBlock_);
+  this.setTooltip(this.sourceBlock);
   Blockly.Tooltip.bindMouseEvents(this.imageElement_);
 };
 
@@ -152,13 +152,13 @@ Blockly.FieldImage.prototype.setText = function(alt) {
     // No change if null.
     return;
   }
-  this.text_ = alt;
+  this.text = alt;
 };
 
 /**
  * Images are fixed width, no need to render.
  * @private
  */
-Blockly.FieldImage.prototype.render_ = function() {
+Blockly.FieldImage.prototype.render = function() {
   // NOP
 };
