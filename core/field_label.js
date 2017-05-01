@@ -79,7 +79,7 @@ Blockly.FieldLabel.prototype.init = function() {
   this.textElement_.tooltip = this.sourceBlock;
   Blockly.Tooltip.bindMouseEvents(this.textElement_);
   // Force a render.
-  this.render_();
+  this.render();
 };
 
 /**
