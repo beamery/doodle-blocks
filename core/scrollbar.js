@@ -38,15 +38,25 @@ goog.require('goog.events');
  */
 Blockly.ScrollbarPair = function(workspace) {
   this.workspace_ = workspace;
-  this.hScroll = new Blockly.Scrollbar(workspace, true, true,
-    'blocklyMainWorkspaceScrollbar');
-  this.vScroll = new Blockly.Scrollbar(workspace, false, true,
-    'blocklyMainWorkspaceScrollbar');
-  this.corner_ = Blockly.utils.createSvgElement('rect',
+  this.hScroll = new Blockly.Scrollbar(workspace, true,
+      !Blockly.ScrollbarPair.ONLY_HORIZONTAL,
+      'blocklyMainWorkspaceScrollbar');
+  if (Blockly.ScrollbarPair.ONLY_HORIZONTAL) {
+    this.vScroll = null;
+    this.corner_ = null;
+  } else {
+    this.vScroll = new Blockly.Scrollbar(workspace, false, true,
+        'blocklyMainWorkspaceScrollbar');
+    this.corner_ = Blockly.utils.createSvgElement('rect',
       {'height': Blockly.Scrollbar.scrollbarThickness,
       'width': Blockly.Scrollbar.scrollbarThickness,
       'class': 'blocklyScrollbarBackground'}, null);
-  Blockly.utils.insertAfter(this.corner_, workspace.getBubbleCanvas());
+    Blockly.utils.insertAfter_(this.corner_, workspace.getBubbleCanvas());
+  }
+
+  if (Blockly.ScrollbarPair.ONLY_HORIZONTAL) {
+    workspace.addChangeListener(Blockly.ScrollbarPair.blockBumper_(workspace));
+  }
 };
 
 /**
@@ -56,19 +66,73 @@ Blockly.ScrollbarPair = function(workspace) {
  */
 Blockly.ScrollbarPair.prototype.oldHostMetrics_ = null;
 
+
+/**
+ * Whether the scrollbar pair actually only scrolls in the horizontal direction.
+ * This is a wild hack to test this UI.  It just might work.
+ * @package
+ */
+Blockly.ScrollbarPair.ONLY_HORIZONTAL = true;
+
+/**
+ * Return a valid change listener that will bump blocks back into the workspace
+ * if they are dropped too far above or below the bounds of the workspace.
+ * This function is only intended to be used with
+ * Blockly.ScrollbarPair.ONLY_HORIZONTAL to test a horizontal-scrolling-only UI.
+ * @param {!Blockly.WorkspaceSvg} workspace The workspace this callback will
+ *     operate on.
+ * @return {!Function} The function to be called when the workspace changes.
+ * @private
+ */
+Blockly.ScrollbarPair.blockBumper_ = function(workspace) {
+  var workspaceChanged = function() {
+    if (!workspace.isDragging()) {
+      var metrics = workspace.getMetrics();
+      var edgeTop = metrics.viewTop + metrics.absoluteTop;
+      if (metrics.contentTop < edgeTop ||
+          metrics.contentTop + metrics.contentHeight >
+          metrics.viewHeight + edgeTop) {
+        // One or more blocks may be out of bounds.  Bump them back in.
+        var MARGIN = 25;
+        var blocks = workspace.getTopBlocks(false);
+        for (var b = 0, block; block = blocks[b]; b++) {
+          var blockXY = block.getRelativeToSurfaceXY();
+          var blockHW = block.getHeightWidth();
+          // Bump any block that's above the top back inside.
+          var overflowTop = edgeTop + MARGIN - blockHW.height - blockXY.y;
+          if (overflowTop > 0) {
+            block.moveBy(0, overflowTop);
+          }
+          // Bump any block that's below the bottom back inside.
+          var overflowBottom =
+              edgeTop + metrics.viewHeight - MARGIN - blockXY.y;
+          if (overflowBottom < 0) {
+            block.moveBy(0, overflowBottom);
+          }
+        }
+      }
+    }
+  };
+  return workspaceChanged;
+};
+
 /**
  * Dispose of this pair of scrollbars.
  * Unlink from all DOM elements to prevent memory leaks.
  */
 Blockly.ScrollbarPair.prototype.dispose = function() {
-  goog.dom.removeNode(this.corner_);
-  this.corner_ = null;
+  if (this.corner_) {
+    goog.dom.removeNode(this.corner_);
+    this.corner_ = null;
+  }
   this.workspace_ = null;
   this.oldHostMetrics_ = null;
   this.hScroll.dispose();
   this.hScroll = null;
-  this.vScroll.dispose();
-  this.vScroll = null;
+  if (this.vScroll) {
+    this.vScroll.dispose();
+    this.vScroll = null;
+  }
 };
 
 /**
@@ -112,20 +176,22 @@ Blockly.ScrollbarPair.prototype.resize = function() {
   if (resizeH) {
     this.hScroll.resize(hostMetrics);
   }
-  if (resizeV) {
+  if (resizeV && !Blockly.ScrollbarPair.ONLY_HORIZONTAL) {
     this.vScroll.resize(hostMetrics);
   }
 
-  // Reposition the corner square.
-  if (!this.oldHostMetrics_ ||
-      this.oldHostMetrics_.viewWidth != hostMetrics.viewWidth ||
-      this.oldHostMetrics_.absoluteLeft != hostMetrics.absoluteLeft) {
-    this.corner_.setAttribute('x', this.vScroll.position_.x);
-  }
-  if (!this.oldHostMetrics_ ||
-      this.oldHostMetrics_.viewHeight != hostMetrics.viewHeight ||
-      this.oldHostMetrics_.absoluteTop != hostMetrics.absoluteTop) {
-    this.corner_.setAttribute('y', this.hScroll.position_.y);
+  if (!Blockly.ScrollbarPair.ONLY_HORIZONTAL) {
+    // Reposition the corner square.
+    if (!this.oldHostMetrics_ ||
+        this.oldHostMetrics_.viewWidth != hostMetrics.viewWidth ||
+        this.oldHostMetrics_.absoluteLeft != hostMetrics.absoluteLeft) {
+      this.corner_.setAttribute('x', this.vScroll.position_.x);
+    }
+    if (!this.oldHostMetrics_ ||
+        this.oldHostMetrics_.viewHeight != hostMetrics.viewHeight ||
+        this.oldHostMetrics_.absoluteTop != hostMetrics.absoluteTop) {
+      this.corner_.setAttribute('y', this.hScroll.position_.y);
+    }
   }
 
   // Cache the current metrics to potentially short-cut the next resize event.
@@ -138,6 +204,10 @@ Blockly.ScrollbarPair.prototype.resize = function() {
  * @param {number} y Vertical scroll value.
  */
 Blockly.ScrollbarPair.prototype.set = function(x, y) {
+  if (Blockly.ScrollbarPair.ONLY_HORIZONTAL) {
+    this.hScroll.set(x);
+    return;
+  }
   // This function is equivalent to:
   //   this.hScroll.set(x);
   //   this.vScroll.set(y);
