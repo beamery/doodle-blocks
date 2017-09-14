@@ -105,7 +105,7 @@ Blockly.WorkspaceSvg = function(options, opt_blockDragSurface, opt_wsDragSurface
   /**
    * List of currently highlighted blocks.  Block highlighting is often used to
    * visually mark blocks currently being executed.
-   * @type !Array.<!Blockly.BlockSvg>
+   * @type {!Array.<!Blockly.BlockSvg>}
    * @private
    */
   this.highlightedBlocks_ = [];
@@ -791,6 +791,9 @@ Blockly.WorkspaceSvg.prototype.traceOn = function() {
 Blockly.WorkspaceSvg.prototype.highlightBlock = function(id, opt_state) {
   if (opt_state === undefined) {
     // Unhighlight all blocks.
+    for (var i = 0, block; block = this.highlightedBlocks_[i]; i++) {
+      block.setHighlighted(false);
+    }
     this.highlightedBlocks_.length = 0;
   }
   // Highlight/unhighlight the specified block.
@@ -804,6 +807,7 @@ Blockly.WorkspaceSvg.prototype.highlightBlock = function(id, opt_state) {
     } else if (this.highlightedBlocks_.indexOf(block) == -1) {
       this.highlightedBlocks_.push(block);
     }
+    block.setHighlighted(state);
   }
 };
 

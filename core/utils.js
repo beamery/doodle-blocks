@@ -40,6 +40,24 @@ goog.require('goog.userAgent');
 
 
 /**
+ * Remove an attribute from a element even if it's in IE 10.
+ * Similar to Element.removeAttribute() but it works on SVG elements in IE 10.
+ * Sets the attribute to null in IE 10, which treats removeAttribute as a no-op
+ * if it's called on an SVG element.
+ * @param {?Element} element DOM element to remove attribute from.
+ * @param {string} attributeName Name of attribute to remove.
+ */
+Blockly.utils.removeAttribute = function(element, attributeName) {
+  // goog.userAgent.isVersion is deprecated, but the replacement is
+  // goog.userAgent.isVersionOrHigher.
+  if (goog.userAgent.IE && goog.userAgent.isVersion('10.0')) {
+    element.setAttribute(attributeName, '');
+  } else {
+    element.removeAttribute(attributeName);
+  }
+};
+
+/**
  * Add a CSS class to a element.
  * Similar to Closure's goog.dom.classes.add, except it handles SVG elements.
  * @param {Element} element DOM element to add class to.

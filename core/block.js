@@ -180,6 +180,8 @@ Blockly.Block = function(workspace, prototypeName, opt_id) {
   // Call an initialization function, if it exists.
   if (goog.isFunction(this.init)) {
     this.init();
+  } else if (goog.isDefAndNotNull(this.json)) {
+    this.jsonInit(this.json);
   }
   // Record initial inline state.
   /** @type {boolean|undefined} */
