@@ -51,11 +51,12 @@ Blockly.ScrollbarPair = function(workspace) {
       {'height': Blockly.Scrollbar.scrollbarThickness,
       'width': Blockly.Scrollbar.scrollbarThickness,
       'class': 'blocklyScrollbarBackground'}, null);
-    Blockly.utils.insertAfter_(this.corner_, workspace.getBubbleCanvas());
+    Blockly.utils.insertAfter(this.corner_, workspace.getBubbleCanvas());
   }
 
   if (Blockly.ScrollbarPair.ONLY_HORIZONTAL) {
-    workspace.addChangeListener(Blockly.ScrollbarPair.blockBumper_(workspace));
+    workspace.addChangeListener(Blockly.ScrollbarPair.blockBumper_(
+        /** @type {!Blockly.WorkspaceSvg} */ (workspace)));
   }
 };
 
